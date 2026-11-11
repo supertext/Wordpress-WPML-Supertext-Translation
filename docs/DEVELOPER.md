@@ -129,7 +129,23 @@ composer phpstan            # PHPStan level 5
 
 Unit tests cover the content splitter and writer (blocks, YOOtheme), the AI client (mapping, review routing, errors, sanitizing the settings), language codes, translation files, order client, callback, write-back parsing, services, settings, preview links, VibeBoost, the Commando/Plugin Health glue (incl. the WPML language mapping) and the interface translations.
 
-End-to-end tests (`tests/e2e/`, Playwright) run against a WordPress site with WPML and the plugin: see [tests/README.md](../tests/README.md). For a site without a WPML licence, `tests/e2e/stand-in/wpml-stand-in.php` emulates exactly the WPML hooks above (mu-plugin, never on a real site), and `supertext-stand-in.php` answers the Supertext API with real translations of the demo's sample page (and swallows Plugin Health reports), so no API key is needed. The screenshots in `docs/images/` are taken by `npm run docs:screenshots` (`tests/e2e/docs.spec.js`) on a site with WPML (5.3.0 so far), the demo's sample content and the Supertext stand-in; WPML's licence notices are hidden in them; regenerate them whenever the UI they show changes.
+End-to-end tests (`tests/e2e/`, Playwright) run against a WordPress site with WPML and the plugin: see [tests/README.md](../tests/README.md). For a site without a WPML licence, `tests/e2e/stand-in/wpml-stand-in.php` emulates exactly the WPML hooks above (mu-plugin, never on a real site), and `supertext-stand-in.php` answers the Supertext API with real translations of the demo's sample page (and swallows Plugin Health reports), so no API key is needed. The screenshots in `docs/images/` are taken by `npm run docs:screenshots` (`tests/e2e/docs.spec.js`) on a site with WPML (5.3.0 so far), the demo's sample content and the Supertext stand-in. Regenerate them whenever the UI they show changes.
+
+### Docs screenshots and movies (GitHub Actions)
+
+`.github/workflows/docs-media.yml` (*Docs screenshots and movies*; on demand and on pushes to `main` that change the plugin, the demo or `tests/e2e/`) records everything on one fixed address, **`http://wpml-docs.test`** (a hosts entry on the runner), so WPML is registered with a site key of its own and shows no licence or site-key notices:
+
+1. Builds the demo image, starts it with MySQL on the runner, the real WPML (`WPML_ZIP_URL`, the zip in the private `supertext/integrations-demo-assets`) and the Supertext stand-in; demo accounts with random passwords for that run only.
+2. `npx playwright test docs.spec.js` → `docs/images/`.
+3. On a fresh database, the **demo movie** `tests/e2e/movie.mjs` (`npm run movie`): the demo editor opens *Welcome to the Supertext demo*, clicks **Translate** next to German in the Supertext box (the waiting time is cut) and opens the German draft. About 40 seconds, 1280×720, English voice and captions; it writes `docs/images/demo.gif` (silent, shown in the README) and an MP4.
+4. On a fresh database **without the plugin** (`DEMO_SKIP_PLUGIN=1`), the **install and configuration movie** `tests/e2e/movie-install.mjs` (`npm run movie:install`, `PLUGIN_ZIP` = the zip the release would build): the administrator uploads and activates the plugin, enters an API key (a made-up placeholder; the stand-in accepts it) and shows the status and the language mapping. MP4 only.
+5. Changed images come back as a pull request (branch `docs-media/<run id>`); both MP4s are attached to the run as the artifact *movies* (for YouTube, not committed).
+
+Secrets (repository → Settings → Secrets and variables → Actions): `WPML_SITE_KEY_DOCS`, the WPML site key registered for `http://wpml-docs.test` (a development site of Supertext's WPML account, separate from the demo's key), and `WPML_ZIP_TOKEN`, a read-only *Contents* token for `supertext/integrations-demo-assets`. Without them the run fails early instead of recording a site without WPML.
+
+The movies use Supertext's movie kit (`tests/e2e/movie/`: Playwright screencast → ffmpeg; intro and outro cards, captions, cursor; Inter font under the SIL Open Font License in `movie/assets/fonts/`), ffmpeg and Piper (`pip install piper-tts`; without it, or with `MOVIE_VOICE=0`, the movie is silent). Both run locally too, against a demo with WPML and the stand-in: `SITE_URL=… DEMO_EDITOR_EMAIL=… DEMO_EDITOR_PASSWORD=… npm run movie`. Re-record them when the Supertext box, the settings page or the installation steps change.
+
+Voice: Piper voice “alba” (en_GB), trained on a dataset from the University of Edinburgh's Centre for Speech Technology Research, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
 
 ## Code quality and security checks
 
@@ -163,6 +179,7 @@ Dependabot's minor and patch updates of the test tools and actions are grouped. 
 | `VIBEBOOST_API_KEY` | no | VibeBoost key for page screenshots (used while the field is empty) |
 | `SUPERTEXT_AI_ENVIRONMENT` | no | Environment of AI translation (`live`, `staging`, `testing`); wins over the setting |
 | `SUPERTEXT_HUMAN_ENVIRONMENT` (or `SUPERTEXT_ENVIRONMENT`) | no | Environment of professional orders; wins over the setting |
+| `DEMO_SKIP_PLUGIN` | no | `1`: start without this plugin (for the install movie) |
 | `DEMO_SITE_URL`, `WORDPRESS_SALT` | no | Public URL (default `https://$RAILWAY_PUBLIC_DOMAIN`), seed of the auth keys |
 
 Values live only in the hosting platform's variables, never in the repository; the log names variables, never passwords. Copy `demo/.env.example` for a local run. The container has no volume: uploads are lost on redeploy.

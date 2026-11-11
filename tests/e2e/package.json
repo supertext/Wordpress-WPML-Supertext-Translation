@@ -6,7 +6,9 @@
   "scripts": {
     "test": "playwright test",
     "report": "playwright show-report",
-    "docs:screenshots": "playwright test docs.spec.js"
+    "docs:screenshots": "playwright test docs.spec.js",
+    "movie": "node movie.mjs",
+    "movie:install": "node movie-install.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",

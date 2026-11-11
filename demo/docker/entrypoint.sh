@@ -103,7 +103,12 @@ fi
 if [ -d wp-content/plugins/sitepress-multilingual-cms ]; then
     $WP plugin activate sitepress-multilingual-cms --quiet
 fi
-$WP plugin activate supertext-wpml --quiet
+# DEMO_SKIP_PLUGIN=1: a site without this plugin, for the install movie (tests/e2e/movie-install.mjs).
+if [ "${DEMO_SKIP_PLUGIN:-0}" = "1" ]; then
+    rm -rf wp-content/plugins/supertext-wpml
+else
+    $WP plugin activate supertext-wpml --quiet
+fi
 
 # Languages, accounts, settings and sample content.
 $WP eval-file /usr/local/share/wordpress-demo/setup.php

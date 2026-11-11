@@ -1,0 +1,170 @@
+# Screenshots of the guides (docs/images/) and the two movies, recorded on the demo with the real WPML
+# at the fixed address http://wpml-docs.test, registered with WPML's development site key, and the
+# Supertext stand-in (real translations of the sample content, no API key). New screenshots and the
+# README's demo.gif come back as a pull request; both MP4s are attached to the run (for YouTube).
+# See docs/DEVELOPER.md → Docs screenshots and Demo movie.
+#
+# Secrets: WPML_SITE_KEY_DOCS (WPML site key for http://wpml-docs.test) and WPML_ZIP_TOKEN (read-only
+# Contents token for supertext/integrations-demo-assets, which holds the WPML zip).
+name: Docs screenshots and movies
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - includes/**
+      - assets/**
+      - languages/**
+      - supertext-wpml.php
+      - demo/**
+      - tests/e2e/**
+      - .github/workflows/docs-media.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-media
+  cancel-in-progress: true
+
+env:
+  SITE_URL: http://wpml-docs.test
+  WPML_ZIP_URL: https://api.github.com/repos/supertext/integrations-demo-assets/contents/wpml/sitepress-multilingual-cms.5.3.0.zip
+
+jobs:
+  record:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      pull-requests: write
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot" --health-interval=5s --health-timeout=5s --health-retries=30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Tools (ffmpeg, Piper voice, Playwright)
+        working-directory: tests/e2e
+        run: |
+          set -euo pipefail
+          sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+          pip install --quiet piper-tts
+          npm ci
+          npx playwright install --with-deps chromium
+          echo "127.0.0.1 wpml-docs.test" | sudo tee -a /etc/hosts
+
+      - name: Demo image and accounts
+        run: |
+          set -euo pipefail
+          docker build -q -f demo/Dockerfile -t wpml-docs .
+          # Accounts for this run only (random, masked, never stored).
+          for name in ADMIN EDITOR; do
+            pass="$(openssl rand -base64 24 | tr -dc 'A-Za-z0-9' | head -c 20)Aa1!"
+            echo "::add-mask::$pass"
+            echo "DEMO_${name}_PASSWORD=$pass" >> "$GITHUB_ENV"
+          done
+          echo "DEMO_ADMIN_EMAIL=admin@wpml-docs.test" >> "$GITHUB_ENV"
+          echo "DEMO_EDITOR_EMAIL=editor@wpml-docs.test" >> "$GITHUB_ENV"
+          mkdir -p build/supertext-wpml
+          cp supertext-wpml.php README.md LICENSE CHANGELOG.md build/supertext-wpml/
+          cp -r includes assets languages build/supertext-wpml/
+          ( cd build && zip -qr supertext-wpml.zip supertext-wpml )
+
+      - name: Start the demo (with the plugin)
+        env:
+          WPML_SITE_KEY: ${{ secrets.WPML_SITE_KEY_DOCS }}
+          WPML_ZIP_TOKEN: ${{ secrets.WPML_ZIP_TOKEN }}
+        run: |
+          set -euo pipefail
+          start_demo() { # $1: database, $2: DEMO_SKIP_PLUGIN
+            docker rm -f demo >/dev/null 2>&1 || true
+            docker run -d --name demo --network host \
+              -e PORT=80 -e DATABASE_URL="mysql://root:root@127.0.0.1:3306/$1" -e DEMO_SITE_URL="$SITE_URL" \
+              -e DEMO_ADMIN_EMAIL -e DEMO_ADMIN_PASSWORD -e DEMO_EDITOR_EMAIL -e DEMO_EDITOR_PASSWORD \
+              -e WPML_ZIP_URL -e WPML_ZIP_TOKEN -e WPML_SITE_KEY -e DEMO_SKIP_PLUGIN="$2" \
+              -e SUPERTEXT_API_KEY=st-demo-key-0000 -e SUPERTEXT_VERSION_REPORTS=0 wpml-docs
+            for _ in $(seq 1 120); do
+              if curl -fsS "$SITE_URL/healthz" >/dev/null 2>&1 && logs=$(docker logs demo 2>&1) && grep -q "WordPress demo ready" <<< "$logs"; then break; fi
+              sleep 3
+            done
+            docker exec demo mkdir -p /var/www/html/wp-content/mu-plugins
+            docker cp tests/e2e/stand-in/supertext-stand-in.php demo:/var/www/html/wp-content/mu-plugins/
+            docker exec demo chown -R www-data:www-data /var/www/html/wp-content/mu-plugins
+            logs=$(docker logs demo 2>&1)
+            grep -q "WordPress demo ready" <<< "$logs" || { echo "$logs" | tail -50; exit 1; }
+            grep -q "Installing WPML" <<< "$logs" || { echo "WPML wasn't installed: check WPML_ZIP_TOKEN"; exit 1; }
+          }
+          declare -f start_demo > /tmp/start_demo.sh
+          start_demo wpml_docs 0
+
+      - name: Screenshots
+        working-directory: tests/e2e
+        run: |
+          set -euo pipefail
+          WP_USER=admin WP_PASS="$DEMO_ADMIN_PASSWORD" npx playwright test docs.spec.js --project=setup --project=chromium
+
+      - name: Demo movie (with a fresh page, after the screenshots translated it)
+        working-directory: tests/e2e
+        env:
+          WPML_SITE_KEY: ${{ secrets.WPML_SITE_KEY_DOCS }}
+          WPML_ZIP_TOKEN: ${{ secrets.WPML_ZIP_TOKEN }}
+        run: |
+          set -euo pipefail
+          # shellcheck disable=SC1091
+          source /tmp/start_demo.sh
+          ( cd ../.. && start_demo wpml_movie 0 )
+          node movie.mjs
+
+      - name: Install movie (a site without the plugin)
+        working-directory: tests/e2e
+        env:
+          WPML_SITE_KEY: ${{ secrets.WPML_SITE_KEY_DOCS }}
+          WPML_ZIP_TOKEN: ${{ secrets.WPML_ZIP_TOKEN }}
+        run: |
+          set -euo pipefail
+          # shellcheck disable=SC1091
+          source /tmp/start_demo.sh
+          ( cd ../.. && start_demo wpml_install 1 )
+          PLUGIN_ZIP="$GITHUB_WORKSPACE/build/supertext-wpml.zip" node movie-install.mjs
+
+      - name: The MP4s (for YouTube)
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: movies
+          path: tests/e2e/movie/out/*.mp4
+          if-no-files-found: ignore
+
+      - name: Pull request with the new images
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- docs/images && [ -z "$(git ls-files --others --exclude-standard docs/images)" ]; then
+            echo "Screenshots and GIF unchanged."; exit 0
+          fi
+          branch="docs-media/$RUN_ID"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add docs/images
+          git commit -q -m "Docs: screenshots and demo movie recorded on the registered WPML docs site"
+          git push -q "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git" "$branch"
+          gh pr create --head "$branch" --title "Docs: new screenshots and demo movie" \
+            --body "Recorded by the *Docs screenshots and movies* workflow (run $RUN_ID) on http://wpml-docs.test with WPML registered. The MP4s are attached to the run." \
+            || echo "Couldn't open the pull request (allow GitHub Actions to create pull requests, or open it from the branch $branch)."

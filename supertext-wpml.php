@@ -104,7 +104,7 @@ add_filter(
 // The "Translation files" submenu and the "Export for translation" row action (XLIFF / HTML export and import).
 \Supertext\Wpml\Admin\Files_Page::init();
 
-// Human translation product types, loaded from the configured Supertext ServiceID
+// Human translation product types, loaded from the configured Supertext ServiceId
 // (flushes its cache when the settings change).
 \Supertext\Wpml\Human_Translation\Services::init();
 

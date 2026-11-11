@@ -121,7 +121,7 @@ class Files_Page {
 			<?php
 			Page::hero(
 				__( 'Translation files', 'supertext-wpml' ),
-				__( 'Export posts as XLIFF or HTML files for translation tools, translators or Supertext’s web app, and import the translated files.', 'supertext-wpml' )
+				__( 'Export posts as XLIFF or HTML files for translation tools, translators or Supertext\'s web app, and import the translated files.', 'supertext-wpml' )
 			);
 			if ( is_array( $result ) ) {
 				self::render_result( $result );

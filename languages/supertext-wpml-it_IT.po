@@ -73,8 +73,8 @@ msgstr "Chiave API"
 msgid "Environment"
 msgstr "Ambiente"
 
-msgid "Supertext environment for AI machine translation."
-msgstr "Ambiente Supertext per la traduzione automatica con IA."
+msgid "Supertext environment for AI translation."
+msgstr "Ambiente Supertext per la traduzione con IA."
 
 msgid "supertext.com"
 msgstr "supertext.com"
@@ -112,7 +112,7 @@ msgstr "Informale (tu)"
 msgid "Not mapped: Supertext can't translate into or from this language yet"
 msgstr "Nessuna corrispondenza: Supertext non può ancora tradurre da o verso questa lingua"
 
-msgid "Formality is offered only for the languages where Supertext supports it. It is preselected as formal for locales ending in _formal and informal for _informal; \"Automatic\" lets Supertext decide."
+msgid "Formality is offered only for the languages where Supertext supports it. It is preselected as formal for locales ending in _formal and informal for _informal; “Automatic” lets Supertext decide."
 msgstr "Il registro è disponibile solo per le lingue in cui Supertext lo supporta. È preselezionato formale per le locale che terminano con _formal e informale per _informal; «Automatico» lascia decidere a Supertext."
 
 msgid "No Supertext account yet? Create one at %1$s. Generate your API key at %2$s (supertext.com → Integrations → API; requires the Admin role)."
@@ -164,7 +164,7 @@ msgstr "Impostata dal filtro supertext_wpml_language_code, che prevale su questa
 msgid "Translation files"
 msgstr "File di traduzione"
 
-msgid "Export posts as XLIFF or HTML files for translation tools, translators or Supertext’s web app, and import the translated files."
+msgid "Export posts as XLIFF or HTML files for translation tools, translators or Supertext's web app, and import the translated files."
 msgstr "Esporti gli articoli come file XLIFF o HTML per strumenti di traduzione, traduttori o l'app web di Supertext, e importi i file tradotti."
 
 msgid "Export for translation"
@@ -269,14 +269,14 @@ msgstr "L'indirizzo e-mail (il nome utente) del suo account Supertext."
 msgid "Order API Key"
 msgstr "Chiave API per gli ordini"
 
-msgid "Your Supertext \"Order API Key\" (used with the account email, via HTTP Basic auth, for order requests). Find it in your %1$s. No Supertext account yet? Create one at %2$s."
+msgid "Your Supertext “Order API Key” (used with the account email, via HTTP Basic auth, for order requests). Find it in your %1$s. No Supertext account yet? Create one at %2$s."
 msgstr "La sua « chiave API per gli ordini » di Supertext (utilizzata con l'indirizzo e-mail dell'account, tramite autenticazione HTTP Basic, per le richieste di ordine). La trova in %1$s. Non ha ancora un account Supertext? Ne crei uno su %2$s."
 
 msgid "Supertext account settings"
 msgstr "le impostazioni del suo account Supertext"
 
-msgid "ServiceID"
-msgstr "ServiceID"
+msgid "ServiceId"
+msgstr "ServiceId"
 
 msgid "The Supertext ServiceId for your translation services that are offered when ordering a human translation. Default %d. The list is cached for 12 hours."
 msgstr "Il ServiceId Supertext dei suoi servizi di traduzione offerti quando ordina una traduzione umana. Predefinito %d. L'elenco viene memorizzato nella cache per 12 ore."
@@ -308,7 +308,7 @@ msgstr "Link di anteprima segreti"
 msgid "Enable secret public preview links for unpublished posts/pages"
 msgstr "Attivare i link di anteprima pubblici segreti per articoli/pagine non pubblicati"
 
-msgid "Master switch for the \"Public preview link\" box on the post/page editor: a private, expiring URL that shows an unpublished draft without logging in. When off, the box is hidden and any existing links stop working. Page screenshots (below) rely on this to capture draft pages."
+msgid "Master switch for the “Public preview link” box on the post/page editor: a private, expiring URL that shows an unpublished draft without logging in. When off, the box is hidden and any existing links stop working. Page screenshots (below) rely on this to capture draft pages."
 msgstr "Interruttore principale del riquadro « Link di anteprima pubblico » nell'editor di articoli/pagine: un URL privato con scadenza che mostra una bozza non pubblicata senza accedere. Se l'opzione è disattivata, il riquadro viene nascosto e i link esistenti smettono di funzionare. Gli screenshot delle pagine (sotto) ne hanno bisogno per acquisire le pagine in bozza."
 
 msgid "Page screenshots"
@@ -326,7 +326,7 @@ msgstr "VibeBoost Screenshots"
 msgid "Screenshot API key"
 msgstr "Chiave API per gli screenshot"
 
-msgid "Your personal VibeBoost API key (starts with \"vibe_\"). Required for page screenshots — the capture options the plugin uses need an authenticated key. Create one in your %s."
+msgid "Your personal VibeBoost API key (starts with “vibe_”). Required for page screenshots — the capture options the plugin uses need an authenticated key. Create one in your %s."
 msgstr "La sua chiave API VibeBoost personale (inizia con « vibe_ »). Necessaria per gli screenshot delle pagine — le opzioni di acquisizione utilizzate dal plugin richiedono una chiave autenticata. Ne crei una in %s."
 
 msgid "VibeBoost account"
@@ -368,13 +368,13 @@ msgstr "Lingua di destinazione"
 msgid "Translation type"
 msgstr "Tipo di traduzione"
 
-msgid "\"%1$s\": source and target language are the same (%2$s)."
+msgid "“%1$s”: source and target language are the same (%2$s)."
 msgstr "« %1$s »: la lingua di origine e quella di destinazione sono identiche (%2$s)."
 
 msgid "Invalid post, or missing source/target language."
 msgstr "Articolo non valido oppure lingua di origine/destinazione mancante."
 
-msgid "An order already exists for \"%1$s\" (%2$s)."
+msgid "An order already exists for “%1$s” (%2$s)."
 msgstr "Esiste già un ordine per « %1$s » (%2$s)."
 
 msgid "Supertext human-translation credentials are not configured."
@@ -518,8 +518,8 @@ msgstr "Registro dei callback degli ordini e diagnostica."
 msgid "Order callbacks (debug)"
 msgstr "Callback degli ordini (debug)"
 
-msgid "The most recent payload Supertext POSTed to the callback URL is recorded here, so we can see exactly what the system sends when an order completes."
-msgstr "Qui viene registrato l'ultimo payload inviato da Supertext in POST all'URL di callback, così si vede esattamente cosa invia il sistema quando un ordine è completato."
+msgid "The most recent payload Supertext POSTed to the callback URL is recorded here, so Supertext support can see exactly what the system sends when an order completes."
+msgstr "Qui viene registrato l'ultimo payload inviato da Supertext in POST all'URL di callback, così il supporto Supertext vede esattamente cosa invia il sistema quando un ordine è completato."
 
 msgid "No callbacks recorded yet."
 msgstr "Ancora nessun callback registrato."
@@ -539,7 +539,7 @@ msgstr "Le credenziali Supertext per la traduzione umana non sono configurate."
 msgid "Supertext order API returned status %1$d for %2$s. %3$s"
 msgstr "L'API degli ordini di Supertext ha restituito lo stato %1$d per %2$s. %3$s"
 
-msgid "This page has a Supertext human translation order in progress, so it can’t be deleted until the translation is delivered. You can still edit it."
+msgid "This page has a Supertext human translation order in progress, so it can't be deleted until the translation is delivered. You can still edit it."
 msgstr "Per questa pagina è in corso un ordine di traduzione umana Supertext, quindi non può essere eliminata fino alla consegna della traduzione. Può comunque modificarla."
 
 msgid "No URL to capture."
@@ -624,7 +624,7 @@ msgstr "Non tradotto"
 msgid "Translate again"
 msgstr "Traduci di nuovo"
 
-msgid "New translations are saved as drafts. Professional (human) translation: the \"Supertext Human Translation\" bulk action in the list of posts or pages."
+msgid "New translations are saved as drafts. Professional (human) translation: the “Supertext Human Translation” bulk action in the list of posts or pages."
 msgstr "Le nuove traduzioni vengono salvate come bozze. Traduzione professionale (umana): l'azione di gruppo «Traduzione umana Supertext» nell'elenco degli articoli o delle pagine."
 
 msgid "Sorry, you are not allowed to edit this post."
@@ -666,16 +666,16 @@ msgstr "Funzioni"
 msgid "Not mapped: choose its Supertext language under AI translation below"
 msgstr "Non associata: scelga la lingua Supertext qui sotto in Traduzione IA"
 
-msgid "Machine & professional translation, wired straight into WPML."
-msgstr "Traduzione automatica e professionale, direttamente in WPML."
+msgid "AI & professional translation, wired straight into WPML."
+msgstr "Traduzione IA e professionale, direttamente in WPML."
 
 msgid "AI translation"
 msgstr "Traduzione IA"
 
-msgid "Enter your Supertext API key and check the Supertext language of each WPML language. Then translate posts and pages with the \"Supertext AI Translation\" bulk action or the Supertext box in the editor."
+msgid "Enter your Supertext API key and check the Supertext language of each WPML language. Then translate posts and pages with the “Supertext AI Translation” bulk action or the Supertext box in the editor."
 msgstr "Inserisca la Sua chiave API Supertext e verifichi la lingua Supertext di ogni lingua WPML. Poi traduca articoli e pagine con l'azione di gruppo «Traduzione IA Supertext» o con il riquadro Supertext nell'editor."
 
-msgid "\"%s\": no translatable content found."
+msgid "“%s”: no translatable content found."
 msgstr "«%s»: nessun contenuto da tradurre trovato."
 
 msgid "%1$d translation created via Supertext %2$s."
@@ -705,7 +705,7 @@ msgstr "%d elementi non hanno potuto essere inviati:"
 msgid "%s has no Supertext language, so nothing was sent to Supertext. An administrator can choose it in the drop-down for this language under Supertext → Settings → AI translation → Language mapping."
 msgstr "%s non ha una lingua Supertext, quindi non è stato inviato nulla a Supertext. Un amministratore può sceglierla nel menu a tendina di questa lingua in Supertext → Impostazioni → Traduzione IA → Corrispondenza delle lingue."
 
-msgid "Supertext offers this language pair, but not with the option \"%s\". An administrator can reset the formality of this language under Supertext → Settings → AI translation → Language mapping."
+msgid "Supertext offers this language pair, but not with the option “%s”. An administrator can reset the formality of this language under Supertext → Settings → AI translation → Language mapping."
 msgstr "Supertext offre questa coppia di lingue, ma non con l'opzione «%s». Un amministratore può reimpostare il registro di questa lingua in Supertext → Impostazioni → Traduzione IA → Corrispondenza delle lingue."
 
 msgid "Supertext does not support this language pair (%1$s → %2$s). Check the language mapping under Supertext → Settings → AI translation."
@@ -714,13 +714,13 @@ msgstr "Supertext non supporta questa coppia di lingue (%1$s → %2$s). Verifich
 msgid "The post was not found."
 msgstr "L'articolo non è stato trovato."
 
-msgid "\"%s\": WPML does not translate this post type. Turn translation on under WPML → Settings → Post Types Translation."
+msgid "“%s”: WPML does not translate this post type. Turn translation on under WPML → Settings → Post Types Translation."
 msgstr "«%s»: WPML non traduce questo tipo di contenuto. Attivi la traduzione in WPML → Impostazioni → Traduzione dei tipi di contenuto."
 
-msgid "\"%1$s\" already has a translation into %2$s. Open it in the editor's Supertext box to translate it again."
+msgid "“%1$s” already has a translation into %2$s. Open it in the editor's Supertext box to translate it again."
 msgstr "«%1$s» ha già una traduzione in: %2$s. Lo apra e lo traduca di nuovo nel riquadro Supertext dell'editor."
 
-msgid "\"%1$s\": the translation could not be saved (%2$s)."
+msgid "“%1$s”: the translation could not be saved (%2$s)."
 msgstr "«%1$s»: non è stato possibile salvare la traduzione (%2$s)."
 
 msgid "Your Supertext API key for AI translation. No Supertext account yet? Create one at %1$s. Generate your API key at %2$s (requires the Admin role)."
@@ -735,14 +735,14 @@ msgstr "Salva le impostazioni IA"
 msgid "No WPML languages yet. Activate WPML and add your languages under WPML → Languages first."
 msgstr "Ancora nessuna lingua WPML. Attivi prima WPML e aggiunga le Sue lingue in WPML → Lingue."
 
-msgid "Choose the Supertext language for each WPML language. The suggested language is preselected: the one whose code equals the locale (de_CH → de-CH), else the usual one (de → de-DE, es_ES → es, de_DE_formal → de-DE). Languages without a suggestion, such as en_IE or gsw, show \"— choose —\"; until you choose one, translations into or from them stop with an error and nothing is sent to Supertext."
+msgid "Choose the Supertext language for each WPML language. The suggested language is preselected: the one whose code equals the locale (de_CH → de-CH), else the usual one (de → de-DE, es_ES → es, de_DE_formal → de-DE). Languages without a suggestion, such as en_IE or gsw, show “— choose —”; until you choose one, translations into or from them stop with an error and nothing is sent to Supertext."
 msgstr "Scelga la lingua Supertext per ogni lingua WPML. La lingua suggerita è preselezionata: quella il cui codice corrisponde alla locale (de_CH → de-CH), altrimenti quella usuale (de → de-DE, es_ES → es, de_DE_formal → de-DE). Le lingue senza suggerimento, come en_IE o gsw, mostrano «— scegliere —»; finché non ne sceglie una, le traduzioni verso o da queste lingue si interrompono con un errore e nulla viene inviato a Supertext."
 
 msgid "WPML language"
 msgstr "Lingua WPML"
 
 
-msgid "\"%1$s\" is a translation of the %2$s original. Translate the original instead: its text would be overwritten."
+msgid "“%1$s” is a translation of the %2$s original. Translate the original instead: its text would be overwritten."
 msgstr "«%1$s» è una traduzione dell'originale (%2$s). Traduca invece l'originale: altrimenti il suo testo verrebbe sovrascritto."
 
 msgid "This is a translation. Translate from the original (%s) so it isn't overwritten."

@@ -306,7 +306,7 @@ class Ai_Settings {
 								</option>
 							<?php endforeach; ?>
 						</select>
-						<p class="description"><?php esc_html_e( 'Supertext environment for AI machine translation.', 'supertext-wpml' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Supertext environment for AI translation.', 'supertext-wpml' ); ?></p>
 						<?php
 						if ( null !== Client::environment_override() ) {
 							\Supertext\Wpml\Admin\Settings::print_server_note( 'SUPERTEXT_AI_ENVIRONMENT' );
@@ -346,7 +346,7 @@ class Ai_Settings {
 					<p class="description"><?php esc_html_e( 'No WPML languages yet. Activate WPML and add your languages under WPML → Languages first.', 'supertext-wpml' ); ?></p>
 				<?php else : ?>
 				<p class="description" style="margin-bottom:8px;">
-					<?php esc_html_e( 'Choose the Supertext language for each WPML language. The suggested language is preselected: the one whose code equals the locale (de_CH → de-CH), else the usual one (de → de-DE, es_ES → es, de_DE_formal → de-DE). Languages without a suggestion, such as en_IE or gsw, show "— choose —"; until you choose one, translations into or from them stop with an error and nothing is sent to Supertext.', 'supertext-wpml' ); ?>
+					<?php esc_html_e( 'Choose the Supertext language for each WPML language. The suggested language is preselected: the one whose code equals the locale (de_CH → de-CH), else the usual one (de → de-DE, es_ES → es, de_DE_formal → de-DE). Languages without a suggestion, such as en_IE or gsw, show “— choose —”; until you choose one, translations into or from them stop with an error and nothing is sent to Supertext.', 'supertext-wpml' ); ?>
 				</p>
 				<table class="widefat striped supertext-language-mapping" style="max-width:860px;">
 					<thead>
@@ -445,7 +445,7 @@ class Ai_Settings {
 					</tbody>
 				</table>
 				<p class="description" style="margin-top:8px;">
-					<?php esc_html_e( 'Formality is offered only for the languages where Supertext supports it. It is preselected as formal for locales ending in _formal and informal for _informal; "Automatic" lets Supertext decide.', 'supertext-wpml' ); ?>
+					<?php esc_html_e( 'Formality is offered only for the languages where Supertext supports it. It is preselected as formal for locales ending in _formal and informal for _informal; “Automatic” lets Supertext decide.', 'supertext-wpml' ); ?>
 				</p>
 				<p class="description">
 					<?php esc_html_e( 'Translation review: translations into a language with this box ticked go through Supertext\'s review service, so reviewers can check and correct them on the website with the Supertext Localization Review extension. Their corrections are used the next time the content is translated.', 'supertext-wpml' ); ?>

@@ -429,7 +429,7 @@ class Page {
 			<?php
 			self::hero(
 				__( 'Supertext for WPML', 'supertext-wpml' ),
-				__( 'Machine & professional translation, wired straight into WPML.', 'supertext-wpml' )
+				__( 'AI & professional translation, wired straight into WPML.', 'supertext-wpml' )
 			);
 			self::render_status_panel();
 			?>
@@ -439,7 +439,7 @@ class Page {
 					<span class="st-tile"><span class="dashicons dashicons-translation"></span></span>
 					<div>
 						<h2 class="st-card__title"><?php esc_html_e( 'AI translation', 'supertext-wpml' ); ?></h2>
-						<p class="st-card__subtitle"><?php esc_html_e( 'Enter your Supertext API key and check the Supertext language of each WPML language. Then translate posts and pages with the "Supertext AI Translation" bulk action or the Supertext box in the editor.', 'supertext-wpml' ); ?></p>
+						<p class="st-card__subtitle"><?php esc_html_e( 'Enter your Supertext API key and check the Supertext language of each WPML language. Then translate posts and pages with the “Supertext AI Translation” bulk action or the Supertext box in the editor.', 'supertext-wpml' ); ?></p>
 					</div>
 				</div>
 				<?php
@@ -500,7 +500,7 @@ class Page {
 		?>
 		<h2 style="margin-top:1em;"><?php esc_html_e( 'Order callbacks (debug)', 'supertext-wpml' ); ?></h2>
 		<p class="description" style="max-width:640px;">
-			<?php esc_html_e( 'The most recent payload Supertext POSTed to the callback URL is recorded here, so we can see exactly what the system sends when an order completes.', 'supertext-wpml' ); ?>
+			<?php esc_html_e( 'The most recent payload Supertext POSTed to the callback URL is recorded here, so Supertext support can see exactly what the system sends when an order completes.', 'supertext-wpml' ); ?>
 		</p>
 		<p><code><?php echo esc_html( Callback::url() ); ?></code></p>
 

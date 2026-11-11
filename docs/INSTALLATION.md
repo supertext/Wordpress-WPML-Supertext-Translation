@@ -15,7 +15,7 @@ For administrators: how to install and set up **Supertext for WPML**. Editors: s
 
 ## Install, update, uninstall
 
-1. Download `supertext-wpml-X.Y.Z.zip` from the [releases](https://github.com/supertext/Wordpress-WPML-Supertext-Translation-Public/releases) (or build it: the `supertext-wpml` folder with `supertext-wpml.php`, `includes/`, `assets/`, `languages/`).
+1. Download `supertext-wpml-X.Y.Z.zip` from the [releases](https://github.com/supertext/Wordpress-WPML-Supertext-Translation/releases) (or build it: the `supertext-wpml` folder with `supertext-wpml.php`, `includes/`, `assets/`, `languages/`).
 2. **Plugins → Add New → Upload Plugin**, choose the zip, **Install Now**, **Activate**.
 3. Open **Supertext → Settings**.
 

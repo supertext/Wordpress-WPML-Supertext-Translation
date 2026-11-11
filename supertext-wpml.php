@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Supertext for WPML
- * Plugin URI:        https://github.com/supertext/Wordpress-WPML-Supertext-Translation-Public
+ * Plugin URI:        https://github.com/supertext/Wordpress-WPML-Supertext-Translation
  * Description:       Translates posts and pages into your WPML languages with Supertext AI, orders professional (human) translations, and exports and imports translation files.
  * Version:           0.1.0
  * Requires at least: 6.4

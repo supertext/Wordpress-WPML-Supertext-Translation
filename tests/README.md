@@ -40,4 +40,4 @@ npm run docs:screenshots           # the screenshots of docs/images/
 - `wpml-stand-in.php` emulates exactly the WPML hooks the plugin uses (`includes/Wpml/Wpml.php`) with English, German (`de_CH`), French and Italian. It does nothing when the real WPML is active.
 - `supertext-stand-in.php` answers the Supertext AI API with real German, French and Italian translations of the demo's sample page (unknown texts come back unchanged), rejects invalid language pairs like the real API, and answers Plugin Health reports, so a test site never shows up in the dashboard.
 
-The screenshots in `docs/images/` were taken on WordPress with both stand-ins and the demo's sample content (`demo/docker/setup.php`).
+The screenshots in `docs/images/` were taken on WordPress 7.2 (beta) with WPML 5.3.0, the Supertext stand-in and the demo's sample content (`demo/docker/setup.php`); the end-to-end tests pass there too.

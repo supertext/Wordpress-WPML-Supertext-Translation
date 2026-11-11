@@ -21,27 +21,24 @@ function supertext_demo_log( string $msg ): void {
 // ---------------------------------------------------------------------------
 // Languages: English (default), German, French, Italian.
 // ---------------------------------------------------------------------------
-// WPML has no public API for its setup, so this uses SitePress's own methods (best
-// effort: every step is checked and a failure is logged, the demo still starts). Once
-// WPML's setup is complete, it is left alone.
+// WPML has no public API for its setup, so this runs the steps of WPML's own setup
+// wizard (WPML_Installation, as in WPML 5.3): default language, active languages, site
+// key, finish. Best effort: a failure is logged, the demo still starts. Runs only while
+// WPML has no active languages, so changes made in WPML's settings stay.
 global $sitepress;
-if ( is_object( $sitepress ) && class_exists( 'SitePress' ) && $sitepress instanceof SitePress ) {
+if ( is_object( $sitepress ) && class_exists( 'SitePress' ) && $sitepress instanceof SitePress && function_exists( 'wpml_get_setup_instance' ) ) {
 	try {
-		if ( ! $sitepress->get_setting( 'setup_complete' ) ) {
-			if ( function_exists( 'icl_sitepress_activate' ) ) {
-				icl_sitepress_activate();
-			}
-			if ( method_exists( $sitepress, 'set_default_language' ) ) {
-				$sitepress->set_default_language( 'en' );
-			}
-			if ( method_exists( $sitepress, 'set_active_languages' ) ) {
-				$sitepress->set_active_languages( array( 'en', 'de', 'fr', 'it' ) );
+		if ( array() === (array) $sitepress->get_active_languages( true ) ) {
+			$installation = wpml_get_setup_instance();
+			$installation->finish_step1( 'en' );
+			$installation->finish_step2( array( 'en', 'de', 'fr', 'it' ) );
+			if ( getenv( 'WPML_SITE_KEY' ) ) {
+				$installation->store_site_key( (string) getenv( 'WPML_SITE_KEY' ) );
 			}
 			$sitepress->set_setting( 'custom_posts_sync_option', array( 'post' => 1, 'page' => 1 ) );
 			$sitepress->set_setting( 'taxonomies_sync_option', array( 'category' => 1, 'post_tag' => 1 ) );
-			$sitepress->set_setting( 'setup_complete', 1 );
-			$sitepress->set_setting( 'setup_wizard_step', 0 );
 			$sitepress->save_settings();
+			$installation->finish_installation();
 			supertext_demo_log( 'Set up WPML: English (default), German, French, Italian' );
 		}
 	} catch ( \Throwable $e ) {

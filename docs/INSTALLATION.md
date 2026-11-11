@@ -2,7 +2,7 @@
 
 For administrators: how to install and set up **Supertext for WPML**. Editors: see the [user guide](USER_GUIDE.md).
 
-> The screenshots come from the repository's test site, which runs a stand-in for WPML's hooks (`tests/e2e/stand-in/`), so the WPML version reads *0.0.0-stand-in*. With the real WPML you see its version.
+> The screenshots come from a test site with WPML 5.3.0 and the demo's sample content. Translations come from a stand-in for the Supertext API (`tests/e2e/stand-in/`), so no API key was needed.
 
 ## Requirements
 
@@ -29,7 +29,9 @@ If WPML isn't active, the plugin shows *Supertext for WPML requires WPML Multili
 
 In WPML:
 
-- **WPML → Languages:** add your languages. Each WPML language has a *locale* (e.g. `de_CH`); the plugin uses it to suggest the Supertext language.
+- **WPML → Languages:** add your languages. Each WPML language has a *locale* (e.g. `de_CH`, under *Edit*); the plugin uses it to suggest the Supertext language.
+
+  ![WPML → Languages with English (default), French, German and Italian](images/wpml-languages.png)
 - **WPML → Settings → Post Types Translation:** set the post types you want to translate (posts, pages, custom types) to *Translatable*. Only these get the Supertext box and bulk actions.
 - **WPML → Settings → Custom Fields Translation:** fields set to *Translate* are sent to Supertext (with a single text value), *Copy* fields are copied into the translation, *Copy once* fields only into a new translation. Many plugins set this up through their `wpml-config.xml` (e.g. Yoast SEO's title and description).
 - **WPML → Settings → How to translate posts and pages:** if you edit Supertext translations by hand, choose *Use the WordPress Editor* for them. WPML's Advanced Translation Editor doesn't know about translations created outside it and may offer to translate them again.

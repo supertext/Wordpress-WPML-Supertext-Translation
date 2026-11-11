@@ -13,4 +13,4 @@ First version, the WPML counterpart of Supertext for Polylang (independent plugi
 - Translation files: XLIFF 1.2 / HTML export and import.
 - Version reports, API key check and ping for Supertext Plugin Health (plugin id `supertext-wordpress-wpml`).
 - Interface in English, German, French and Italian.
-- Demo image (WordPress + WPML from `WPML_ZIP_URL`, on Railway as WordPress-WPML; `WPML_ZIP_TOKEN` for a zip in a private GitHub repository), unit tests, Playwright tests with stand-ins for WPML and the Supertext API, screenshots for the guides.
+- Demo image (WordPress + WPML from `WPML_ZIP_URL`, set up with WPML's own setup steps, site key from `WPML_SITE_KEY`; on Railway as WordPress-WPML, WPML served by the private demo-assets service), unit tests, Playwright tests with stand-ins for WPML and the Supertext API, screenshots for the guides.

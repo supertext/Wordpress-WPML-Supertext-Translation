@@ -9,7 +9,8 @@ const path = require( 'path' );
 
 const OUT = path.join( __dirname, '..', '..', 'docs', 'images' );
 const PAGE = 'Welcome to the Supertext demo';
-const CALM = '*,*::before,*::after{animation:none!important;transition:none!important}.spinner{display:none!important}';
+// WPML's licence and site-key notices aren't part of what the guides show.
+const CALM = '*,*::before,*::after{animation:none!important;transition:none!important}.spinner{display:none!important}.components-notice-list,.otgs-installer-notice,.otgs-notice,.wpml-notice{display:none!important}';
 
 /**
  * @param {import('@playwright/test').Page} page
@@ -36,8 +37,9 @@ test( 'capture docs screenshots', async ( { page } ) => {
 
 	// WPML's language setup (only on a site with the real WPML).
 	await page.goto( 'wp-admin/admin.php?page=sitepress-multilingual-cms/menu/languages.php' );
-	if ( await page.locator( '#icl_languages_selection, .wpml-section-languages, #wpml-language-switcher-settings' ).count() ) {
-		await shot( page, 'wpml-languages', page.locator( '#wpbody-content' ) );
+	const editor = page.locator( '.wpml-language-editor' ).first();
+	if ( await editor.waitFor( { timeout: 15000 } ).then( () => true ).catch( () => false ) ) {
+		await shot( page, 'wpml-languages', editor );
 	}
 
 	// Bulk actions in the pages list.

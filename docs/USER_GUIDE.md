@@ -2,7 +2,7 @@
 
 For editors: how to translate posts and pages with **Supertext for WPML**. Setting it up: see the [installation guide](INSTALLATION.md).
 
-> The screenshots come from the repository's test site with a stand-in for WPML's hooks and for the Supertext API (`tests/e2e/stand-in/`); the translations shown are real ones of the sample page.
+> The screenshots come from a test site with WPML 5.3.0. Translations come from a stand-in for the Supertext API (`tests/e2e/stand-in/`) that returns real translations of the demo's sample page.
 
 Supertext translates from the **original** of a post (the version in the language you wrote it in) into your other WPML languages. The translation is an ordinary WPML translation: it shows up in WPML's language columns and language switcher, and you can edit it like any other post.
 

@@ -129,7 +129,7 @@ composer phpstan            # PHPStan level 5
 
 Unit tests cover the content splitter and writer (blocks, YOOtheme), the AI client (mapping, review routing, errors, sanitizing the settings), language codes, translation files, order client, callback, write-back parsing, services, settings, preview links, VibeBoost, the Commando/Plugin Health glue (incl. the WPML language mapping) and the interface translations.
 
-End-to-end tests (`tests/e2e/`, Playwright) run against a WordPress site with WPML and the plugin: see [tests/README.md](../tests/README.md). For a site without a WPML licence, `tests/e2e/stand-in/wpml-stand-in.php` emulates exactly the WPML hooks above (mu-plugin, never on a real site), and `supertext-stand-in.php` answers the Supertext API with real translations of the demo's sample page (and swallows Plugin Health reports), so no API key is needed. The screenshots in `docs/images/` are taken by `npm run docs:screenshots` (`tests/e2e/docs.spec.js`) on such a site; regenerate them whenever the UI they show changes.
+End-to-end tests (`tests/e2e/`, Playwright) run against a WordPress site with WPML and the plugin: see [tests/README.md](../tests/README.md). For a site without a WPML licence, `tests/e2e/stand-in/wpml-stand-in.php` emulates exactly the WPML hooks above (mu-plugin, never on a real site), and `supertext-stand-in.php` answers the Supertext API with real translations of the demo's sample page (and swallows Plugin Health reports), so no API key is needed. The screenshots in `docs/images/` are taken by `npm run docs:screenshots` (`tests/e2e/docs.spec.js`) on a site with WPML (5.3.0 so far), the demo's sample content and the Supertext stand-in; WPML's licence notices are hidden in them; regenerate them whenever the UI they show changes.
 
 ## Code quality and security checks
 
@@ -148,15 +148,16 @@ Dependabot's minor and patch updates of the test tools and actions are grouped. 
 
 ## Demo site
 
-`demo/Dockerfile` (build context: the repository root) builds WordPress with this plugin; `demo/docker/entrypoint.sh` creates the database, rebuilds `wp-config.php`, installs WordPress once, installs and activates **WPML from `WPML_ZIP_URL`** (WPML is commercial and not on wordpress.org; without it the plugin shows its *requires WPML* notice), runs `demo/docker/setup.php` (WPML languages English, German, French, Italian through SitePress's methods, the demo accounts, the professional translation settings, five English sample pages and posts; with WPML, posts and pages without a language become English) and starts Apache. Every step is idempotent. It runs as the **WordPress-WPML** service in the Railway project *supertext-cms-demos-php* (<https://wordpress-wpml-production.up.railway.app>, Dockerfile path `demo/Dockerfile`, health check `/healthz`, region `ams`, database `wordpress_wpml_demo` on the shared **MySQL-8** service, `DEMO_*` referencing the Contao service's values) and redeploys on every push to `main`. The WPML setup in `setup.php` hasn't run against a real WPML yet.
+`demo/Dockerfile` (build context: the repository root) builds WordPress with this plugin; `demo/docker/entrypoint.sh` creates the database, rebuilds `wp-config.php`, installs WordPress once, installs and activates **WPML from `WPML_ZIP_URL`** (WPML is commercial and not on wordpress.org; without it the plugin shows its *requires WPML* notice), runs `demo/docker/setup.php` (WPML languages English, German, French, Italian through SitePress's methods, the demo accounts, the professional translation settings, five English sample pages and posts; with WPML, posts and pages without a language become English) and starts Apache. Every step is idempotent. It runs as the **WordPress-WPML** service in the Railway project *supertext-cms-demos-php* (<https://wordpress-wpml-production.up.railway.app>, Dockerfile path `demo/Dockerfile`, health check `/healthz`, region `ams`, database `wordpress_wpml_demo` on the shared **MySQL-8** service, `DEMO_*` referencing the Contao service's values) and redeploys on every push to `main`. `setup.php` runs WPML's own setup wizard steps (`WPML_Installation`: default language, active languages, site key, finish; tested with WPML 5.3.0) while WPML has no active languages yet, so later changes in WPML stay.
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `DATABASE_URL` (or `MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`) | yes | MySQL server; `WORDPRESS_DB_NAME` (default: the URL's path) is created if missing |
 | `DEMO_ADMIN_EMAIL`, `DEMO_ADMIN_PASSWORD` | yes | Administrator, created on the first start, never changed |
 | `DEMO_EDITOR_EMAIL`, `DEMO_EDITOR_PASSWORD` | no | Editor (WordPress *Editor* role: can translate every post in every language) |
-| `WPML_ZIP_URL` | no | Download URL of the WPML Multilingual CMS zip. The zip is kept in the private repository `supertext/integrations-demo-assets` (`wpml/`): use the API URL `https://api.github.com/repos/supertext/integrations-demo-assets/contents/wpml/<file>.zip` |
-| `WPML_ZIP_TOKEN` | with the private repository | Read-only GitHub token (fine-grained, *Contents: read* on that repository only), sent with the download |
+| `WPML_ZIP_URL` | no | Download URL of the WPML Multilingual CMS zip. On Railway: `http://demo-assets.railway.internal:8080/wpml/sitepress-multilingual-cms.5.3.0.zip`, served by the **demo-assets** service from the private repository `supertext/integrations-demo-assets` on Railway's private network only |
+| `WPML_ZIP_TOKEN` | no | Bearer token sent with the download, for a URL that needs one (e.g. the GitHub API URL of a file in a private repository) |
+| `WPML_SITE_KEY` | no | WPML's site key (the `OTGS_INSTALLER_SITE_KEY_WPML` constant), registers the demo with wpml.org |
 | `SUPERTEXT_API_KEY` | no | AI translation key (used while the settings field is empty) |
 | `SUPERTEXT_ACCOUNT_EMAIL`, `SUPERTEXT_ORDER_API_KEY`, `SUPERTEXT_ENVIRONMENT` | no | Professional translation settings, seeded while empty |
 | `DEMO_SITE_URL`, `WORDPRESS_SALT` | no | Public URL (default `https://$RAILWAY_PUBLIC_DOMAIN`), seed of the auth keys |
@@ -171,7 +172,6 @@ Values live only in the hosting platform's variables, never in the repository; t
 
 ## Known limitations and roadmap
 
-- Not yet tested against a real WPML installation (only the hook stand-in); the demo's WPML setup is untested too.
 - AI translation blocks the request while polling; very long content can reach PHP's time limit (a background queue would remove that).
 - Custom fields with several values or structured (serialized) values aren't translated; ACF repeaters and flexible content need a dedicated integration (as `pll_after_post_export` integrations did for Polylang).
 - Block attributes (e.g. texts some blocks keep in their JSON) and shortcode attributes aren't translated.

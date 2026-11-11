@@ -23,3 +23,8 @@ if ( $supertext_demo_url ) {
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 define( 'WP_ENVIRONMENT_TYPE', 'staging' );
+
+// WPML's site key (registers the site with wpml.org for updates and support), from WPML_SITE_KEY.
+if ( getenv( 'WPML_SITE_KEY' ) && ! defined( 'OTGS_INSTALLER_SITE_KEY_WPML' ) ) {
+	define( 'OTGS_INSTALLER_SITE_KEY_WPML', getenv( 'WPML_SITE_KEY' ) );
+}

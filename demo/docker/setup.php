@@ -93,9 +93,9 @@ $settings = is_array( $settings ) ? $settings : array();
 $changed  = false;
 foreach (
 	array(
-		'human_api_key' => 'SUPERTEXT_ORDER_API_KEY',
-		'human_email'   => 'SUPERTEXT_ACCOUNT_EMAIL',
-		'environment'   => 'SUPERTEXT_ENVIRONMENT',
+		// The keys need no seeding: SUPERTEXT_API_KEY, SUPERTEXT_ACCOUNT_EMAIL,
+		// SUPERTEXT_ORDER_API_KEY and VIBEBOOST_API_KEY are read by the plugin itself.
+		'environment' => 'SUPERTEXT_ENVIRONMENT',
 	) as $key => $env
 ) {
 	$value = (string) getenv( $env );

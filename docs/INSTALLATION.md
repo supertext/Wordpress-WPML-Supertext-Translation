@@ -61,12 +61,12 @@ Click **Save AI settings**.
 | Setting | What it does |
 | --- | --- |
 | **Environment** | Live (`www.supertext.com`). |
-| **Account email**, **Order API Key** | Your Supertext login email and the Order API Key from your [Supertext account settings](https://www.supertext.com/services/customer/accountsettings). No Supertext account yet? Create one at supertext.com. |
+| **Account email**, **Order API Key** | Your Supertext login email and the Order API Key from your [Supertext account settings](https://www.supertext.com/services/customer/accountsettings). No Supertext account yet? Create one at supertext.com. While a field is empty, `SUPERTEXT_ACCOUNT_EMAIL` / `SUPERTEXT_ORDER_API_KEY` (wp-config.php constant or environment variable) is used, like `SUPERTEXT_API_KEY` for the AI key. |
 | **ServiceID** | The group of translation types offered when ordering (default 46: Basic, Premium, Creative). Cached for 12 hours. |
 | **Write-back** | *Allow multiple write-backs*: apply a delivery again if Supertext sends it again. Off: the first delivery wins, so later edits are kept. |
 | **Translation status** | *Draft* (default): new translations are drafts; existing ones keep their status. *Published*: delivered translations are published. |
 | **Secret preview links** | A private, expiring link to unpublished drafts (box in the editor), also used for page screenshots. |
-| **Page screenshots** | Attaches a screenshot of the page to each order as a reference for the translator (needs a VibeBoost API key from your [VibeBoost account](https://vibeboost.me/account)). The key is checked like the Supertext keys and shown in the status (*API key check: Page screenshots*); without a valid key, orders are placed without screenshots. |
+| **Page screenshots** | Attaches a screenshot of the page to each order as a reference for the translator (needs a VibeBoost API key from your [VibeBoost account](https://vibeboost.me/account); while the field is empty, `VIBEBOOST_API_KEY` on the server is used). The key is checked like the Supertext keys and shown in the status (*API key check: Page screenshots*); without a valid key, orders are placed without screenshots. |
 | **Version information** | Sends the site URL, the versions of this plugin, WordPress and PHP, and whether each key works (AI, orders, VibeBoost) to Supertext after saving and after updates, so support can see what you run. No content, no API key, no personal data. `SUPERTEXT_VERSION_REPORTS=off` on the server turns it off whatever the setting says. |
 
 Click **Save settings**.

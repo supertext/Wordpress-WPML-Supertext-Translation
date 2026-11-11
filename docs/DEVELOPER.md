@@ -161,7 +161,8 @@ Dependabot's minor and patch updates of the test tools and actions are grouped. 
 | `SUPERTEXT_API_KEY` | no | AI translation key (used while the settings field is empty) |
 | `SUPERTEXT_ACCOUNT_EMAIL`, `SUPERTEXT_ORDER_API_KEY` | no | Professional translation credentials (used while the fields are empty) |
 | `VIBEBOOST_API_KEY` | no | VibeBoost key for page screenshots (used while the field is empty) |
-| `SUPERTEXT_ENVIRONMENT` | no | Environment of professional orders, seeded while empty |
+| `SUPERTEXT_AI_ENVIRONMENT` | no | Environment of AI translation (`live`, `staging`, `testing`); wins over the setting |
+| `SUPERTEXT_HUMAN_ENVIRONMENT` (or `SUPERTEXT_ENVIRONMENT`) | no | Environment of professional orders; wins over the setting |
 | `DEMO_SITE_URL`, `WORDPRESS_SALT` | no | Public URL (default `https://$RAILWAY_PUBLIC_DOMAIN`), seed of the auth keys |
 
 Values live only in the hosting platform's variables, never in the repository; the log names variables, never passwords. Copy `demo/.env.example` for a local run. The container has no volume: uploads are lost on redeploy.

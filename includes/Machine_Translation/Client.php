@@ -107,6 +107,19 @@ class Client {
 	private $review_route;
 
 	/**
+	 * The AI environment set on the server, which wins over the setting:
+	 * SUPERTEXT_AI_ENVIRONMENT (live, staging or testing; wp-config.php constant or
+	 * environment variable) as its API base URL. Null when it isn't set.
+	 *
+	 * @return string|null
+	 */
+	public static function environment_override(): ?string {
+		$value = strtolower( \Supertext\Wpml\Admin\Settings::server_value( 'SUPERTEXT_AI_ENVIRONMENT' ) );
+
+		return self::ENVIRONMENTS[ $value ] ?? null;
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $options {
@@ -125,7 +138,7 @@ class Client {
 		$this->languages  = isset( $options['languages'] ) && is_array( $options['languages'] ) ? $options['languages'] : array();
 		$this->politeness = isset( $options['politeness'] ) && is_array( $options['politeness'] ) ? $options['politeness'] : array();
 
-		$endpoint = ! empty( $options['endpoint'] ) ? $options['endpoint'] : self::DEFAULT_ROUTE;
+		$endpoint = self::environment_override() ?? ( ! empty( $options['endpoint'] ) ? $options['endpoint'] : self::DEFAULT_ROUTE );
 		/** @var string $endpoint */
 		$endpoint    = apply_filters( 'supertext_wpml_endpoint', $endpoint, $options );
 		$this->route = trailingslashit( $endpoint );

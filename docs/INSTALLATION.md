@@ -49,7 +49,7 @@ In WPML:
 | Setting | What it does |
 | --- | --- |
 | **API key** | Your Supertext API key. A pasted `Supertext-Auth-Key ` prefix is removed. Saving checks the key (free) and shows the result. While the field is empty, `SUPERTEXT_API_KEY` (wp-config.php constant or environment variable) is used. No Supertext account yet? Create one at supertext.com. Generate your API key at supertext.com → Integrations → API (requires the Admin role). |
-| **Environment** | Live (`api.supertext.com`); Staging and Testing are for Supertext's own tests. |
+| **Environment** | Live (`api.supertext.com`); Staging and Testing are for Supertext's own tests. `SUPERTEXT_AI_ENVIRONMENT` (`live`, `staging` or `testing`; wp-config.php constant or environment variable) on the server wins over it, and the drop-down then says so. |
 | **Language mapping** | One row per WPML language. **Supertext language**: preselected with the suggestion (the code that equals the locale, `de_CH` → `de-CH`, else the usual one, `de_DE` → `de-DE`, `es_ES` → `es`, `de_DE_formal` → `de-DE`). Languages without a suggestion (e.g. `en_IE`, `gsw`) show *— choose —*; until you choose one, translations into or from them stop with an error and nothing is sent. **Formality**: only where Supertext offers it; preselected *Formal* for `_formal` locales. **Translation review**: translations into this language go through Supertext's review service, so reviewers can correct them on the website with the Supertext Localization Review extension. **Status**: the code that is actually used. |
 
 Click **Save AI settings**.
@@ -60,7 +60,7 @@ Click **Save AI settings**.
 
 | Setting | What it does |
 | --- | --- |
-| **Environment** | Live (`www.supertext.com`). |
+| **Environment** | Live (`www.supertext.com`). Independent of the AI environment. `SUPERTEXT_HUMAN_ENVIRONMENT` (else `SUPERTEXT_ENVIRONMENT`) on the server wins over it. |
 | **Account email**, **Order API Key** | Your Supertext login email and the Order API Key from your [Supertext account settings](https://www.supertext.com/services/customer/accountsettings). No Supertext account yet? Create one at supertext.com. While a field is empty, `SUPERTEXT_ACCOUNT_EMAIL` / `SUPERTEXT_ORDER_API_KEY` (wp-config.php constant or environment variable) is used, like `SUPERTEXT_API_KEY` for the AI key. |
 | **ServiceID** | The group of translation types offered when ordering (default 46: Basic, Premium, Creative). Cached for 12 hours. |
 | **Write-back** | *Allow multiple write-backs*: apply a delivery again if Supertext sends it again. Off: the first delivery wins, so later edits are kept. |

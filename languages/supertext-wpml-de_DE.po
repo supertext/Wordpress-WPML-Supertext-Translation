@@ -750,3 +750,19 @@ msgstr "Dies ist eine Übersetzung. Übersetzen Sie aus dem Original (%s), damit
 
 msgid "Open the original"
 msgstr "Original öffnen"
+
+
+msgid "Page screenshots (VibeBoost API key)"
+msgstr "Seiten-Screenshots (VibeBoost-API-Schlüssel)"
+
+msgid "VibeBoost API key checked: page screenshots work."
+msgstr "VibeBoost-API-Schlüssel geprüft: Seiten-Screenshots funktionieren."
+
+msgid "VibeBoost rejected the API key, so orders are placed without page screenshots. Check the key or create a new one in your %s."
+msgstr "VibeBoost hat den API-Schlüssel abgelehnt, deshalb werden Aufträge ohne Seiten-Screenshots erteilt. Prüfen Sie den Schlüssel oder erstellen Sie einen neuen in Ihrem %s."
+
+msgid "Page screenshots are on but no VibeBoost API key is set, so orders are placed without them. Create a key in your %s, or turn page screenshots off."
+msgstr "Seiten-Screenshots sind eingeschaltet, aber es ist kein VibeBoost-API-Schlüssel eingetragen, deshalb werden Aufträge ohne sie erteilt. Erstellen Sie einen Schlüssel in Ihrem %s oder schalten Sie die Seiten-Screenshots aus."
+
+msgid "The VibeBoost API key couldn't be checked: VibeBoost can't be reached or answered with an error. Check again later."
+msgstr "Der VibeBoost-API-Schlüssel konnte nicht geprüft werden: VibeBoost ist nicht erreichbar oder hat mit einem Fehler geantwortet. Prüfen Sie es später erneut."

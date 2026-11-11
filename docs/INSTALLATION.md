@@ -56,13 +56,13 @@ Click **Save AI settings**.
 
 ## Professional (human) translation settings
 
-![Professional translation settings: environment, account email, Order API Key, ServiceID, write-back, translation status, preview links, page screenshots, version information](images/settings-human.png)
+![Professional translation settings: environment, account email, Order API Key, ServiceId, write-back, translation status, preview links, page screenshots, version information](images/settings-human.png)
 
 | Setting | What it does |
 | --- | --- |
 | **Environment** | Live (`www.supertext.com`). Independent of the AI environment. `SUPERTEXT_HUMAN_ENVIRONMENT` (else `SUPERTEXT_ENVIRONMENT`) on the server wins over it. |
 | **Account email**, **Order API Key** | Your Supertext login email and the Order API Key from your [Supertext account settings](https://www.supertext.com/services/customer/accountsettings). No Supertext account yet? Create one at supertext.com. While a field is empty, `SUPERTEXT_ACCOUNT_EMAIL` / `SUPERTEXT_ORDER_API_KEY` (wp-config.php constant or environment variable) is used, like `SUPERTEXT_API_KEY` for the AI key. |
-| **ServiceID** | The group of translation types offered when ordering (default 46: Basic, Premium, Creative). Cached for 12 hours. |
+| **ServiceId** | The group of translation types offered when ordering (default 46: Basic, Premium, Creative). Cached for 12 hours. |
 | **Write-back** | *Allow multiple write-backs*: apply a delivery again if Supertext sends it again. Off: the first delivery wins, so later edits are kept. |
 | **Translation status** | *Draft* (default): new translations are drafts; existing ones keep their status. *Published*: delivered translations are published. |
 | **Secret preview links** | A private, expiring link to unpublished drafts (box in the editor), also used for page screenshots. |

@@ -41,7 +41,7 @@ class Translator {
 				'supertext_not_translatable',
 				sprintf(
 					/* translators: %s: post title. */
-					__( '"%s": WPML does not translate this post type. Turn translation on under WPML → Settings → Post Types Translation.', 'supertext-wpml' ),
+					__( '“%s”: WPML does not translate this post type. Turn translation on under WPML → Settings → Post Types Translation.', 'supertext-wpml' ),
 					$post->post_title
 				)
 			);
@@ -56,7 +56,7 @@ class Translator {
 				'supertext_same_language',
 				sprintf(
 					/* translators: 1: post title, 2: language code. */
-					__( '"%1$s": source and target language are the same (%2$s).', 'supertext-wpml' ),
+					__( '“%1$s”: source and target language are the same (%2$s).', 'supertext-wpml' ),
 					$post->post_title,
 					$target_code
 				)
@@ -99,7 +99,7 @@ class Translator {
 				'supertext_would_overwrite_original',
 				sprintf(
 					/* translators: 1: post title, 2: language name. */
-					__( '"%1$s" is a translation of the %2$s original. Translate the original instead: its text would be overwritten.', 'supertext-wpml' ),
+					__( '“%1$s” is a translation of the %2$s original. Translate the original instead: its text would be overwritten.', 'supertext-wpml' ),
 					$post->post_title,
 					$target->name
 				)
@@ -110,7 +110,7 @@ class Translator {
 				'supertext_already_translated',
 				sprintf(
 					/* translators: 1: post title, 2: language name. */
-					__( '"%1$s" already has a translation into %2$s. Open it in the editor\'s Supertext box to translate it again.', 'supertext-wpml' ),
+					__( '“%1$s” already has a translation into %2$s. Open it in the editor\'s Supertext box to translate it again.', 'supertext-wpml' ),
 					$post->post_title,
 					$target->name
 				)
@@ -127,7 +127,7 @@ class Translator {
 				'supertext_empty',
 				sprintf(
 					/* translators: %s: post title. */
-					__( '"%s": no translatable content found.', 'supertext-wpml' ),
+					__( '“%s”: no translatable content found.', 'supertext-wpml' ),
 					$post->post_title
 				)
 			);
@@ -149,7 +149,7 @@ class Translator {
 				'supertext_save_failed',
 				sprintf(
 					/* translators: 1: post title, 2: error message. */
-					__( '"%1$s": the translation could not be saved (%2$s).', 'supertext-wpml' ),
+					__( '“%1$s”: the translation could not be saved (%2$s).', 'supertext-wpml' ),
 					$post->post_title,
 					implode( ', ', $saved['errors'] )
 				)

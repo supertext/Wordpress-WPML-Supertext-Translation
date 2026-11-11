@@ -43,7 +43,7 @@ class Bulk_Actions {
 	const QUOTE_ACTION = 'supertext_wpml_quote';
 
 	// Human translation product types (the "Translation type" dropdown) are loaded
-	// from the configured Supertext ServiceID — see Human_Services.
+	// from the configured Supertext ServiceId — see Human_Services.
 
 	/** Human translation delivery options (Supertext DeliveryId => label). */
 	const EXPRESS_OPTIONS = array(
@@ -359,7 +359,7 @@ class Bulk_Actions {
 				'supertext_empty',
 				sprintf(
 					/* translators: %s: post title. */
-					__( '"%s": no translatable content found.', 'supertext-wpml' ),
+					__( '“%s”: no translatable content found.', 'supertext-wpml' ),
 					$post->post_title
 				)
 			);
@@ -462,7 +462,7 @@ class Bulk_Actions {
 					'supertext_already_ordered',
 					sprintf(
 						/* translators: 1: post title, 2: language slug. */
-						__( 'An order already exists for "%1$s" (%2$s).', 'supertext-wpml' ),
+						__( 'An order already exists for “%1$s” (%2$s).', 'supertext-wpml' ),
 						get_the_title( $post_id ),
 						$target_lang
 					)

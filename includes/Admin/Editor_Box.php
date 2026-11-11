@@ -174,7 +174,7 @@ class Editor_Box {
 			<?php endforeach; ?>
 		</table>
 		<p class="description" style="margin-top:8px;">
-			<?php esc_html_e( 'New translations are saved as drafts. Professional (human) translation: the "Supertext Human Translation" bulk action in the list of posts or pages.', 'supertext-wpml' ); ?>
+			<?php esc_html_e( 'New translations are saved as drafts. Professional (human) translation: the “Supertext Human Translation” bulk action in the list of posts or pages.', 'supertext-wpml' ); ?>
 		</p>
 		<?php
 	}

@@ -155,7 +155,8 @@ Dependabot's minor and patch updates of the test tools and actions are grouped. 
 | `DATABASE_URL` (or `MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`) | yes | MySQL server; `WORDPRESS_DB_NAME` (default: the URL's path) is created if missing |
 | `DEMO_ADMIN_EMAIL`, `DEMO_ADMIN_PASSWORD` | yes | Administrator, created on the first start, never changed |
 | `DEMO_EDITOR_EMAIL`, `DEMO_EDITOR_PASSWORD` | no | Editor (WordPress *Editor* role: can translate every post in every language) |
-| `WPML_ZIP_URL` | no | Private download URL of the WPML Multilingual CMS zip |
+| `WPML_ZIP_URL` | no | Download URL of the WPML Multilingual CMS zip. The zip is kept in the private repository `supertext/integrations-demo-assets` (`wpml/`): use the API URL `https://api.github.com/repos/supertext/integrations-demo-assets/contents/wpml/<file>.zip` |
+| `WPML_ZIP_TOKEN` | with the private repository | Read-only GitHub token (fine-grained, *Contents: read* on that repository only), sent with the download |
 | `SUPERTEXT_API_KEY` | no | AI translation key (used while the settings field is empty) |
 | `SUPERTEXT_ACCOUNT_EMAIL`, `SUPERTEXT_ORDER_API_KEY`, `SUPERTEXT_ENVIRONMENT` | no | Professional translation settings, seeded while empty |
 | `DEMO_SITE_URL`, `WORDPRESS_SALT` | no | Public URL (default `https://$RAILWAY_PUBLIC_DOMAIN`), seed of the auth keys |

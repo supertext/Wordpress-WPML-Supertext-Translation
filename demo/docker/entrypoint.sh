@@ -86,7 +86,15 @@ HT
 # (sitepress-multilingual-cms). Without it the plugin shows its "requires WPML" notice.
 if [ -n "$WPML_ZIP_URL" ] && [ ! -d wp-content/plugins/sitepress-multilingual-cms ]; then
     echo "Installing WPML..."
-    if curl -fsSL -o /tmp/wpml.zip "$WPML_ZIP_URL"; then
+    # A file in a private GitHub repository (e.g. supertext/integrations-demo-assets) needs
+    # WPML_ZIP_TOKEN, a read-only token; WPML_ZIP_URL is then the API URL
+    # https://api.github.com/repos/<owner>/<repo>/contents/<path>.
+    if [ -n "$WPML_ZIP_TOKEN" ]; then
+        set -- -H "Authorization: Bearer $WPML_ZIP_TOKEN" -H "Accept: application/vnd.github.raw"
+    else
+        set --
+    fi
+    if curl -fsSL "$@" -o /tmp/wpml.zip "$WPML_ZIP_URL"; then
         unzip -q -o /tmp/wpml.zip -d wp-content/plugins && rm -f /tmp/wpml.zip
     else
         echo "Could not download WPML_ZIP_URL, running without WPML" >&2

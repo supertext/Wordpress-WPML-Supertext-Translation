@@ -1,0 +1,3 @@
+# Links lychee skips (one regex per line): local test sites only.
+^https?://localhost
+^https?://127\.0\.0\.1

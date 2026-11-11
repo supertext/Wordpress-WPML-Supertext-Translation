@@ -1,0 +1,76 @@
+name: Unit tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write       # dorny/test-reporter publishes a check run with per-test results
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.5']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, mbstring, libxml
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies
+        working-directory: tests/unit
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run unit tests
+        working-directory: tests/unit
+        run: |
+          echo '## Unit test results' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          vendor/bin/phpunit --testdox --colors=never --log-junit junit.xml | tee -a "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@a16be3a69023e9bd7e748ede768b3282ea7b30ce # v6.7.1
+        if: success() || failure()   # report even when tests fail (but not on cancel)
+        with:
+          report_paths: tests/unit/junit.xml
+          check_name: PHPUnit results (PHP ${{ matrix.php }})
+          detailed_summary: true     # list every test suite/case, not just failures
+          include_passed: true
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.2'
+          extensions: dom, mbstring, libxml
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies (PHPStan and the WordPress stubs)
+        working-directory: tests/unit
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run PHPStan
+        run: tests/unit/vendor/bin/phpstan analyse --no-progress --memory-limit=1G --error-format=github

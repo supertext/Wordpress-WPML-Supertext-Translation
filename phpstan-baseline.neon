@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: includes/Admin/Bulk_Actions.php
+
+		-
+			message: '#^Instanceof between WP_Post and WP_Post will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: includes/Human_Translation/Source_Lock.php
+
+		-
+			message: '#^Instanceof between WP_Query and WP_Query will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: includes/Preview/Draft_Preview.php
+
+		-
+			message: '#^Property WP_Post\:\:\$ID \(int\<0, max\>\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
+			count: 1
+			path: includes/Preview/Draft_Preview.php
+
+		-
+			message: '#^Static property Supertext\\Wpml\\Sdk\\Files\\TranslationFiles\:\:\$internals \(WeakMap\<Supertext\\Wpml\\Sdk\\Files\\TranslationFile, array\<array\{key\: string, checksum\: string\|null, target\: list\<array\{code\: ''bpt''\|''ept''\|''ph'', id\: int\}\|array\{code\: ''invalid''\}\|string\>\|string\|null\}\>\>\|null\) does not accept WeakMap\<Supertext\\Wpml\\Sdk\\Files\\TranslationFile, array\<array\{key\: string, checksum\: string\|null, target\: list\<array\{code\: ''bpt''\|''ept''\|''ph'', id\: int\}\|array\{code\: ''invalid''\}\|string\>\|string\|null\}\>\>\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: includes/Sdk/Files/TranslationFiles.php

@@ -1,0 +1,14 @@
+# PHPStan: static analysis of the plugin's own code against the WordPress stubs.
+# WPML is only reached through its public hooks (apply_filters / do_action), so it needs no stubs.
+# The stubs and the WordPress extension are dev dependencies in tests/unit/composer.json.
+# See docs/DEVELOPER.md → Code quality and security checks.
+includes:
+    - tests/unit/vendor/szepeviktor/phpstan-wordpress/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    paths:
+        - supertext-wpml.php
+        - includes
+    tmpDir: .phpstan-cache

@@ -1,0 +1,115 @@
+<?php
+/**
+ * Plugin Name: Supertext API stand-in (tests only)
+ * Description: Answers the Supertext AI file translation API (api.supertext.com/v1) inside WordPress with real translations of the demo's sample content, so tests and screenshots need no API key. Never on a real site.
+ *
+ * Copy to wp-content/mu-plugins/. Texts it doesn't know come back unchanged. Like the real
+ * API it rejects bare targets and regional sources (INVALID_LANGUAGE_PAIR). Version reports
+ * to Supertext Plugin Health are answered here too, so a test site never shows up there.
+ *
+ * @package Supertext_Wpml
+ */
+
+/**
+ * Translations of the demo's sample content (demo/docker/setup.php) by target language.
+ *
+ * @return array<string, array<string, string>>
+ */
+function supertext_stand_in_dictionary(): array {
+	return array(
+		'de' => array(
+			'Welcome to the Supertext demo' => 'Willkommen bei der Supertext-Demo',
+			'This WordPress site runs WPML and the Supertext plugin. Write in English, then let Supertext translate the page into German, French and Italian — with AI in seconds, or by professional translators.' => 'Diese WordPress-Website läuft mit WPML und dem Supertext-Plugin. Schreiben Sie auf Englisch und lassen Sie die Seite von Supertext ins Deutsche, Französische und Italienische übersetzen – mit KI in Sekunden oder von professionellen Übersetzerinnen und Übersetzern.',
+			'Why Supertext?' => 'Warum Supertext?',
+			'Swiss quality since 2005' => 'Schweizer Qualität seit 2005',
+			'AI translation trained on your terminology' => 'KI-Übersetzung, trainiert mit Ihrer Terminologie',
+			'Human review when it matters' => 'Menschliche Prüfung, wenn es darauf ankommt',
+			'About us' => 'Über uns',
+			'Contact' => 'Kontakt',
+		),
+		'fr' => array(
+			'Welcome to the Supertext demo' => 'Bienvenue dans la démo Supertext',
+			'This WordPress site runs WPML and the Supertext plugin. Write in English, then let Supertext translate the page into German, French and Italian — with AI in seconds, or by professional translators.' => 'Ce site WordPress fonctionne avec WPML et le plugin Supertext. Rédigez en anglais, puis laissez Supertext traduire la page en allemand, en français et en italien – par l’IA en quelques secondes ou par des traducteurs professionnels.',
+			'Why Supertext?' => 'Pourquoi Supertext ?',
+			'Swiss quality since 2005' => 'Qualité suisse depuis 2005',
+			'AI translation trained on your terminology' => 'Traduction IA entraînée sur votre terminologie',
+			'Human review when it matters' => 'Relecture humaine quand c’est important',
+			'About us' => 'À propos',
+			'Contact' => 'Contact',
+		),
+		'it' => array(
+			'Welcome to the Supertext demo' => 'Benvenuti nella demo di Supertext',
+			'This WordPress site runs WPML and the Supertext plugin. Write in English, then let Supertext translate the page into German, French and Italian — with AI in seconds, or by professional translators.' => 'Questo sito WordPress funziona con WPML e il plugin Supertext. Scriva in inglese e lasci che Supertext traduca la pagina in tedesco, francese e italiano – con l’IA in pochi secondi o da traduttori professionisti.',
+			'Why Supertext?' => 'Perché Supertext?',
+			'Swiss quality since 2005' => 'Qualità svizzera dal 2005',
+			'AI translation trained on your terminology' => 'Traduzione IA addestrata sulla Sua terminologia',
+			'Human review when it matters' => 'Revisione umana quando conta',
+			'About us' => 'Chi siamo',
+			'Contact' => 'Contatti',
+		),
+	);
+}
+
+add_filter(
+	'pre_http_request',
+	static function ( $pre, $args, $url ) {
+		if ( str_starts_with( (string) $url, 'https://pluginhealth.supertext.com/' ) ) {
+			return array( 'response' => array( 'code' => 200, 'message' => 'OK' ), 'headers' => array( 'content-type' => 'application/json' ), 'body' => '{"ok":true}', 'cookies' => array() );
+		}
+		if ( ! preg_match( '#^https://api(?:\.staging|\.testing)?\.supertext\.com/v1/(.*)$#', (string) $url, $m ) ) {
+			return $pre;
+		}
+		$path   = $m[1];
+		$method = strtoupper( (string) ( $args['method'] ?? 'GET' ) );
+		$json   = static fn( int $code, $body ) => array(
+			'response' => array( 'code' => $code, 'message' => '' ),
+			'headers'  => array( 'content-type' => 'application/json' ),
+			'body'     => is_string( $body ) ? $body : wp_json_encode( $body ),
+			'cookies'  => array(),
+		);
+
+		if ( 'features' === $path ) {
+			return $json( 200, array( 'source_languages' => array( 'en', 'de', 'fr', 'it' ), 'target_languages' => array( 'en-US', 'de-DE', 'de-CH', 'fr-FR', 'fr-CH', 'it-IT', 'it-CH' ) ) );
+		}
+		if ( 'translate/ai/file' === $path && 'POST' === $method ) {
+			$body = (string) ( $args['body'] ?? '' );
+			preg_match( '#name="target_lang"\s*\r?\n\r?\n([^\r\n]+)#', $body, $t );
+			preg_match( '#name="source_lang"\s*\r?\n\r?\n([^\r\n]+)#', $body, $s );
+			$target = trim( $t[1] ?? '' );
+			$source = trim( $s[1] ?? '' );
+			if ( ! str_contains( $target, '-' ) || str_contains( $source, '-' ) ) {
+				return $json( 400, array( 'error' => array( 'code' => 'INVALID_LANGUAGE_PAIR', 'message' => "Invalid language pair: $source → $target" ) ) );
+			}
+			preg_match( '#<!DOCTYPE.*</html>#si', $body, $doc );
+			$html  = $doc[0] ?? '';
+			$words = supertext_stand_in_dictionary()[ strtolower( substr( $target, 0, 2 ) ) ] ?? array();
+			uksort( $words, static fn( $a, $b ) => strlen( $b ) - strlen( $a ) );
+			foreach ( $words as $from => $to ) {
+				$html = str_replace( array( '>' . $from . '<', '>' . esc_html( $from ) . '<' ), '>' . esc_html( $to ) . '<', $html );
+			}
+			$id = 'stand-in-' . md5( $html . microtime() );
+			set_transient( 'supertext_stand_in_' . $id, $html, HOUR_IN_SECONDS );
+			return $json( 200, array( 'file_id' => $id ) );
+		}
+		if ( preg_match( '#^translate/ai/file/([^/]+)(/status|/translation)?$#', $path, $f ) ) {
+			$html = get_transient( 'supertext_stand_in_' . $f[1] );
+			if ( false === $html ) {
+				return $json( 404, array( 'error' => array( 'code' => 'NOT_FOUND', 'message' => 'File not found' ) ) );
+			}
+			if ( '/status' === ( $f[2] ?? '' ) ) {
+				return $json( 200, array( 'status' => 'done' ) );
+			}
+			if ( '/translation' === ( $f[2] ?? '' ) ) {
+				return array( 'response' => array( 'code' => 200, 'message' => 'OK' ), 'headers' => array( 'content-type' => 'text/html' ), 'body' => $html, 'cookies' => array() );
+			}
+			if ( 'DELETE' === $method ) {
+				delete_transient( 'supertext_stand_in_' . $f[1] );
+				return $json( 204, '' );
+			}
+		}
+
+		return $json( 404, array( 'error' => array( 'code' => 'NOT_FOUND', 'message' => 'Not in the stand-in' ) ) );
+	},
+	10,
+	3
+);

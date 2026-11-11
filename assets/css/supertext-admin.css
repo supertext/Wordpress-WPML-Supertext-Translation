@@ -1,0 +1,586 @@
+/**
+ * Supertext admin design system.
+ *
+ * Deep forest-green hero, mint (#78ffaf) accents, pill buttons, soft cards and
+ * green status badges — scoped to `.supertext-admin`. Intentionally sets NO
+ * font-family, so WordPress's own system font stack is kept.
+ *
+ * @package Supertext_Wpml
+ */
+
+.supertext-admin {
+	--st-green: #0b3b2b;
+	--st-green-2: #17573c;
+	--st-mint: #78ffaf;
+	--st-mint-strong: #4fe39a;
+	--st-badge-bg: #e3f9ec;
+	--st-badge-fg: #0f7a48;
+	--st-tile-bg: #e3f9ec;
+	--st-tile-fg: #12864f;
+	--st-amber-bg: #fdf4e0;
+	--st-amber-fg: #9a6a00;
+	--st-grey-bg: #f0f1f1;
+	--st-grey-fg: #6a6f76;
+	--st-red-bg: #fce8e8;
+	--st-red-fg: #b32d2e;
+	--st-card-border: #e6e8e7;
+	--st-divider: #eef0ef;
+}
+
+/* Narrow, card-based pages (Settings, Orders, Tools, Debug) get a comfortable
+   reading width; wide table pages (String Translation, Gravity Forms) omit
+   `st-narrow` and stay full width. */
+.supertext-admin.st-narrow { max-width: 900px; }
+
+.supertext-admin .description,
+.supertext-admin p.description {
+	color: #6a6f76;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.supertext-admin .st-hero {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	padding: 22px 26px;
+	margin: 16px 0 24px;
+	border-radius: 16px;
+	background: rgb( 0, 50, 48 );
+	box-shadow: 0 8px 24px rgba( 0, 50, 48, 0.22 );
+	color: #fff;
+}
+.supertext-admin .st-hero__logo {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.supertext-admin .st-hero__logo img {
+	width: 56px;
+	height: 56px;
+	display: block;
+}
+.supertext-admin .st-hero__text { flex: 1 1 auto; min-width: 0; }
+.supertext-admin .st-hero__title {
+	margin: 0;
+	padding: 0;
+	font-size: 23px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #fff;
+}
+.supertext-admin .st-hero__subtitle {
+	margin: 4px 0 0;
+	font-size: 13px;
+	color: rgba( 255, 255, 255, 0.78 );
+}
+.supertext-admin .st-hero__version {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 6px 13px;
+	border-radius: 999px;
+	background: rgba( 0, 0, 0, 0.22 );
+	color: var(--st-mint);
+	font-size: 12px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+.supertext-admin .st-hero__version::before {
+	content: "";
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--st-mint);
+	box-shadow: 0 0 6px var(--st-mint);
+}
+
+/* ── Cards ────────────────────────────────────────────────────────────── */
+.supertext-admin .st-card {
+	background: #fff;
+	border: 1px solid var(--st-card-border);
+	border-radius: 16px;
+	padding: 22px 26px;
+	margin: 0 0 22px;
+	box-shadow: 0 1px 2px rgba( 0, 0, 0, 0.04 );
+}
+.supertext-admin .st-card__head {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	margin-bottom: 6px;
+}
+.supertext-admin .st-card__head > .st-tile { margin-top: 2px; }
+.supertext-admin .st-card__title {
+	margin: 0;
+	padding: 0;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #1d2327;
+}
+.supertext-admin .st-card__subtitle {
+	margin: 2px 0 0;
+	font-size: 13px;
+	color: #6a6f76;
+}
+
+/* Icon tile */
+.supertext-admin .st-tile {
+	flex: 0 0 auto;
+	width: 38px;
+	height: 38px;
+	border-radius: 11px;
+	background: var(--st-tile-bg);
+	color: var(--st-tile-fg);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.supertext-admin .st-tile .dashicons {
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+	line-height: 1;
+}
+
+/* ── Status rows + badges ─────────────────────────────────────────────── */
+.supertext-admin .st-rows { margin-top: 14px; }
+.supertext-admin .st-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 13px 2px;
+	border-top: 1px solid var(--st-divider);
+}
+.supertext-admin .st-row:first-child { border-top: 0; }
+.supertext-admin .st-row__label { color: #1d2327; font-size: 14px; }
+.supertext-admin .st-subhead {
+	margin: 16px 0 2px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #8a8f96;
+}
+
+.supertext-admin .st-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 4px 11px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.4;
+	white-space: nowrap;
+	background: var(--st-badge-bg);
+	color: var(--st-badge-fg);
+}
+.supertext-admin .st-badge .dashicons {
+	width: 15px;
+	height: 15px;
+	font-size: 15px;
+	line-height: 1;
+}
+.supertext-admin .st-badge--warn { background: var(--st-amber-bg); color: var(--st-amber-fg); }
+.supertext-admin .st-badge--off  { background: var(--st-grey-bg);  color: var(--st-grey-fg); }
+.supertext-admin .st-badge--bad  { background: var(--st-red-bg);   color: var(--st-red-fg); }
+
+/* ── Setup steps ──────────────────────────────────────────────────────── */
+.supertext-admin .st-step {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 16px 0;
+	border-top: 1px solid var(--st-divider);
+}
+.supertext-admin .st-step:first-of-type { border-top: 0; }
+.supertext-admin .st-step__num {
+	flex: 0 0 auto;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: var(--st-mint);
+	color: #06371f;
+	font-weight: 700;
+	font-size: 15px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.supertext-admin .st-step__body { flex: 1 1 auto; min-width: 0; }
+.supertext-admin .st-step__title { font-weight: 600; font-size: 14px; color: #1d2327; margin: 9px 0 6px; }
+.supertext-admin .st-step__body p { color: #6a6f76; margin: 0 0 12px; }
+.supertext-admin .st-step__actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.supertext-admin .st-step__actions form { margin: 0; }
+.supertext-admin .st-inline-ok {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 14px;
+	border-radius: 999px;
+	background: var(--st-badge-bg);
+	color: var(--st-badge-fg);
+	font-size: 13px;
+	font-weight: 600;
+}
+/* Match the pill's overall height to the adjacent buttons (40px) without changing
+   the font — inline confirmations use this. */
+.supertext-admin .st-inline-ok--btn-h {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+/* ── Buttons (pill) ───────────────────────────────────────────────────── */
+.supertext-admin .button,
+.supertext-admin .button-secondary {
+	border-radius: 999px !important;
+	background: #fff;
+	border-color: #cbd5cf;
+	color: #16321f;
+	padding: 4px 16px;
+	height: auto;
+	line-height: 2;
+}
+.supertext-admin .button:hover,
+.supertext-admin .button:focus,
+.supertext-admin .button-secondary:hover,
+.supertext-admin .button-secondary:focus {
+	background: #f2fdf7;
+	border-color: #43d38d;
+	color: #06371f;
+}
+.supertext-admin p.submit .button-primary,
+.supertext-admin .button-primary {
+	border-radius: 999px !important;
+	background: #78ffaf;
+	border-color: #78ffaf;
+	color: #0d3025;
+	text-shadow: none;
+	box-shadow: 0 6px 16px rgba( 120, 255, 175, 0.42 );
+	padding: 5px 20px;
+	height: auto;
+	line-height: 2;
+	font-weight: 700;
+}
+.supertext-admin .button-primary:hover,
+.supertext-admin .button-primary:focus {
+	background: #5ef29c;
+	border-color: #5ef29c;
+	color: #0d3025;
+}
+.supertext-admin .button .dashicons {
+	line-height: 1.8;
+	margin-right: 3px;
+}
+
+/* ── Form table ───────────────────────────────────────────────────────── */
+.supertext-admin .form-table { margin-top: 8px; }
+.supertext-admin .form-table th {
+	color: #1d2327;
+	font-weight: 600;
+	padding-top: 18px;
+}
+.supertext-admin .form-table td { padding-top: 15px; padding-bottom: 15px; }
+.supertext-admin .form-table tr { border-top: 1px solid var(--st-divider); }
+.supertext-admin .form-table tr:first-child { border-top: 0; }
+.supertext-admin .form-table input[type="text"],
+.supertext-admin .form-table input[type="email"],
+.supertext-admin .form-table input[type="password"],
+.supertext-admin .form-table input[type="url"],
+.supertext-admin .form-table input[type="number"],
+.supertext-admin .form-table select,
+.supertext-admin .form-table textarea,
+.supertext-admin input.regular-text,
+.supertext-admin select {
+	border-radius: 8px;
+}
+.supertext-admin .form-table input:focus,
+.supertext-admin .form-table select:focus,
+.supertext-admin .form-table textarea:focus,
+.supertext-admin select:focus {
+	border-color: var(--st-mint-strong);
+	box-shadow: 0 0 0 1px var(--st-mint-strong);
+}
+
+/* Full-width link button. */
+.supertext-admin .st-cta-wide { display: block; text-align: center; }
+
+/* Button label typed like the ".st-inline-ok" status text (13px / 600), not the
+   heavier default primary-button weight. Uses !important to beat the more specific
+   "p.submit .button-primary" rule that wraps submit_button() output. */
+.supertext-admin .st-btn-plainfont {
+	font-size: 13px !important;
+	font-weight: 600 !important;
+}
+
+/* ── String Translation table (Supertext design) ──────────────────────── */
+.supertext-admin .st-panel {
+	background: #fff;
+	border: 1px solid #e7e9ee;
+	border-radius: 18px;
+	box-shadow: 0 1px 2px rgba( 16, 24, 40, 0.04 ), 0 6px 20px rgba( 16, 24, 40, 0.05 );
+	padding: 24px 28px;
+	margin: 0 0 22px;
+}
+.supertext-admin .st-toolbar__intro {
+	margin: 0 0 20px;
+	font-size: 14px;
+	line-height: 1.6;
+	color: #667085;
+	max-width: 820px;
+}
+
+/* Filter row */
+.supertext-admin .st-filter {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin: 0 0 16px;
+}
+.supertext-admin .st-search { position: relative; display: inline-flex; align-items: center; flex: 0 1 300px; }
+.supertext-admin .st-search .dashicons {
+	position: absolute;
+	left: 14px;
+	color: #98a2b3;
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	pointer-events: none;
+}
+.supertext-admin .st-search input[type="search"] {
+	width: 100%;
+	border: 1px solid #d0d5dd;
+	border-radius: 999px;
+	padding: 0 18px 0 40px;
+	font-size: 13.5px;
+	color: #101828;
+	background: #fff;
+}
+.supertext-admin .st-count { color: #98a2b3; font-size: 13.5px; font-weight: 600; }
+
+/* "Empty translation only" — borderless toggle */
+.supertext-admin .st-check-plain {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: #101828;
+	cursor: pointer;
+	white-space: nowrap;
+	height: 40px;
+}
+.supertext-admin .st-check-plain input[type="checkbox"] {
+	-webkit-appearance: checkbox !important;
+	-moz-appearance: checkbox !important;
+	appearance: auto !important;
+	accent-color: #12885a;
+	width: 18px;
+	height: 18px;
+	min-width: 18px;
+	margin: 0;
+	border: 0 !important;
+	box-shadow: none !important;
+	background: none !important;
+	cursor: pointer;
+}
+.supertext-admin .st-check-plain input[type="checkbox"]:checked::before { content: none !important; }
+
+/* Uniform control height across the toolbar */
+.supertext-admin .st-select,
+.supertext-admin .st-search input[type="search"],
+.supertext-admin .st-btn-outline,
+.supertext-admin .st-btn-mint {
+	height: 40px;
+	box-sizing: border-box;
+}
+
+/* Pill selects with a custom chevron */
+.supertext-admin .st-select-wrap { position: relative; display: inline-flex; }
+.supertext-admin .st-select {
+	appearance: none;
+	-webkit-appearance: none;
+	border: 1px solid #d0d5dd;
+	border-radius: 999px;
+	padding: 0 40px 0 18px;
+	line-height: 38px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: #101828;
+	background: #fff;
+	cursor: pointer;
+}
+.supertext-admin .st-filter__group { min-width: 200px; }
+.supertext-admin .st-select-chevron {
+	position: absolute;
+	right: 13px;
+	top: 50%;
+	transform: translateY( -50% );
+	color: #667085;
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	pointer-events: none;
+}
+
+/* Bulk row */
+.supertext-admin .st-bulkrow {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+	padding-top: 16px;
+	border-top: 1px solid #f0f1f4;
+}
+.supertext-admin .st-bulkrow__right { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.supertext-admin .st-picker-human { display: none; }
+.supertext-admin .st-quote-status {
+	align-items: center;
+	color: #667085;
+	font-size: 13px;
+	font-style: italic;
+}
+
+/* Buttons */
+.supertext-admin .st-btn-outline {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	border: 1px solid #1f4f3d;
+	background: #fff;
+	color: #123a2e;
+	padding: 0 24px;
+	border-radius: 999px;
+	font-size: 13.5px;
+	font-weight: 600;
+	cursor: pointer;
+	line-height: 1.2;
+}
+.supertext-admin .st-btn-outline:hover,
+.supertext-admin .st-btn-outline:focus { background: #123a2e; color: #fff; }
+.supertext-admin .st-btn-mint {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	border: none;
+	background: #78ffaf;
+	color: #0d3025;
+	padding: 0 24px;
+	border-radius: 999px;
+	font-size: 13.5px;
+	font-weight: 700;
+	cursor: pointer;
+	line-height: 1.2;
+	box-shadow: 0 6px 16px rgba( 120, 255, 175, 0.42 );
+}
+.supertext-admin .st-btn-mint:hover,
+.supertext-admin .st-btn-mint:focus { background: #5ef29c; color: #0d3025; }
+.supertext-admin .st-btn-outline .dashicons,
+.supertext-admin .st-btn-mint .dashicons { font-size: 18px; width: 18px; height: 18px; line-height: 1; }
+.supertext-admin .st-svg { width: 18px; height: 18px; flex: 0 0 18px; display: block; }
+
+/* Action button in its submitting state: a spinner + "Ordering…/Translating…". */
+.supertext-admin .st-apply--busy { pointer-events: none; opacity: 0.9; gap: 8px; }
+.supertext-admin .st-spinner {
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	border: 2px solid currentColor;
+	border-top-color: transparent;
+	display: inline-block;
+	animation: st-spin 0.6s linear infinite;
+}
+@keyframes st-spin { to { transform: rotate( 360deg ); } }
+
+/* Table card */
+.supertext-admin .st-tablecard { padding: 0; overflow: hidden; }
+.supertext-admin .st-table { width: 100%; border-collapse: collapse; }
+.supertext-admin .st-table thead th {
+	text-align: left;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	font-size: 12px;
+	font-weight: 700;
+	color: #8a94a3;
+	padding: 16px 22px;
+	background: #f7f9f8;
+	border-bottom: 1px solid #eef0f3;
+}
+.supertext-admin .st-table td {
+	padding: 18px 22px;
+	border-top: 1px solid #f2f3f6;
+	vertical-align: top;
+}
+.supertext-admin .st-table tbody tr:hover td { background: #fbfdfc; }
+.supertext-admin .st-col-check { width: 44px; text-align: center; }
+/* The generic "thead th { text-align:left }" above out-specifies .st-col-check, so
+   the header checkbox would sit left while the row checkboxes are centred. Re-centre
+   the header cell so the whole checkbox column lines up. */
+.supertext-admin .st-table thead th.st-col-check { text-align: center; }
+/* WordPress styles checkboxes with a custom appearance (which ignores
+   accent-color); force native rendering so the green accent shows. */
+.supertext-admin .st-col-check input[type="checkbox"] {
+	-webkit-appearance: checkbox !important;
+	-moz-appearance: checkbox !important;
+	appearance: auto !important;
+	accent-color: #12885a;
+	width: 18px;
+	height: 18px;
+	min-width: 18px;
+	border: 0 !important;
+	box-shadow: none !important;
+	background: none !important;
+	cursor: pointer;
+}
+.supertext-admin .st-col-check input[type="checkbox"]:checked::before { content: none !important; }
+.supertext-admin .st-col-field { width: 150px; font-size: 13.5px; font-weight: 600; color: #344054; }
+.supertext-admin .st-col-group { width: 120px; }
+.supertext-admin .st-col-source { color: #475467; font-size: 14px; line-height: 1.5; word-break: break-word; }
+
+.supertext-admin .st-chip {
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: 999px;
+	background: #eaf3ee;
+	border: 1px solid #d6ebe0;
+	color: #4a5b53;
+	font-size: 11.5px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.supertext-admin .st-tr-input {
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border: 1px solid #d0d5dd;
+	padding: 9px 12px;
+	resize: vertical;
+	min-height: 44px;
+	font-size: 14px;
+	line-height: 1.45;
+	background: #fff;
+	color: #101828;
+}
+.supertext-admin .st-tr-input::placeholder { color: #98a2b3; }
+.supertext-admin .st-tr-input:focus {
+	outline: none;
+	border-color: #3ccf90;
+	box-shadow: 0 0 0 3px rgba( 120, 255, 175, 0.45 );
+}
+
+/* Save bar */
+.supertext-admin .st-savebar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+.supertext-admin .st-savebar__note { color: #98a2b3; font-size: 13px; }

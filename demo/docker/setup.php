@@ -177,3 +177,22 @@ if ( ! get_option( 'supertext_demo_content' ) ) {
 	update_option( 'supertext_demo_content', 1 );
 	supertext_demo_log( 'Created the sample content' );
 }
+
+// ---------------------------------------------------------------------------
+// With WPML: posts and pages without a language (e.g. the sample content, created
+// before WPML was installed) become English. Runs on every start, changes nothing twice.
+// ---------------------------------------------------------------------------
+if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+	$assigned = 0;
+	foreach ( get_posts( array( 'post_type' => array( 'post', 'page' ), 'post_status' => 'any', 'numberposts' => -1, 'suppress_filters' => true, 'fields' => 'ids' ) ) as $id ) {
+		$type    = (string) get_post_type( $id );
+		$details = apply_filters( 'wpml_element_language_details', null, array( 'element_id' => $id, 'element_type' => $type ) );
+		if ( empty( $details ) || empty( ( (array) $details )['language_code'] ) ) {
+			do_action( 'wpml_set_element_language_details', array( 'element_id' => $id, 'element_type' => 'post_' . $type, 'trid' => false, 'language_code' => 'en' ) );
+			++$assigned;
+		}
+	}
+	if ( $assigned > 0 ) {
+		supertext_demo_log( "Set the language of $assigned posts and pages to English" );
+	}
+}

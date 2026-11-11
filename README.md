@@ -8,7 +8,7 @@ WordPress plugin that connects **[WPML](https://wpml.org)** with **[Supertext](h
 
 It is the WPML counterpart of [Supertext for Polylang](https://github.com/Supertext/Wordpress-Polylang-Supertext-Translation): same features and settings, but an independent plugin. WPML has no API for third-party machine-translation services, so Supertext brings its own screens instead of appearing inside WPML's translation editor.
 
-> **Status: in development (0.1.0, not released yet).** Tested with WPML 5.3.0 on WordPress 7.2 (beta); not yet with a real Supertext API key. Demo: <https://wordpress-wpml-production.up.railway.app>.
+> **Status: in development (0.1.0, not released yet).** Tested with WPML 5.3.0 on WordPress 7.2 (beta) and with a real Supertext API key. Demo: <https://wordpress-wpml-production.up.railway.app>.
 
 No Supertext account yet? [Create one at supertext.com](https://www.supertext.com/person/en/account/signin). Generate your API key at [supertext.com → Integrations → API](https://www.supertext.com/en/integrations/api) (requires the **Admin** role).
 

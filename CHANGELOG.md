@@ -4,7 +4,9 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
-First version, the WPML counterpart of Supertext for Polylang (independent plugin).
+## 1.0.0 — 2026-11-11
+
+First release, the WPML counterpart of Supertext for Polylang (independent plugin).
 
 - AI translation of posts, pages and other WPML-translatable post types into WPML languages: the *Supertext* box in the editor (Translate / Translate again, with a warning before overwriting) and the *Supertext AI Translation* bulk action (never overwrites). Translations are created as drafts and linked to the original in WPML.
 - What is translated: title, content (block by block, formatting kept), excerpt, custom fields WPML translates, untranslated categories and tags, YOOtheme Pro layouts; WPML's *Copy* / *Copy once* fields are copied. A translation's original is never overwritten.

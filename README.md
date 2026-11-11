@@ -8,7 +8,7 @@ WordPress plugin that connects **[WPML](https://wpml.org)** with **[Supertext](h
 
 It is the WPML counterpart of [Supertext for Polylang](https://github.com/Supertext/Wordpress-Polylang-Supertext-Translation): same features and settings, but an independent plugin. WPML has no API for third-party machine-translation services, so Supertext brings its own screens instead of appearing inside WPML's translation editor.
 
-> **Status: in development (0.1.0, not released yet).** Tested with WPML 5.3.0 on WordPress 7.2 (beta); not yet with a real Supertext API key. Demo: <https://wordpress-wpml-production.up.railway.app>.
+> **Status: 1.0.0, released.** Tested with WPML 5.3.0. Download the installable zip from the [latest release](https://github.com/supertext/Wordpress-WPML-Supertext-Translation/releases/latest). Demo: <https://wordpress-wpml-production.up.railway.app>.
 
 No Supertext account yet? [Create one at supertext.com](https://www.supertext.com/person/en/account/signin). Generate your API key at [supertext.com → Integrations → API](https://www.supertext.com/en/integrations/api) (requires the **Admin** role).
 
@@ -52,7 +52,7 @@ Supertext offers AI and professional translation plugins for these systems:
 | Umbraco | [Umbraco-Supertext-Translation](https://github.com/Supertext/Umbraco-Supertext-Translation) | Umbraco package (NuGet) with a backoffice extension. | *Translate with Supertext* for pages, block lists and grids included |
 | Wagtail | [Wagtail-Supertext-Translation](https://github.com/Supertext/Wagtail-Supertext-Translation) | Python package: a machine translator for wagtail-localize. | Translates pages and snippets inside wagtail-localize's editor |
 | WordPress (Polylang) | [Wordpress-Polylang-Supertext-Translation](https://github.com/Supertext/Wordpress-Polylang-Supertext-Translation) | WordPress plugin: a machine-translation service for Polylang Pro, plus professional translation orders. | AI translation next to DeepL in Polylang, and human translation orders |
-| WordPress (WPML) | [Wordpress-WPML-Supertext-Translation](https://github.com/supertext/Wordpress-WPML-Supertext-Translation) | WordPress plugin for WPML: bulk actions in the posts and pages lists and a Supertext box in the editor. | *In development:* AI translation into your WPML languages, professional translation orders and XLIFF/HTML translation files |
+| WordPress (WPML) | [Wordpress-WPML-Supertext-Translation](https://github.com/supertext/Wordpress-WPML-Supertext-Translation) | WordPress plugin for WPML: bulk actions in the posts and pages lists and a Supertext box in the editor. | AI translation into your WPML languages, professional translation orders and XLIFF/HTML translation files |
 
 ### Product information management (PIM)
 

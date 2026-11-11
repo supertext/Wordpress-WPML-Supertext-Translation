@@ -23,9 +23,3 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: includes/Preview/Draft_Preview.php
-
-		-
-			message: '#^Static property Supertext\\Wpml\\Sdk\\Files\\TranslationFiles\:\:\$internals \(WeakMap\<Supertext\\Wpml\\Sdk\\Files\\TranslationFile, array\<array\{key\: string, checksum\: string\|null, target\: list\<array\{code\: ''bpt''\|''ept''\|''ph'', id\: int\}\|array\{code\: ''invalid''\}\|string\>\|string\|null\}\>\>\|null\) does not accept WeakMap\<Supertext\\Wpml\\Sdk\\Files\\TranslationFile, array\<array\{key\: string, checksum\: string\|null, target\: list\<array\{code\: ''bpt''\|''ept''\|''ph'', id\: int\}\|array\{code\: ''invalid''\}\|string\>\|string\|null\}\>\>\.$#'
-			identifier: assign.propertyType
-			count: 2
-			path: includes/Sdk/Files/TranslationFiles.php

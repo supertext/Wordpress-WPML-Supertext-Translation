@@ -188,7 +188,7 @@ Values live only in the hosting platform's variables, never in the repository; t
 
 1. Move the *Unreleased* entries of `CHANGELOG.md` under a new `## X.Y.Z — YYYY-MM-DD` heading (leave an empty *Unreleased* above it).
 2. Set the same version in `supertext-wpml.php`: the header's `Version:` and `SUPERTEXT_WPML_VERSION`.
-3. Push to `main`. `.github/workflows/release.yml` tags `vX.Y.Z`, builds `supertext-wpml-X.Y.Z.zip` and creates the release with the CHANGELOG section as notes (0.x as pre-releases). Without a new version nothing is released; a version file that doesn't match fails the run. Never tag or release by hand.
+3. Push to `main`. `.github/workflows/release.yml` tags `vX.Y.Z`, builds `supertext-wpml-X.Y.Z.zip` and creates the release with the CHANGELOG section as notes (0.x as pre-releases). Only a new minor or major version (the first of a new X.Y line, e.g. 1.0.x → 1.1.0) is released; a patch version (1.1.0 → 1.1.1) gets its CHANGELOG section but no release and ships with the next minor. Without a new version nothing is released; a version file that doesn't match fails the run. Never tag or release by hand.
 
 ## Known limitations and roadmap
 

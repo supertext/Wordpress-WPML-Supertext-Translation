@@ -3,7 +3,9 @@ name: Release
 # Publishes a GitHub release only when the version is officially bumped: a new
 # `## X.Y.Z — YYYY-MM-DD` section at the top of CHANGELOG.md (below an empty
 # *Unreleased*), with every file in VERSION_FILES carrying the same number.
-# Pushes without a new version release nothing; a released version is skipped;
+# Only the first version of a new X.Y line releases (1.0.x -> 1.1.0): if any tag
+# vX.Y.* exists, patch versions (1.1.0 -> 1.1.1) release nothing and ship with the
+# next minor. Pushes without a new version release nothing;
 # a version file that doesn't match fails the run. 0.x versions are pre-releases.
 # See docs/DEVELOPER.md → Releasing.
 
@@ -50,11 +52,13 @@ jobs:
             fi
           done
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
-            echo "v$VERSION is already released: nothing to do."
+          LINE="${VERSION%.*}"   # X.Y
+          if [ -n "$(git tag -l "v${LINE}.*")" ]; then
             echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "The ${LINE} line is already released: patch versions (v$VERSION) release nothing."
           else
             echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "New ${LINE} line: will publish v$VERSION."
           fi
 
       - name: Build the installable plugin zip and the release notes

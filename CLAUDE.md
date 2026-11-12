@@ -8,6 +8,6 @@ Supertext for WPML: part of Supertext's translation plugins project (one repo pe
 - **WPML only through its public hooks** (`includes/Wpml/Wpml.php`); `tests/e2e/stand-in/wpml-stand-in.php` must keep emulating every hook the plugin uses.
 - **Bundled libraries:** never edit `includes/Sdk/` or `includes/PluginHealth/`; fix them upstream and re-run `scripts/vendor-sdk.sh` / `scripts/vendor-plugin-health.sh`.
 - **Checks:** unit tests and PHPStan level 5 (`cd tests/unit && composer test && composer phpstan`), actionlint + zizmor (`--offline`) for workflow changes. No new PHPStan baseline entries.
-- **Releases** only by bumping the version (`CHANGELOG.md` section + header `Version:` + `SUPERTEXT_WPML_VERSION`); never tag by hand.
+- **Releases** only by bumping the version (`CHANGELOG.md` section + header `Version:` + `SUPERTEXT_WPML_VERSION`); never tag by hand. Only a new minor or major version (1.0.x → 1.1.0) publishes a release; patch versions don't (Remy's decision, November 2026; same in the Polylang plugin).
 - **Demo accounts** from `DEMO_ADMIN_*` / `DEMO_EDITOR_*`, values only in the hosting platform's variables.
 - Before starting, look at the repo's open code scanning and secret scanning alerts, Dependabot PRs and the "Broken links in the docs" issue.

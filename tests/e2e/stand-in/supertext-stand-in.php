@@ -56,6 +56,14 @@ add_filter(
 		if ( str_starts_with( (string) $url, 'https://pluginhealth.supertext.com/' ) ) {
 			return array( 'response' => array( 'code' => 200, 'message' => 'OK' ), 'headers' => array( 'content-type' => 'application/json' ), 'body' => '{"ok":true}', 'cookies' => array() );
 		}
+		// Order API (professional translation): the translation types, which the key check reads.
+		if ( preg_match( '#^https://[a-z.]*supertext\.(?:com|ch)/api/v1/util/ordertype/#', (string) $url ) ) {
+			$types = array(
+				array( 'Name' => 'Translation', 'Description' => 'Professional translation by a native speaker.', 'ShortDescription' => 'Translation', 'OrderTypeConfigurationId' => 1, 'OrderTypeId' => 6 ),
+				array( 'Name' => 'Translation + proofreading', 'Description' => 'Translation, checked by a second translator.', 'ShortDescription' => 'Translation + proofreading', 'OrderTypeConfigurationId' => 2, 'OrderTypeId' => 7 ),
+			);
+			return array( 'response' => array( 'code' => 200, 'message' => 'OK' ), 'headers' => array( 'content-type' => 'application/json' ), 'body' => wp_json_encode( $types ), 'cookies' => array() );
+		}
 		if ( ! preg_match( '#^https://api(?:\.staging|\.testing)?\.supertext\.com/v1/(.*)$#', (string) $url, $m ) ) {
 			return $pre;
 		}

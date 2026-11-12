@@ -95,7 +95,8 @@ jobs:
               -e PORT=80 -e DATABASE_URL="mysql://root:root@127.0.0.1:3306/$1" -e DEMO_SITE_URL="$SITE_URL" \
               -e DEMO_ADMIN_EMAIL -e DEMO_ADMIN_PASSWORD -e DEMO_EDITOR_EMAIL -e DEMO_EDITOR_PASSWORD \
               -e WPML_ZIP_URL -e WPML_ZIP_TOKEN -e WPML_SITE_KEY -e DEMO_SKIP_PLUGIN="$2" \
-              -e SUPERTEXT_API_KEY=st-demo-key-0000 -e SUPERTEXT_VERSION_REPORTS=0 wpml-docs
+              -e SUPERTEXT_API_KEY=st-demo-key-0000 -e SUPERTEXT_ACCOUNT_EMAIL=docs@wpml-docs.test \
+              -e SUPERTEXT_ORDER_API_KEY=st-demo-order-key-0000 -e SUPERTEXT_VERSION_REPORTS=0 wpml-docs
             for _ in $(seq 1 120); do
               if curl -fsS "$SITE_URL/healthz" >/dev/null 2>&1 && logs=$(docker logs demo 2>&1) && grep -q "WordPress demo ready" <<< "$logs"; then break; fi
               sleep 3
@@ -103,6 +104,8 @@ jobs:
             docker exec demo mkdir -p /var/www/html/wp-content/mu-plugins
             docker cp tests/e2e/stand-in/supertext-stand-in.php demo:/var/www/html/wp-content/mu-plugins/
             docker exec demo chown -R www-data:www-data /var/www/html/wp-content/mu-plugins
+            # The guides show page screenshots off (no VibeBoost key here); the status then has no warning.
+            docker exec -u www-data demo wp --path=/var/www/html eval '$s = (array) get_option( "supertext_wpml_settings", array() ); $s["screenshots_enabled"] = false; update_option( "supertext_wpml_settings", $s );' || true
             logs=$(docker logs demo 2>&1)
             grep -q "WordPress demo ready" <<< "$logs" || { echo "$logs" | tail -50; exit 1; }
             grep -q "Installing WPML" <<< "$logs" || { echo "WPML wasn't installed: check WPML_ZIP_TOKEN"; exit 1; }

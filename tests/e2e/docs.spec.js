@@ -30,6 +30,9 @@ test( 'capture docs screenshots', async ( { page } ) => {
 
 	// Settings: status, AI translation (key + language mapping), professional translation.
 	await page.goto( 'wp-admin/admin.php?page=supertext-wpml' );
+	// Check the keys first (against the stand-in), so the status shows one line per check.
+	await page.getByRole( 'button', { name: 'Test connection' } ).click();
+	await page.waitForLoadState( 'load' );
 	const cards = page.locator( '.st-card' );
 	await shot( page, 'settings-status', cards.nth( 0 ) );
 	await shot( page, 'settings-ai', cards.nth( 1 ) );

@@ -38,7 +38,7 @@ In WPML:
 
 ## Status
 
-**Supertext → Settings** starts with the status: WPML, its languages, the API key and its last check, the Supertext language of every WPML language, version information and the optional features. Red rows still need setting up. **Test connection** checks the AI key, the order credentials (once they are set) and the VibeBoost key (while page screenshots are on) right away.
+**Supertext → Settings** starts with the status: WPML, its languages, the API key and its last check, the Supertext language of every WPML language, version information and the optional features. Each key check is one line: *Works* with the time of the check (hover it for the full message); a key with a problem gets a red line underneath that says what is wrong and how to fix it. Red rows still need setting up. **Test connection** checks the AI key, the order credentials (once they are set) and the VibeBoost key (while page screenshots are on) right away.
 
 ![Status panel on Supertext → Settings: WPML active, four languages, API key set and checked, the Supertext language of each WPML language](images/settings-status.png)
 

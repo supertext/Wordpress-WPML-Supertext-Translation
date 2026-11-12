@@ -4,6 +4,8 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
+- Status panel: each API key check that works is now one line (*Works · checked …*, full message as tooltip); only a key with a problem shows its explanation underneath.
+
 - Docs: screenshots, the README's demo movie and the install and configuration movie are recorded by the workflow *Docs screenshots and movies* on a fixed address (`http://wpml-docs.test`) registered with its own WPML site key, so they show no WPML licence notices. New demo variable `DEMO_SKIP_PLUGIN`.
 
 ## 1.0.0 — 2026-11-11

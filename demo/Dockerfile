@@ -6,7 +6,7 @@
 #
 # Runtime variables: DATABASE_URL (or MYSQL* parts), DEMO_ADMIN_*, DEMO_EDITOR_*,
 # SUPERTEXT_API_KEY, SUPERTEXT_ACCOUNT_EMAIL, SUPERTEXT_ORDER_API_KEY, SUPERTEXT_ENVIRONMENT,
-# WPML_ZIP_URL (optional) — see docs/DEVELOPER.md → Demo site.
+# WPML_ZIP_URL, ACF_ZIP_URL, ACFML_ZIP_URL (optional) — see docs/DEVELOPER.md → Demo site.
 
 FROM php:8.3-apache
 
@@ -39,6 +39,8 @@ COPY demo/docker/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY demo/docker/wp-config-extra.php /usr/local/share/wordpress-demo/wp-config-extra.php
 COPY demo/docker/setup.php /usr/local/share/wordpress-demo/setup.php
 COPY demo/docker/entrypoint.sh /usr/local/bin/demo-entrypoint
+# Demo only: an ACF block "Text" (acf/text), active once ACF PRO is installed (ACF_ZIP_URL).
+COPY demo/docker/acf-demo-block.php wp-content/mu-plugins/acf-demo-block.php
 # Only $PORT (apache.conf): the default "Listen 80" would clash when several demos share
 # a host network.
 # Railway's health check: a static file (WordPress would redirect / to the public URL).

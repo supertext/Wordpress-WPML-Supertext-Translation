@@ -24,6 +24,7 @@ use WP_Term;
  * | `title`                              | the title                                      | text    |
  * | `excerpt`                            | the excerpt                                    | HTML    |
  * | `content:<n>`                        | part n of the content (Content_Splitter)       | HTML    |
+ * | `block:<id>`                         | a text in a block's attributes, e.g. an ACF block field (Block_Strings) | HTML or text |
  * | `yootheme:<path>`                    | a YOOtheme Pro layout text (Layout)            | HTML    |
  * | `meta:<key>`                         | a custom field WPML translates                 | text, HTML if it has tags |
  * | `term:<taxonomy>:<id>`               | the name of a term without a translation yet   | text    |
@@ -77,6 +78,9 @@ class Collector {
 		$content = (string) $post->post_content;
 		foreach ( Content_Splitter::texts( $content ) as $i => $text ) {
 			$add( 'content:' . $i, $text, true );
+		}
+		foreach ( Block_Strings::collect( $content ) as $id => $string ) {
+			$add( Block_Strings::PREFIX . $id, $string['text'], $string['html'] );
 		}
 		$layout = Layout::decode( $content );
 		if ( null !== $layout ) {

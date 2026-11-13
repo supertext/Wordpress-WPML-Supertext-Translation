@@ -176,6 +176,48 @@ if ( ! get_option( 'supertext_demo_content' ) ) {
 }
 
 // ---------------------------------------------------------------------------
+// With ACF PRO (ACF_ZIP_URL): a page built from the demo's ACF block "Text"
+// (acf-demo-block.php), its text in the block's data like on real ACF sites. Created once.
+// ---------------------------------------------------------------------------
+if ( function_exists( 'acf_register_block_type' ) && ! get_option( 'supertext_demo_acf_content' ) ) {
+	$block = serialize_block(
+		array(
+			'blockName'    => 'acf/text',
+			'attrs'        => array(
+				'name' => 'acf/text',
+				'data' => array(
+					'text'                   => "<h2>Stay in the loop</h2>\r\n<p>Subscribe to our newsletter and get translation tips once a month.</p>",
+					'_text'                  => 'field_st_demo_text',
+					'remove_spacing_top'     => '0',
+					'_remove_spacing_top'    => 'field_st_demo_spacing_top',
+					'remove_spacing_bottom'  => '1',
+					'_remove_spacing_bottom' => 'field_st_demo_spacing_bottom',
+				),
+				'mode' => 'edit',
+			),
+			'innerBlocks'  => array(),
+			'innerHTML'    => '',
+			'innerContent' => array(),
+		)
+	);
+	$id    = wp_insert_post(
+		wp_slash(
+			array(
+				'post_type'    => 'page',
+				'post_title'   => 'Newsletter',
+				'post_content' => $block . "\n\n<!-- wp:paragraph -->\n<p>Why Supertext?</p>\n<!-- /wp:paragraph -->",
+				'post_status'  => 'publish',
+				'post_author'  => 1,
+			)
+		)
+	);
+	if ( $id && ! is_wp_error( $id ) ) {
+		update_option( 'supertext_demo_acf_content', $id );
+		supertext_demo_log( 'Created the ACF block page "Newsletter"' );
+	}
+}
+
+// ---------------------------------------------------------------------------
 // With WPML: posts and pages without a language (e.g. the sample content, created
 // before WPML was installed) become English. Runs on every start, changes nothing twice.
 // ---------------------------------------------------------------------------

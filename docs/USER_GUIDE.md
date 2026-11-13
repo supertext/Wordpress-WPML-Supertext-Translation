@@ -13,7 +13,7 @@ Open the original post or page in the editor. The **Supertext** box (in the side
 ![Supertext box in the editor: AI translation from English, with a Translate button for German, French and Italian](images/editor-box-before.png)
 
 1. **Save your changes first:** Supertext translates the saved version.
-2. Click **Translate** next to a language. Supertext translates title, content, excerpt, the custom fields WPML translates (e.g. the SEO title) and categories and tags that have no translation yet. This takes a few seconds; longer pages take longer.
+2. Click **Translate** next to a language. Supertext translates title, content (ACF blocks included), excerpt, the custom fields WPML translates (e.g. the SEO title) and categories and tags that have no translation yet. This takes a few seconds; longer pages take longer.
 3. The page reloads and the box says what happened. The new translation is a **draft**: click the language name to open it, check it and publish it.
 
 ![The box after translating: "Translated into German with Supertext AI", German now links to its draft and offers Translate again](images/editor-box-after.png)
@@ -55,6 +55,7 @@ To translate with another tool or translator: in the list of posts or pages, hov
 | --- | --- |
 | Title, content (each block on its own, formatting and links kept), excerpt | Block settings (colours, sizes, IDs), HTML comments, shortcodes, images and other files |
 | Custom fields set to *Translate* in WPML, with a single text value | Fields with several values or structured values (e.g. repeaters) |
+| ACF blocks: their text fields, repeaters and groups included (with ACF Multilingual, the fields set to *Translate*) | Their switches, numbers, links, images and the field settings; with ACF Multilingual, fields set to *Copy*, *Copy once* or *Don't translate* |
 | Categories, tags and other WPML-translated taxonomies **without** a translation yet (name and description) | Terms that already have a translation: that one is used, unchanged |
 | YOOtheme Pro layouts, text field by field | Menus, widgets, theme texts and other strings (use WPML String Translation) |
 

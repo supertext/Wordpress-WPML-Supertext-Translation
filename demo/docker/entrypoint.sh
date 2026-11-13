@@ -82,27 +82,39 @@ RewriteRule . /index.php [L]
 # END WordPress
 HT
 
-# WPML (commercial) from a private URL: the zip of "WPML Multilingual CMS"
-# (sitepress-multilingual-cms). Without it the plugin shows its "requires WPML" notice.
-if [ -n "$WPML_ZIP_URL" ] && [ ! -d wp-content/plugins/sitepress-multilingual-cms ]; then
-    echo "Installing WPML..."
-    # A file in a private GitHub repository (e.g. supertext/integrations-demo-assets) needs
-    # WPML_ZIP_TOKEN, a read-only token; WPML_ZIP_URL is then the API URL
-    # https://api.github.com/repos/<owner>/<repo>/contents/<path>.
+# Commercial plugins from private URLs (not on wordpress.org). A file in a private GitHub
+# repository (e.g. supertext/integrations-demo-assets) needs WPML_ZIP_TOKEN, a read-only
+# token; the URL is then the API URL https://api.github.com/repos/<owner>/<repo>/contents/<path>.
+#   WPML_ZIP_URL   "WPML Multilingual CMS" (sitepress-multilingual-cms). Without it the
+#                  plugin shows its "requires WPML" notice.
+#   ACF_ZIP_URL    "Advanced Custom Fields PRO" (advanced-custom-fields-pro), optional:
+#                  the demo's ACF block page.
+#   ACFML_ZIP_URL  "Advanced Custom Fields Multilingual" (acfml), optional.
+install_zip() { # variable-name plugin-folder label
+    url=$(printenv "$1" || true)
+    if [ -z "$url" ] || [ -d "wp-content/plugins/$2" ]; then
+        return 0
+    fi
+    echo "Installing $3..."
     if [ -n "$WPML_ZIP_TOKEN" ]; then
-        set -- -H "Authorization: Bearer $WPML_ZIP_TOKEN" -H "Accept: application/vnd.github.raw"
-    else
-        set --
+        set -- "$@" -H "Authorization: Bearer $WPML_ZIP_TOKEN" -H "Accept: application/vnd.github.raw"
     fi
-    if curl -fsSL "$@" -o /tmp/wpml.zip "$WPML_ZIP_URL"; then
-        unzip -q -o /tmp/wpml.zip -d wp-content/plugins && rm -f /tmp/wpml.zip
+    label=$3
+    shift 3
+    if curl -fsSL "$@" -o /tmp/plugin.zip "$url"; then
+        unzip -q -o /tmp/plugin.zip -d wp-content/plugins && rm -f /tmp/plugin.zip
     else
-        echo "Could not download WPML_ZIP_URL, running without WPML" >&2
+        echo "Could not download $label, running without it" >&2
     fi
-fi
-if [ -d wp-content/plugins/sitepress-multilingual-cms ]; then
-    $WP plugin activate sitepress-multilingual-cms --quiet
-fi
+}
+install_zip WPML_ZIP_URL sitepress-multilingual-cms WPML
+install_zip ACF_ZIP_URL advanced-custom-fields-pro "ACF PRO"
+install_zip ACFML_ZIP_URL acfml "ACF Multilingual"
+for plugin in sitepress-multilingual-cms advanced-custom-fields-pro acfml; do
+    if [ -d "wp-content/plugins/$plugin" ]; then
+        $WP plugin activate "$plugin" --quiet
+    fi
+done
 # DEMO_SKIP_PLUGIN=1: a site without this plugin, for the install movie (tests/e2e/movie-install.mjs).
 if [ "${DEMO_SKIP_PLUGIN:-0}" = "1" ]; then
     rm -rf wp-content/plugins/supertext-wpml

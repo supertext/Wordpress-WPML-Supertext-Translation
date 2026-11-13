@@ -49,6 +49,7 @@ includes/
 | Term translation | `wpml_object_id` |
 | Link a new translation | `wpml_set_element_language_details` (`post_<type>` / `tax_<taxonomy>`, `trid`, `source_language_code`) |
 | Custom field settings | `wpml_setting` → `translation-management` → `custom_fields_translation` (0 ignore, 1 copy, 2 translate, 3 copy once) |
+| Texts in block attributes (ACF blocks) | `wpml_found_strings_in_block` (block → `{ id, name, value, type }` list) and `wpml_update_strings_in_block` (block, `id => [ lang => { value, status: 10 } ]`, lang → block); answered by ACF Multilingual. These are filters the plugin applies, so the WPML stand-in needs nothing for them. |
 
 A language's Supertext code comes from its WPML **default locale** (`de_CH`), the WPML code (`de`, `pt-br`) only when WPML has no locale. Reading and writing switch WPML's current language to the post's language (`Wpml::in_language()`), because WPML filters term queries by it.
 
@@ -61,11 +62,14 @@ Each text has a context that is stable for the same source, used as `data-st-id`
 | `title` | title | text |
 | `excerpt` | excerpt | HTML |
 | `content:<n>` | part n of the content (`Content_Splitter`) | HTML |
+| `block:<id>` | a text in a block's attributes, e.g. an ACF block field (`Content\Block_Strings`); `<id>` is WPML's string id (md5 of block name and text) | HTML for rich text, else text |
 | `yootheme:<path>` | YOOtheme Pro layout prop (`Integrations\YooTheme\Layout`) | HTML |
 | `meta:<key>` | custom field WPML *translates*, single non-numeric string value | text, HTML if it has tags |
 | `term:<taxonomy>:<id>` / `term_description:…` | name / description of a term without a translation in the target language | text / HTML |
 
 `Content_Splitter` keeps HTML comments (block delimiters with their JSON attributes, YOOtheme's layout comment, `<!--more-->`), parts without visible text (`<hr/>`, images, shortcodes only, `&nbsp;`) and surrounding white space; every other part — one block's HTML — is one text, so a sentence is never split at its formatting (the rich-text rule of the Supertext API). Filters: `supertext_wpml_meta_keys` (fields to translate), `supertext_wpml_collected_entries` (the whole list).
+
+**Block attributes (ACF blocks).** Some blocks keep their text in the block comment's JSON, not in its HTML: an ACF block is `<!-- wp:acf/text {"data":{"text":"…","_text":"field_…"}} /-->`. `Content\Block_Strings` parses the content (`parse_blocks()`, inner blocks included) and asks WPML's block hooks for each block's texts, the way WPML's own translation editor does; ACF Multilingual answers them and follows each field's translation preference (*Translate*, *Copy*, *Copy once*, *Don't translate*). Without ACFML, `Content\Acf_Block_Data` reads `acf/*` blocks itself: every text value in `data` (repeaters and groups included), never `_…` field references, `field_…` keys, numbers and switches (`"0"`, `"1"`), or single words that are links, e-mail addresses, paths, file names or colours. Its ids are ACFML's (md5 of block name and text), so adding ACFML later keeps the contexts. The Writer puts the translations back with `wpml_update_strings_in_block` (or `Acf_Block_Data::apply()`) and `serialize_blocks()`, only when a block changed; shortcodes inside the texts stay as they are.
 
 ### Writing (`Content\Writer`)
 
@@ -164,7 +168,7 @@ Dependabot's minor and patch updates of the test tools and actions are grouped. 
 
 ## Demo site
 
-`demo/Dockerfile` (build context: the repository root) builds WordPress with this plugin; `demo/docker/entrypoint.sh` creates the database, rebuilds `wp-config.php`, installs WordPress once, installs and activates **WPML from `WPML_ZIP_URL`** (WPML is commercial and not on wordpress.org; without it the plugin shows its *requires WPML* notice), runs `demo/docker/setup.php` (WPML languages English, German, French, Italian through SitePress's methods, the demo accounts, the professional translation settings, five English sample pages and posts; with WPML, posts and pages without a language become English) and starts Apache. Every step is idempotent. It runs as the **WordPress-WPML** service in the Railway project *supertext-cms-demos-php* (<https://wordpress-wpml-production.up.railway.app>, Dockerfile path `demo/Dockerfile`, health check `/healthz`, region `ams`, database `wordpress_wpml_demo` on the shared **MySQL-8** service, `DEMO_*` referencing the Contao service's values) and redeploys on every push to `main`. `setup.php` runs WPML's own setup wizard steps (`WPML_Installation`: default language, active languages, site key, finish; tested with WPML 5.3.0) while WPML has no active languages yet, so later changes in WPML stay.
+`demo/Dockerfile` (build context: the repository root) builds WordPress with this plugin; `demo/docker/entrypoint.sh` creates the database, rebuilds `wp-config.php`, installs WordPress once, installs and activates **WPML from `WPML_ZIP_URL`** (WPML is commercial and not on wordpress.org; without it the plugin shows its *requires WPML* notice) and, when set, ACF PRO and ACF Multilingual from `ACF_ZIP_URL` and `ACFML_ZIP_URL`, runs `demo/docker/setup.php` (WPML languages English, German, French, Italian through SitePress's methods, the demo accounts, the professional translation settings, five English sample pages and posts, with ACF PRO also the page *Newsletter* built from an ACF block; with WPML, posts and pages without a language become English) and starts Apache. Every step is idempotent. It runs as the **WordPress-WPML** service in the Railway project *supertext-cms-demos-php* (<https://wordpress-wpml-production.up.railway.app>, Dockerfile path `demo/Dockerfile`, health check `/healthz`, region `ams`, database `wordpress_wpml_demo` on the shared **MySQL-8** service, `DEMO_*` referencing the Contao service's values) and redeploys on every push to `main`. `setup.php` runs WPML's own setup wizard steps (`WPML_Installation`: default language, active languages, site key, finish; tested with WPML 5.3.0) while WPML has no active languages yet, so later changes in WPML stay.
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
@@ -172,7 +176,9 @@ Dependabot's minor and patch updates of the test tools and actions are grouped. 
 | `DEMO_ADMIN_EMAIL`, `DEMO_ADMIN_PASSWORD` | yes | Administrator, created on the first start, never changed |
 | `DEMO_EDITOR_EMAIL`, `DEMO_EDITOR_PASSWORD` | no | Editor (WordPress *Editor* role: can translate every post in every language) |
 | `WPML_ZIP_URL` | no | Download URL of the WPML Multilingual CMS zip. On Railway: `http://demo-assets.railway.internal:8080/wpml/sitepress-multilingual-cms.5.3.0.zip`, served by the **demo-assets** service from the private repository `supertext/integrations-demo-assets` on Railway's private network only |
-| `WPML_ZIP_TOKEN` | no | Bearer token sent with the download, for a URL that needs one (e.g. the GitHub API URL of a file in a private repository) |
+| `WPML_ZIP_TOKEN` | no | Bearer token sent with the downloads, for a URL that needs one (e.g. the GitHub API URL of a file in a private repository) |
+| `ACF_ZIP_URL` | no | Download URL of the ACF PRO zip (`advanced-custom-fields-pro`). With it the demo has the ACF block *Text* (`demo/docker/acf-demo-block.php`, a must-use plugin: a WYSIWYG field set to *Translate*, two switches set to *Copy*) and a page **Newsletter** built from it. On Railway: `http://demo-assets.railway.internal:8080/wpml/advanced-custom-fields-pro.6.8.11.zip` (runs without a licence key; the key only enables updates) |
+| `ACFML_ZIP_URL` | no | Download URL of the ACF Multilingual zip (`acfml`), WPML's add-on for ACF. On Railway: `http://demo-assets.railway.internal:8080/wpml/acfml.5.3.0.zip` |
 | `WPML_SITE_KEY` | no | WPML's site key (the `OTGS_INSTALLER_SITE_KEY_WPML` constant), registers the demo with wpml.org |
 | `SUPERTEXT_API_KEY` | no | AI translation key (used while the settings field is empty) |
 | `SUPERTEXT_ACCOUNT_EMAIL`, `SUPERTEXT_ORDER_API_KEY` | no | Professional translation credentials (used while the fields are empty) |
@@ -193,7 +199,7 @@ Values live only in the hosting platform's variables, never in the repository; t
 ## Known limitations and roadmap
 
 - AI translation blocks the request while polling; very long content can reach PHP's time limit (a background queue would remove that).
-- Custom fields with several values or structured (serialized) values aren't translated; ACF repeaters and flexible content need a dedicated integration (as `pll_after_post_export` integrations did for Polylang).
+- Custom fields with several values or structured (serialized) values aren't translated; ACF repeaters and flexible content **stored as custom fields** (not in ACF blocks) need a dedicated integration (as `pll_after_post_export` integrations did for Polylang).
 - Block attributes (e.g. texts some blocks keep in their JSON) and shortcode attributes aren't translated.
 - Not ported from the Polylang plugin yet: the string translation grid (WPML String Translation), Gravity Forms, the ACF overview tool.
 - WPML's translation status (needs update, ATE jobs) isn't updated: Supertext translations count as translations made in the WordPress editor.

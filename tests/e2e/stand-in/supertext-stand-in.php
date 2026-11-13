@@ -26,6 +26,8 @@ function supertext_stand_in_dictionary(): array {
 			'Human review when it matters' => 'Menschliche Prüfung, wenn es darauf ankommt',
 			'About us' => 'Über uns',
 			'Contact' => 'Kontakt',
+			'Stay in the loop' => 'Bleiben Sie auf dem Laufenden',
+			'Subscribe to our newsletter and get translation tips once a month.' => 'Abonnieren Sie unseren Newsletter und erhalten Sie einmal im Monat Übersetzungstipps.',
 		),
 		'fr' => array(
 			'Welcome to the Supertext demo' => 'Bienvenue dans la démo Supertext',
@@ -36,6 +38,8 @@ function supertext_stand_in_dictionary(): array {
 			'Human review when it matters' => 'Relecture humaine quand c’est important',
 			'About us' => 'À propos',
 			'Contact' => 'Contact',
+			'Stay in the loop' => 'Restez informé',
+			'Subscribe to our newsletter and get translation tips once a month.' => 'Abonnez-vous à notre newsletter et recevez des conseils de traduction une fois par mois.',
 		),
 		'it' => array(
 			'Welcome to the Supertext demo' => 'Benvenuti nella demo di Supertext',
@@ -46,6 +50,8 @@ function supertext_stand_in_dictionary(): array {
 			'Human review when it matters' => 'Revisione umana quando conta',
 			'About us' => 'Chi siamo',
 			'Contact' => 'Contatti',
+			'Stay in the loop' => 'Resti aggiornato',
+			'Subscribe to our newsletter and get translation tips once a month.' => 'Si abboni alla nostra newsletter e riceva consigli di traduzione una volta al mese.',
 		),
 	);
 }

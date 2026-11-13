@@ -79,7 +79,7 @@ class Writer {
 
 				$title   = $pick( 'title', null !== $current ? $current->post_title : $source->post_title );
 				$excerpt = $pick( 'excerpt', null !== $current ? $current->post_excerpt : $source->post_excerpt );
-				$content = self::content( (string) $source->post_content, $map, $filled );
+				$content = self::content( (string) $source->post_content, $map, $filled, $target->code );
 
 				// Not filtered by kses beyond what WordPress does for the current user.
 				$data = array(
@@ -142,15 +142,16 @@ class Writer {
 	}
 
 	/**
-	 * The translated content: the source rebuilt with the translated parts, the
-	 * YOOtheme layout field by field.
+	 * The translated content: the source rebuilt with the translated parts, block
+	 * texts (ACF block fields) put back into their blocks, the YOOtheme layout field by field.
 	 *
-	 * @param string                $source The source content.
-	 * @param array<string, string> $map    Context => text.
-	 * @param int                   $filled Counter of the texts used.
+	 * @param string                $source      The source content.
+	 * @param array<string, string> $map         Context => text.
+	 * @param int                   $filled      Counter of the texts used.
+	 * @param string                $target_code WPML code of the target language (for block texts).
 	 * @return string
 	 */
-	public static function content( string $source, array $map, int &$filled = 0 ): string {
+	public static function content( string $source, array $map, int &$filled = 0, string $target_code = '' ): string {
 		$parts = array();
 		foreach ( $map as $context => $text ) {
 			if ( str_starts_with( (string) $context, 'content:' ) ) {
@@ -162,6 +163,7 @@ class Writer {
 		$filled += count( $parts );
 
 		$content = Content_Splitter::join( $source, $parts );
+		$content = Block_Strings::apply( $content, $map, $target_code, $filled );
 
 		$layout = Layout::decode( $content );
 		if ( null !== $layout ) {

@@ -34,6 +34,7 @@ In WPML:
   ![WPML → Languages with English (default), French, German and Italian](images/wpml-languages.png)
 - **WPML → Settings → Post Types Translation:** set the post types you want to translate (posts, pages, custom types) to *Translatable*. Only these get the Supertext box and bulk actions.
 - **WPML → Settings → Custom Fields Translation:** fields set to *Translate* are sent to Supertext (with a single text value), *Copy* fields are copied into the translation, *Copy once* fields only into a new translation. Many plugins set this up through their `wpml-config.xml` (e.g. Yoast SEO's title and description).
+- **ACF blocks** (Advanced Custom Fields PRO): their text fields are translated with the rest of the page. With **ACF Multilingual** (WPML's free add-on for ACF, included in Multilingual CMS and Agency: wpml.org account → Downloads), each field's translation preference in the ACF field group decides (*Translate* is sent, *Copy* and *Copy once* are copied, *Don't translate* is left alone); without it, every text field of an ACF block is translated and switches, numbers, links and images are kept.
 - **WPML → Settings → How to translate posts and pages:** if you edit Supertext translations by hand, choose *Use the WordPress Editor* for them. WPML's Advanced Translation Editor doesn't know about translations created outside it and may offer to translate them again.
 
 ## Status

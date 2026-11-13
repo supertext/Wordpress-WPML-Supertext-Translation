@@ -4,6 +4,8 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
+## 1.1.0 — 2026-11-13
+
 - ACF blocks are translated: the texts in an ACF block's fields (e.g. `acf/text`), repeaters and groups included, which used to stay in the source language. With ACF Multilingual, each field's translation preference decides; without it, the plugin translates every text field and keeps switches, numbers, links and images. Works for AI translation, human orders and translation files.
 
 ## 1.0.1 — 2026-11-12

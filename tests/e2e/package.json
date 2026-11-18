@@ -11,7 +11,7 @@
     "movie:install": "node movie-install.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.0",
+    "@playwright/test": "^1.65.1",
     "dotenv": "^18.0.10"
   }
 }

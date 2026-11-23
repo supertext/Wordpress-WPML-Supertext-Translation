@@ -1,7 +1,7 @@
 # Screenshots of the guides (docs/images/) and the two movies, recorded on the demo with the real WPML
 # at the fixed address http://wpml-docs.test, registered with WPML's development site key, and the
 # Supertext stand-in (real translations of the sample content, no API key). New screenshots and the
-# README's demo.gif come back as a pull request; both MP4s are attached to the run (for YouTube).
+# README's demo.gif are committed straight to main; both MP4s are attached to the run (for YouTube).
 # See docs/DEVELOPER.md → Docs screenshots and Demo movie.
 #
 # Secrets: WPML_SITE_KEY_DOCS (WPML site key for http://wpml-docs.test) and WPML_ZIP_TOKEN (read-only
@@ -38,7 +38,6 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: write
-      pull-requests: write
     services:
       mysql:
         image: mysql:8.4
@@ -151,23 +150,31 @@ jobs:
           path: tests/e2e/movie/out/*.mp4
           if-no-files-found: ignore
 
-      - name: Pull request with the new images
+      # Straight to main, no pull request to review: the images come from the stand-in, and a push
+      # with the workflow's own token starts no other workflow. See docs/DEVELOPER.md → Docs screenshots.
+      - name: Commit the new images to main
         env:
           GH_TOKEN: ${{ github.token }}
-          RUN_ID: ${{ github.run_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
           if git diff --quiet -- docs/images && [ -z "$(git ls-files --others --exclude-standard docs/images)" ]; then
             echo "Screenshots and GIF unchanged."; exit 0
           fi
-          branch="docs-media/$RUN_ID"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git switch -c "$branch"
+          message="Docs: screenshots and demo movie recorded on the registered WPML docs site"
           git add docs/images
-          git commit -q -m "Docs: screenshots and demo movie recorded on the registered WPML docs site"
-          git push -q "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git" "$branch"
-          gh pr create --head "$branch" --title "Docs: new screenshots and demo movie" \
-            --body "Recorded by the *Docs screenshots and movies* workflow (run $RUN_ID) on http://wpml-docs.test with WPML registered. The MP4s are attached to the run." \
-            || echo "Couldn't open the pull request (allow GitHub Actions to create pull requests, or open it from the branch $branch)."
+          git commit -q -m "$message" -m "Made by the docs workflow: $RUN_URL"
+          images=$(git rev-parse HEAD)
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          for attempt in 1 2 3; do
+            if git push -q "$remote" HEAD:main; then exit 0; fi
+            echo "main moved on (attempt $attempt): putting the images on the newest main"
+            git fetch -q --depth=1 "$remote" main
+            git reset -q --hard FETCH_HEAD
+            git checkout "$images" -- docs/images
+            git commit -q -m "$message" -m "Made by the docs workflow: $RUN_URL"
+          done
+          exit 1

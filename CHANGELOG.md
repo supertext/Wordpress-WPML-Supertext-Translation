@@ -5,6 +5,7 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 ## Unreleased
 
 - Demo: two more ACF blocks, *Bild* (an image field) and *Bildergalerie* (a gallery and a radio field), next to *Text*; the two spacing switches are now one shared field group for all three, the way ACF sites usually build them. Nothing changes in the plugin.
+- Demo: the media library is on a volume (`wordpress-wpml-uploads`, mounted at `wp-content/uploads`). Uploaded images used to disappear with the next deploy while their attachments stayed in the database, so pages showing them broke in every language.
 
 ## 1.1.0 — 2026-11-13
 

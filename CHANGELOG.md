@@ -4,6 +4,8 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
+- Demo: two more ACF blocks, *Bild* (an image field) and *Bildergalerie* (a gallery and a radio field), next to *Text*; the two spacing switches are now one shared field group for all three, the way ACF sites usually build them. Nothing changes in the plugin.
+
 ## 1.1.0 — 2026-11-13
 
 - ACF blocks are translated: the texts in an ACF block's fields (e.g. `acf/text`), repeaters and groups included, which used to stay in the source language. With ACF Multilingual, each field's translation preference decides; without it, the plugin translates every text field and keeps switches, numbers, links and images. Works for AI translation, human orders and translation files.

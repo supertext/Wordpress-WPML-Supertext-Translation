@@ -39,7 +39,8 @@ COPY demo/docker/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY demo/docker/wp-config-extra.php /usr/local/share/wordpress-demo/wp-config-extra.php
 COPY demo/docker/setup.php /usr/local/share/wordpress-demo/setup.php
 COPY demo/docker/entrypoint.sh /usr/local/bin/demo-entrypoint
-# Demo only: an ACF block "Text" (acf/text), active once ACF PRO is installed (ACF_ZIP_URL).
+# Demo only: the ACF blocks "Text", "Bild" and "Bildergalerie" (acf/text, acf/bild,
+# acf/bildergalerie), active once ACF PRO is installed (ACF_ZIP_URL).
 COPY demo/docker/acf-demo-block.php wp-content/mu-plugins/acf-demo-block.php
 # Only $PORT (apache.conf): the default "Listen 80" would clash when several demos share
 # a host network.

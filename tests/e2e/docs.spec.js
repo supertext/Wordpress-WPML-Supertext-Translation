@@ -24,7 +24,7 @@ async function shot( page, name, target ) {
 }
 
 test( 'capture docs screenshots', async ( { page } ) => {
-	test.setTimeout( 300000 );
+	test.setTimeout( 900000 ); // Real translations (CI) take a while.
 	fs.mkdirSync( OUT, { recursive: true } );
 	await page.setViewportSize( { width: 1280, height: 900 } );
 
@@ -46,7 +46,7 @@ test( 'capture docs screenshots', async ( { page } ) => {
 		await page.locator( '.st-check-all' ).check();
 		await page.selectOption( '.st-bulk-action', 'ai' );
 		await page.locator( '.st-apply' ).click();
-		await page.waitForURL( /[?&]ai=/, { timeout: 120000 } );
+		await page.waitForURL( /[?&]ai=/, { timeout: 300000 } );
 		await shot( page, 'string-translations', page.locator( '.st-tablecard' ) );
 	} else {
 		console.log( 'No string-translations screenshot: ' + ( await page.locator( '#wpbody-content' ).innerText().catch( () => '(no page)' ) ).replace( /\s+/g, ' ' ).slice( 0, 600 ) );
@@ -80,7 +80,7 @@ test( 'capture docs screenshots', async ( { page } ) => {
 	const translate = box.locator( 'a.button-primary' ).first();
 	if ( await translate.count() ) {
 		await translate.click();
-		await page.locator( '#supertext-wpml-translate' ).waitFor( { state: 'attached', timeout: 240000 } );
+		await page.locator( '#supertext-wpml-translate' ).waitFor( { state: 'attached', timeout: 300000 } );
 		await page.locator( '#supertext-wpml-translate' ).scrollIntoViewIfNeeded();
 		await shot( page, 'editor-box-after', page.locator( '#supertext-wpml-translate' ) );
 

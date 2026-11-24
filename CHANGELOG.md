@@ -4,6 +4,8 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
+- Docs: the screenshots show real Supertext translations: CI takes them with the live API (secret `SUPERTEXT_API_KEY`); the stand-in translates only without the key, and still answers orders and version reports.
+
 ## 1.3.0 — 2026-11-24
 
 - Shortcodes (e.g. `[wpforms id="2784" title="false"]`) are kept exactly as they are in AI translations. Before, the translation could turn their quotes typographic, so WordPress no longer recognised them and the form or gallery was missing from the translated page.

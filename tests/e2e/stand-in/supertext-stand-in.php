@@ -6,6 +6,9 @@
  * Copy to wp-content/mu-plugins/. Texts it doesn't know come back unchanged. Like the real
  * API it rejects bare targets and regional sources (INVALID_LANGUAGE_PAIR). Version reports
  * to Supertext Plugin Health are answered here too, so a test site never shows up there.
+ * With the option `supertext_stand_in_live_ai` on (the docs screenshots in CI, with the secret
+ * SUPERTEXT_API_KEY), AI translation requests go to the real API, so the guides show real
+ * translations; orders and version reports are still answered here.
  *
  * @package Supertext_Wpml
  */
@@ -129,6 +132,10 @@ add_filter(
 			return $ok( array( array( 'Id' => 900000 + wp_rand( 1, 99999 ) ) ) );
 		}
 		if ( ! preg_match( '#^https://api(?:\.staging|\.testing)?\.supertext\.com/v1/(.*)$#', (string) $url, $m ) ) {
+			return $pre;
+		}
+		// Real AI translations (docs screenshots with the live key): let the request through.
+		if ( get_option( 'supertext_stand_in_live_ai' ) ) {
 			return $pre;
 		}
 		$path   = $m[1];

@@ -1,6 +1,8 @@
 # Screenshots of the guides (docs/images/) and the two movies, recorded on the demo with the real WPML
-# at the fixed address http://wpml-docs.test, registered with WPML's development site key, and the
-# Supertext stand-in (real translations of the sample content, no API key). New screenshots and the
+# at the fixed address http://wpml-docs.test, registered with WPML's development site key. The
+# screenshots translate with the real Supertext API (secret SUPERTEXT_API_KEY), so the guides show
+# real translations; orders, version reports and the movies use the Supertext stand-in (without the
+# secret, the screenshots too). New screenshots and the
 # README's demo.gif are committed straight to main; both MP4s are attached to the run (for YouTube).
 # See docs/DEVELOPER.md → Docs screenshots and Demo movie.
 #
@@ -88,15 +90,19 @@ jobs:
         env:
           WPML_SITE_KEY: ${{ secrets.WPML_SITE_KEY_DOCS }}
           WPML_ZIP_TOKEN: ${{ secrets.WPML_ZIP_TOKEN }}
+          # The screenshots translate with the real API; without the secret the stand-in translates.
+          LIVE_KEY: ${{ secrets.SUPERTEXT_API_KEY }}
         run: |
           set -euo pipefail
           start_demo() { # $1: database, $2: DEMO_SKIP_PLUGIN
+            local key_arg=(-e SUPERTEXT_API_KEY=st-demo-key-0000)
+            if [ -n "${LIVE_KEY:-}" ]; then export SUPERTEXT_API_KEY="$LIVE_KEY"; key_arg=(-e SUPERTEXT_API_KEY); fi
             docker rm -f demo >/dev/null 2>&1 || true
             docker run -d --name demo --network host \
               -e PORT=80 -e DATABASE_URL="mysql://root:root@127.0.0.1:3306/$1" -e DEMO_SITE_URL="$SITE_URL" \
               -e DEMO_ADMIN_EMAIL -e DEMO_ADMIN_PASSWORD -e DEMO_EDITOR_EMAIL -e DEMO_EDITOR_PASSWORD \
               -e WPML_ZIP_URL -e WPML_ST_ZIP_URL -e WPML_WPFORMS_ZIP_URL -e WPML_ZIP_TOKEN -e WPML_SITE_KEY -e DEMO_SKIP_PLUGIN="$2" \
-              -e SUPERTEXT_API_KEY=st-demo-key-0000 -e SUPERTEXT_ACCOUNT_EMAIL=docs@wpml-docs.test \
+              "${key_arg[@]}" -e SUPERTEXT_ACCOUNT_EMAIL=docs@wpml-docs.test \
               -e SUPERTEXT_ORDER_API_KEY=st-demo-order-key-0000 -e SUPERTEXT_VERSION_REPORTS=0 wpml-docs
             for _ in $(seq 1 120); do
               if curl -fsS "$SITE_URL/healthz" >/dev/null 2>&1 && logs=$(docker logs demo 2>&1) && grep -q "WordPress demo ready" <<< "$logs"; then break; fi
@@ -105,6 +111,8 @@ jobs:
             docker exec demo mkdir -p /var/www/html/wp-content/mu-plugins
             docker cp tests/e2e/stand-in/supertext-stand-in.php demo:/var/www/html/wp-content/mu-plugins/
             docker exec demo chown -R www-data:www-data /var/www/html/wp-content/mu-plugins
+            # With the live key the stand-in lets AI translations through to the real API.
+            if [ -n "${LIVE_KEY:-}" ]; then docker exec -u www-data demo wp --path=/var/www/html option update supertext_stand_in_live_ai 1 >/dev/null; fi
             # The guides show page screenshots off (no VibeBoost key here); the status then has no warning.
             docker exec -u www-data demo wp --path=/var/www/html eval '$s = (array) get_option( "supertext_wpml_settings", array() ); $s["screenshots_enabled"] = false; update_option( "supertext_wpml_settings", $s );' || true
             logs=$(docker logs demo 2>&1)
@@ -159,7 +167,7 @@ jobs:
           path: tests/e2e/movie/out/*.mp4
           if-no-files-found: ignore
 
-      # Straight to main, no pull request to review: the images come from the stand-in, and a push
+      # Straight to main, no pull request to review: the images come from the demo, and a push
       # with the workflow's own token starts no other workflow. See docs/DEVELOPER.md → Docs screenshots.
       - name: Commit the new images to main
         env:

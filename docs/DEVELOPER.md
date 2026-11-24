@@ -92,6 +92,9 @@ AI file translation API v1 through the bundled **Supertext PHP SDK** ([Supertext
 | `supertext_wpml_yootheme_fields`, `supertext_wpml_yootheme_skip_content_types` | `content, title, meta, alt, image_alt` / `code` | YOOtheme props |
 | `supertext_wpml_human_services`, `supertext_wpml_quote_currency`, `supertext_wpml_accept_language`, `supertext_wpml_screenshot_endpoint`, `supertext_wpml_order_url_locale` | | Professional orders (as in the Polylang plugin) |
 
+
+Shortcodes registered in WordPress travel as empty `<span data-st-sc="N"></span>` placeholders (`Machine_Translation\Shortcodes`, in `Client::translate_segments()`) and are put back unchanged; otherwise the translation turns their quotes typographic (`[wpforms id=”2784”]`) and WordPress no longer recognises them. A placeholder the translation lost gets its shortcode appended to the text. Professional orders don't protect them yet.
+
 ### Language codes
 
 Supertext accepts only the codes of its `GET features` list (the SDK's `Languages`): sources bare (`en`), targets regional for de/en/fr/it/pt (`de-CH`, `en-US`, `pt-BR`), a script for zh/sr (`zh-Hans`, `sr-Latn`), bare for the others (`es`, `nl`). A WPML language resolves by its locale (`Ai_Settings::resolve_target()`, `Language_Codes`, unit-tested): (1) the administrator's drop-down (`supertext_wpml_ai.languages`, WPML code → Supertext code), then the `supertext_wpml_language_code` filter; (2) exact match of the locale (`de_CH` → `de-CH`); (3) the SDK default (`de_DE` → `de-DE`, `zh_CN` → `zh-Hans`, `es_ES` → `es`); (4) the same without `_formal`/`_informal`; (5) else `unsupported_language`: nothing is sent and the editor is told which language to map. One mapping serves both directions (the source is the target code's language, `de-CH` → `de`). Saving keeps only Supertext's targets (`Ai_Settings::sanitize()`), formality only `more`/`less` where Supertext offers it, review as booleans.

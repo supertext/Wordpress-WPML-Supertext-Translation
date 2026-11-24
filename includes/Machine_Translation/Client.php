@@ -297,6 +297,26 @@ class Client {
 			@set_time_limit( $timeout + 60 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		}
 
+		// Shortcodes travel as placeholders and come back unchanged (Shortcodes). A plain-text
+		// segment with one is sent as escaped HTML and decoded again.
+		$codes = array();
+		$plain = array();
+		foreach ( $segments as $key => $segment ) {
+			if ( false === strpos( $segment->text, '[' ) ) {
+				continue;
+			}
+			$html                 = $segment->html ? $segment->text : esc_html( $segment->text );
+			list( $html, $found ) = Shortcodes::protect( $html );
+			if ( array() === $found ) {
+				continue;
+			}
+			$codes[ $key ]    = $found;
+			$segments[ $key ] = Segment::html( $html );
+			if ( ! $segment->html ) {
+				$plain[ $key ] = true;
+			}
+		}
+
 		try {
 			$result = $this->sdk( $timeout, $route )->translateTexts( $segments, $target_lang, '' !== $source_lang ? $source_lang : null, $politeness );
 		} catch ( SupertextException $e ) {
@@ -311,6 +331,13 @@ class Client {
 			return self::to_wp_error( $e );
 		}
 		Commando::on_request();
+
+		foreach ( $codes as $key => $found ) {
+			if ( isset( $result[ $key ] ) ) {
+				$text           = Shortcodes::restore( (string) $result[ $key ], $found );
+				$result[ $key ] = isset( $plain[ $key ] ) ? html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) : $text;
+			}
+		}
 
 		return $result;
 	}

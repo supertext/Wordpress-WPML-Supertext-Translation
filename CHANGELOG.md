@@ -4,6 +4,7 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
+- Shortcodes (e.g. `[wpforms id="2784" title="false"]`) are kept exactly as they are in AI translations. Before, the translation could turn their quotes typographic, so WordPress no longer recognised them and the form or gallery was missing from the translated page.
 ## 1.2.0 — 2026-11-24
 
 - **Supertext → String translations**: translate form fields (WPForms, Gravity Forms, Contact Form 7 with their WPML add-ons) and other WPML string packages with Supertext AI or order a professional translation, or edit them in a grid, as in the Polylang plugin. Needs WPML String Translation.

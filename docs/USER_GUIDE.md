@@ -66,7 +66,7 @@ These are WPML's own string translations, the same as in WPML → String Transla
 
 | Translated | Not translated |
 | --- | --- |
-| Title, content (each block on its own, formatting and links kept), excerpt | Block settings (colours, sizes, IDs), HTML comments, shortcodes, images and other files |
+| Title, content (each block on its own, formatting and links kept), excerpt | Block settings (colours, sizes, IDs), HTML comments, images and other files; shortcodes such as `[wpforms id="12"]` stay exactly as they are, so forms and galleries keep working in the translation |
 | Custom fields set to *Translate* in WPML, with a single text value | Fields with several values or structured values (e.g. repeaters) |
 | ACF blocks: their text fields, repeaters and groups included (with ACF Multilingual, the fields set to *Translate*) | Their switches, numbers, links, images and the field settings; with ACF Multilingual, fields set to *Copy*, *Copy once* or *Don't translate* |
 | Categories, tags and other WPML-translated taxonomies **without** a translation yet (name and description) | Terms that already have a translation: that one is used, unchanged |

@@ -10,7 +10,7 @@ const path = require( 'path' );
 const OUT = path.join( __dirname, '..', '..', 'docs', 'images' );
 const PAGE = 'Welcome to the Supertext demo';
 // WPML's licence and site-key notices and WPForms Multilingual's welcome box aren't part of what the guides show.
-const CALM = '*,*::before,*::after{animation:none!important;transition:none!important}.spinner{display:none!important}.components-notice-list,.otgs-installer-notice,.otgs-notice,.wpml-notice,.wpml-forms-welcome-notice{display:none!important}#wpadminbar{position:absolute!important}';
+const CALM = '*,*::before,*::after{animation:none!important;transition:none!important}.spinner{display:none!important}.components-notice-list,.otgs-installer-notice,.otgs-notice,.wpml-notice,.wpml-forms-welcome-notice{display:none!important}body:not(.block-editor-page) #wpadminbar{position:absolute!important}';
 
 /**
  * @param {import('@playwright/test').Page} page

@@ -133,6 +133,8 @@ fi
 
 # Languages, accounts, settings and sample content.
 $WP eval-file /usr/local/share/wordpress-demo/setup.php
+# A new request: WPML String Translation only runs once WPML is set up (see setup-forms.php).
+$WP eval-file /usr/local/share/wordpress-demo/setup-forms.php
 
 # Language packs for the back end in the demo languages (best effort, needs internet).
 for locale in de_DE fr_FR it_IT; do

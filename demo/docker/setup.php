@@ -218,57 +218,6 @@ if ( function_exists( 'acf_register_block_type' ) && ! get_option( 'supertext_de
 }
 
 // ---------------------------------------------------------------------------
-// With WPForms (WPML_WPFORMS_ZIP_URL): a newsletter form on the page "Subscribe". With
-// WPML String Translation and WPForms Multilingual, its texts are a WPML string package,
-// listed under Supertext → String translations. Created once.
-// ---------------------------------------------------------------------------
-if ( function_exists( 'wpforms' ) && ! get_option( 'supertext_demo_wpforms' ) ) {
-	$admins = get_users( array( 'role' => 'administrator', 'number' => 1, 'fields' => 'ID' ) );
-	wp_set_current_user( (int) ( $admins[0] ?? 1 ) ); // WPForms only saves forms for a user who may.
-	$form = array(
-		'fields'   => array(
-			'1' => array( 'id' => '1', 'type' => 'name', 'label' => 'Name', 'format' => 'simple', 'required' => '1', 'placeholder' => 'Your name' ),
-			'2' => array( 'id' => '2', 'type' => 'email', 'label' => 'Email', 'required' => '1', 'placeholder' => 'you@example.com', 'description' => 'We never share your address.' ),
-			'3' => array( 'id' => '3', 'type' => 'checkbox', 'label' => 'What would you like to receive?', 'choices' => array( '1' => array( 'label' => 'Newsletter', 'value' => '' ), '2' => array( 'label' => 'Free magazine by post', 'value' => '' ) ) ),
-		),
-		'field_id' => 4,
-		'settings' => array(
-			'form_title'             => 'Newsletter',
-			'submit_text'            => 'Subscribe',
-			'submit_text_processing' => 'Sending...',
-			'confirmations'          => array( '1' => array( 'type' => 'message', 'message' => '<p>Thank you! Please confirm your address in the e-mail we just sent you.</p>' ) ),
-		),
-		'meta'     => array( 'template' => 'blank' ),
-	);
-	$form_id = (int) wpforms()->obj( 'form' )->add( 'Newsletter', array(), array( 'builder' => false ) );
-	if ( $form_id > 0 ) {
-		$form['id'] = $form_id;
-		wpforms()->obj( 'form' )->update( $form_id, $form );
-		// What the form builder fires on save; WPForms Multilingual registers the strings on it.
-		do_action( 'wpforms_builder_save_form', $form_id, $form );
-		$page = wp_insert_post(
-			array(
-				'post_type'    => 'page',
-				'post_title'   => 'Subscribe',
-				'post_content' => "<!-- wp:shortcode -->\n[wpforms id=\"$form_id\" title=\"false\"]\n<!-- /wp:shortcode -->",
-				'post_status'  => 'publish',
-				'post_author'  => get_current_user_id(),
-			)
-		);
-		update_option( 'supertext_demo_wpforms', $form_id );
-		supertext_demo_log( 'Created the WPForms form "Newsletter" and the page "Subscribe"' . ( is_int( $page ) && $page > 0 ? '' : ' (page failed)' ) );
-	}
-	wp_set_current_user( 0 );
-}
-// No WPForms welcome page or setup wizard for the demo's admins (they replace the first admin page).
-if ( function_exists( 'wpforms' ) ) {
-	delete_transient( 'wpforms_activation_redirect' );
-	delete_transient( 'wpforms_setup_wizard_first_run' );
-	update_option( 'wpforms_activation_redirect', true );
-	update_option( 'wpforms_setup_wizard_disabled', true );
-}
-
-// ---------------------------------------------------------------------------
 // With WPML: posts and pages without a language (e.g. the sample content, created
 // before WPML was installed) become English. Runs on every start, changes nothing twice.
 // ---------------------------------------------------------------------------

@@ -38,6 +38,7 @@ COPY assets wp-content/plugins/supertext-wpml/assets
 COPY demo/docker/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY demo/docker/wp-config-extra.php /usr/local/share/wordpress-demo/wp-config-extra.php
 COPY demo/docker/setup.php /usr/local/share/wordpress-demo/setup.php
+COPY demo/docker/setup-forms.php /usr/local/share/wordpress-demo/setup-forms.php
 COPY demo/docker/entrypoint.sh /usr/local/bin/demo-entrypoint
 # Demo only: the ACF blocks "Text", "Bild" and "Bildergalerie" (acf/text, acf/bild,
 # acf/bildergalerie), active once ACF PRO is installed (ACF_ZIP_URL).

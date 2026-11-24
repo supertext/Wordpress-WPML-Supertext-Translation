@@ -71,16 +71,7 @@ class Writeback {
 		}
 
 		// Download + parse the translated file(s) into a context => translation map.
-		$client = new Client();
-		$map    = array();
-		foreach ( $files as $file ) {
-			$html = $client->download_file( (int) $file['Id'], (string) $file['Name'] );
-			if ( is_wp_error( $html ) ) {
-				self::debug_log( sprintf( 'writeback: failed to download file %d: %s', (int) $file['Id'], $html->get_error_message() ) );
-				continue;
-			}
-			$map += self::parse_html( $html );
-		}
+		$map = self::download_map( $body );
 
 		if ( empty( $map ) ) {
 			self::debug_log( 'writeback: no translatable strings parsed from the downloaded file(s)' );
@@ -157,6 +148,28 @@ class Writeback {
 			'errors'  => $saved['errors'],
 			'post_id' => $saved['post_id'],
 		);
+	}
+
+	/**
+	 * Downloads a completed order's Final file(s) and parses them into a map of
+	 * context => translated string (shared with string orders, see Human_Strings).
+	 *
+	 * @param mixed $body Decoded callback body.
+	 * @return array<string, string>
+	 */
+	public static function download_map( $body ): array {
+		$client = new Client();
+		$map    = array();
+		foreach ( self::final_files( $body ) as $file ) {
+			$html = $client->download_file( (int) $file['Id'], (string) $file['Name'] );
+			if ( is_wp_error( $html ) ) {
+				self::debug_log( sprintf( 'writeback: failed to download file %d: %s', (int) $file['Id'], $html->get_error_message() ) );
+				continue;
+			}
+			$map += self::parse_html( $html );
+		}
+
+		return $map;
 	}
 
 	/**

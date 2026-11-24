@@ -28,6 +28,17 @@ function supertext_stand_in_dictionary(): array {
 			'Contact' => 'Kontakt',
 			'Stay in the loop' => 'Bleiben Sie auf dem Laufenden',
 			'Subscribe to our newsletter and get translation tips once a month.' => 'Abonnieren Sie unseren Newsletter und erhalten Sie einmal im Monat Übersetzungstipps.',
+			// Demo form (WPForms Multilingual string package).
+			'Newsletter' => 'Newsletter',
+			'Subscribe' => 'Abonnieren',
+			'Sending...' => 'Wird gesendet …',
+			'Name' => 'Name',
+			'Your name' => 'Ihr Name',
+			'We never share your address.' => 'Wir geben Ihre Adresse nie weiter.',
+			'Email' => 'E-Mail',
+			'Free magazine by post' => 'Kostenloses Magazin per Post',
+			'What would you like to receive?' => 'Was möchten Sie erhalten?',
+			'Thank you! Please confirm your address in the e-mail we just sent you.' => 'Vielen Dank! Bitte bestätigen Sie Ihre Adresse in der E-Mail, die wir Ihnen soeben gesendet haben.',
 		),
 		'fr' => array(
 			'Welcome to the Supertext demo' => 'Bienvenue dans la démo Supertext',
@@ -40,6 +51,17 @@ function supertext_stand_in_dictionary(): array {
 			'Contact' => 'Contact',
 			'Stay in the loop' => 'Restez informé',
 			'Subscribe to our newsletter and get translation tips once a month.' => 'Abonnez-vous à notre newsletter et recevez des conseils de traduction une fois par mois.',
+			// Demo form (WPForms Multilingual string package).
+			'Newsletter' => 'Newsletter',
+			'Subscribe' => 'S’abonner',
+			'Sending...' => 'Envoi en cours…',
+			'Name' => 'Nom',
+			'Your name' => 'Votre nom',
+			'We never share your address.' => 'Nous ne communiquons jamais votre adresse.',
+			'Email' => 'E-mail',
+			'Free magazine by post' => 'Magazine gratuit par la poste',
+			'What would you like to receive?' => 'Que souhaitez-vous recevoir ?',
+			'Thank you! Please confirm your address in the e-mail we just sent you.' => 'Merci ! Veuillez confirmer votre adresse dans l’e-mail que nous venons de vous envoyer.',
 		),
 		'it' => array(
 			'Welcome to the Supertext demo' => 'Benvenuti nella demo di Supertext',
@@ -52,6 +74,17 @@ function supertext_stand_in_dictionary(): array {
 			'Contact' => 'Contatti',
 			'Stay in the loop' => 'Resti aggiornato',
 			'Subscribe to our newsletter and get translation tips once a month.' => 'Si abboni alla nostra newsletter e riceva consigli di traduzione una volta al mese.',
+			// Demo form (WPForms Multilingual string package).
+			'Newsletter' => 'Newsletter',
+			'Subscribe' => 'Iscriviti',
+			'Sending...' => 'Invio in corso…',
+			'Name' => 'Nome',
+			'Your name' => 'Il suo nome',
+			'We never share your address.' => 'Non condividiamo mai il suo indirizzo.',
+			'Email' => 'E-mail',
+			'Free magazine by post' => 'Rivista gratuita per posta',
+			'What would you like to receive?' => 'Che cosa desidera ricevere?',
+			'Thank you! Please confirm your address in the e-mail we just sent you.' => 'Grazie! Confermi il suo indirizzo nell’e-mail che le abbiamo appena inviato.',
 		),
 	);
 }
@@ -69,6 +102,31 @@ add_filter(
 				array( 'Name' => 'Translation + proofreading', 'Description' => 'Translation, checked by a second translator.', 'ShortDescription' => 'Translation + proofreading', 'OrderTypeConfigurationId' => 2, 'OrderTypeId' => 7 ),
 			);
 			return array( 'response' => array( 'code' => 200, 'message' => 'OK' ), 'headers' => array( 'content-type' => 'application/json' ), 'body' => wp_json_encode( $types ), 'cookies' => array() );
+		}
+		// Order API: file upload, price quote and order creation (no order is placed anywhere).
+		if ( preg_match( '#^https://[a-z.]*supertext\.(?:com|ch)/api/(v1/files/files|v1/translation/quote|v1\.1/translation/order)#', (string) $url, $om ) ) {
+			$ok = static fn( $body ) => array( 'response' => array( 'code' => 200, 'message' => 'OK' ), 'headers' => array( 'content-type' => 'application/json' ), 'body' => wp_json_encode( $body ), 'cookies' => array() );
+			if ( 'v1/files/files' === $om[1] ) {
+				return $ok( array( array( 'Id' => 4711 ) ) );
+			}
+			if ( 'v1/translation/quote' === $om[1] ) {
+				return $ok(
+					array(
+						'Currency'       => 'CHF',
+						'CurrencySymbol' => 'CHF',
+						'WordCount'      => 42,
+						'Options'        => array(
+							array(
+								'DeliveryOptions' => array(
+									array( 'DeliveryId' => 1, 'Name' => '24 hours', 'Price' => 39.0, 'DeliveryDate' => gmdate( 'c', time() + DAY_IN_SECONDS ), 'IsDefaultDeliveryOption' => false ),
+									array( 'DeliveryId' => 3, 'Name' => '3 days', 'Price' => 24.0, 'DeliveryDate' => gmdate( 'c', time() + 3 * DAY_IN_SECONDS ), 'IsDefaultDeliveryOption' => true ),
+								),
+							),
+						),
+					)
+				);
+			}
+			return $ok( array( array( 'Id' => 900000 + wp_rand( 1, 99999 ) ) ) );
 		}
 		if ( ! preg_match( '#^https://api(?:\.staging|\.testing)?\.supertext\.com/v1/(.*)$#', (string) $url, $m ) ) {
 			return $pre;

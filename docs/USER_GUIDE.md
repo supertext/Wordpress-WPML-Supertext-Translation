@@ -49,6 +49,19 @@ To translate with another tool or translator: in the list of posts or pages, hov
 - Send the file to translation, then upload the translated file under **Supertext → Translation files → Import translation**. The import creates or updates the translation (as a draft) and shows what was imported and what was skipped: texts that changed in WordPress since the export (tick *Also import texts whose source changed* to take them anyway), texts without a translation, translations whose formatting doesn't match the source, and texts missing from the file.
 - Files from other systems, files over 10 MB and translations that add markup the source doesn't have are refused. Uploaded files aren't stored.
 
+## Form fields and other strings: String translations
+
+The texts of forms (WPForms, Gravity Forms, Contact Form 7 with their WPML add-ons) and other WPML string packages are translated under **Supertext → String translations**. It needs WPML String Translation and the form plugin's WPML add-on (e.g. WPForms Multilingual).
+
+![Supertext → String translations: the strings of a WPForms form with a text box per language](images/string-translations.png)
+
+- Choose a group (e.g. *WPForms: Newsletter*), search, or tick *Empty translation only* to see what is still missing.
+- Tick the rows, then under **Bulk actions** choose **Supertext AI Translation** (every other language at once) or **Supertext Human Translation** (then the target language, translation type and delivery date, with the price), and click **Apply**. AI translations replace the existing ones of the ticked rows.
+- Or edit a text box and click **Save translations**.
+- Professional orders appear under **Supertext → Orders**; the translations are saved when Supertext delivers them.
+
+These are WPML's own string translations, the same as in WPML → String Translation, so the form shows them right away. Strings of blocks inside posts aren't listed here: they are translated with the post.
+
 ## What is translated
 
 | Translated | Not translated |
@@ -57,7 +70,7 @@ To translate with another tool or translator: in the list of posts or pages, hov
 | Custom fields set to *Translate* in WPML, with a single text value | Fields with several values or structured values (e.g. repeaters) |
 | ACF blocks: their text fields, repeaters and groups included (with ACF Multilingual, the fields set to *Translate*) | Their switches, numbers, links, images and the field settings; with ACF Multilingual, fields set to *Copy*, *Copy once* or *Don't translate* |
 | Categories, tags and other WPML-translated taxonomies **without** a translation yet (name and description) | Terms that already have a translation: that one is used, unchanged |
-| YOOtheme Pro layouts, text field by field | Menus, widgets, theme texts and other strings (use WPML String Translation) |
+| YOOtheme Pro layouts, text field by field | Menus, widgets, theme texts and other strings outside WPML string packages (use WPML String Translation) |
 
 Fields WPML *copies* (e.g. the featured image) are copied into the translation; *Copy once* fields only into a new one. A page whose parent has a translation gets the parent's translation as its parent.
 
@@ -73,3 +86,5 @@ Fields WPML *copies* (e.g. the featured image) are copied into the translation; 
 | *… no translatable content found.* | The post has no text to translate. |
 | *An order already exists for …* | There is an open order for this post and language: see Supertext → Orders. |
 | *Your Supertext translation limit is exceeded.* | The Supertext subscription has reached its limit. |
+| *This page needs WPML String Translation* | Supertext → String translations works only with WPML String Translation installed and active. |
+| *No strings selected to translate into this language.* | The ticked strings are already in the chosen language. |

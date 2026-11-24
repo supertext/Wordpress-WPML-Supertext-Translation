@@ -778,3 +778,142 @@ msgstr "Impostato da %s sul server; lo modifichi lì."
 #. translators: %s: when it was checked, e.g. "checked November 11, 2026 11:00 am".
 msgid "Works · %s"
 msgstr "Funziona · %s"
+
+# Supertext → String translations (1.2.0).
+msgid "Add %s translation…"
+msgstr "Aggiungi la traduzione %s…"
+
+msgid "Add at least one more language in WPML to translate strings."
+msgstr "Aggiunga almeno un’altra lingua in WPML per tradurre le stringhe."
+
+msgid "All groups"
+msgstr "Tutti i gruppi"
+
+msgid "Apply"
+msgstr "Applica"
+
+msgid "Bulk actions"
+msgstr "Azioni di gruppo"
+
+msgid "Changes apply to the same translations as WPML → String Translation."
+msgstr "Le modifiche valgono per le stesse traduzioni di WPML → Traduzione stringhe."
+
+msgid "Empty translation only"
+msgstr "Solo traduzioni vuote"
+
+msgid "Enter your Supertext API key on the Settings page first."
+msgstr "Inserisca prima la sua chiave API Supertext nella pagina Impostazioni."
+
+msgid "Enter your Supertext account email and Order API Key on the Settings page first."
+msgstr "Inserisca prima l'indirizzo e-mail del suo account Supertext e la chiave API per gli ordini nella pagina Impostazioni."
+
+msgid "Field"
+msgstr "Campo"
+
+msgid "Filter"
+msgstr "Filtra"
+
+msgid "Group"
+msgstr "Gruppo"
+
+msgid "No strings selected to translate into this language."
+msgstr "Nessuna stringa selezionata da tradurre in questa lingua."
+
+msgid "No strings to translate."
+msgstr "Nessuna stringa da tradurre."
+
+msgid "Order a professional translation of the checked strings?"
+msgstr "Ordinare una traduzione professionale delle stringhe selezionate?"
+
+msgid "Ordering…"
+msgstr "Ordine in corso…"
+
+msgid "Save translations"
+msgstr "Salva le traduzioni"
+
+msgid "Search strings…"
+msgstr "Cerca stringhe…"
+
+msgid "Select a delivery option."
+msgstr "Selezioni un'opzione di consegna."
+
+msgid "Select a target language."
+msgstr "Selezioni una lingua di destinazione."
+
+msgid "Select a translation type, a target language, and at least one row."
+msgstr "Selezioni un tipo di traduzione, una lingua di destinazione e almeno una riga."
+
+msgid "Select a translation type."
+msgstr "Selezioni un tipo di traduzione."
+
+msgid "Select all"
+msgstr "Seleziona tutto"
+
+msgid "Select at least one row to translate."
+msgstr "Selezioni almeno una riga da tradurre."
+
+msgid "Select at least one row."
+msgstr "Selezioni almeno una riga."
+
+msgid "Something went wrong."
+msgstr "Si è verificato un errore."
+
+msgid "Source"
+msgstr "Origine"
+
+msgid "Source language"
+msgstr "Lingua di partenza"
+
+msgid "String translations"
+msgstr "Traduzioni delle stringhe"
+
+msgid "Supertext → Orders"
+msgstr "Supertext → Ordini"
+
+msgid "The texts of forms and other WPML string packages. Tick the rows you want, then translate them with Supertext AI or order a professional translation, or edit a translation and save. These are the same translations as in %s."
+msgstr "I testi dei moduli e degli altri pacchetti di stringhe WPML. Selezioni le righe desiderate, poi le traduca con Supertext AI o ordini una traduzione professionale, oppure modifichi una traduzione e la salvi. Sono le stesse traduzioni di %s."
+
+msgid "This page needs WPML String Translation (wpml.org account → Downloads). With it, the texts of forms (WPForms, Gravity Forms, Contact Form 7 with their WPML add-ons) and other WPML string packages appear here."
+msgstr "Questa pagina richiede WPML String Translation (account wpml.org → Download). Con esso, qui compaiono i testi dei moduli (WPForms, Gravity Forms, Contact Form 7 con i relativi add-on WPML) e degli altri pacchetti di stringhe WPML."
+
+msgid "Tick at least one row to see delivery options and the price."
+msgstr "Selezioni almeno una riga per vedere le opzioni di consegna e il prezzo."
+
+msgid "Translate form fields and other WPML strings with Supertext AI or professional translators."
+msgstr "Traduca i campi dei moduli e le altre stringhe WPML con Supertext AI o tramite traduttori professionisti."
+
+msgid "Translating…"
+msgstr "Traduzione in corso…"
+
+msgid "Unknown target language."
+msgstr "Lingua di destinazione sconosciuta."
+
+msgid "WPML strings"
+msgstr "Stringhe WPML"
+
+msgid "WPML → String Translation"
+msgstr "WPML → Traduzione stringhe"
+
+msgid "%d string"
+msgstr "%d stringa"
+
+msgid "%d strings"
+msgstr "%d stringhe"
+
+msgid "%d translation by Supertext AI saved."
+msgstr "%d traduzione di Supertext AI salvata."
+
+msgid "%d translations by Supertext AI saved."
+msgstr "%d traduzioni di Supertext AI salvate."
+
+msgid "%d translation saved."
+msgstr "%d traduzione salvata."
+
+msgid "%d translations saved."
+msgstr "%d traduzioni salvate."
+
+msgid "Order %s placed with Supertext. The translations are saved automatically when it is done; see"
+msgstr "Ordine %s effettuato presso Supertext. Le traduzioni vengono salvate automaticamente al termine; veda"
+
+msgid "Orders %s placed with Supertext. The translations are saved automatically when they are done; see"
+msgstr "Ordini %s effettuati presso Supertext. Le traduzioni vengono salvate automaticamente al termine; veda"

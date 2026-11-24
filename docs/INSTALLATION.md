@@ -7,7 +7,7 @@ For administrators: how to install and set up **Supertext for WPML**. Editors: s
 ## Requirements
 
 - WordPress 6.4 or later, PHP 8.2 or later (PHP 8.1 is end of life).
-- **WPML Multilingual CMS** (the `sitepress-multilingual-cms` plugin), set up with at least two languages. WPML String Translation and WPML's Translation Management are not needed.
+- **WPML Multilingual CMS** (the `sitepress-multilingual-cms` plugin), set up with at least two languages. WPML's Translation Management isn't needed. **WPML String Translation** is only needed for *Supertext → String translations* (form fields and other string packages); forms also need their WPML add-on, e.g. WPForms Multilingual.
 - A Supertext account:
   - **AI translation**: an API key. No Supertext account yet? Create one at <https://www.supertext.com/person/en/account/signin>. Generate your API key at supertext.com → Integrations → API, <https://www.supertext.com/en/integrations/api> (requires the **Admin** role).
   - **Professional (human) translation** (optional): your account email and the *Order API Key* from your Supertext account settings.

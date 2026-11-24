@@ -38,6 +38,18 @@ test( 'capture docs screenshots', async ( { page } ) => {
 	await shot( page, 'settings-ai', cards.nth( 1 ) );
 	await shot( page, 'settings-human', cards.nth( 2 ) );
 
+	// Supertext → String translations: the demo's WPForms form, translated with AI (only on a
+	// site with WPML String Translation and WPForms Multilingual).
+	await page.goto( 'wp-admin/admin.php?page=supertext-wpml-strings&st_group=' + encodeURIComponent( 'WPForms: Newsletter' ) );
+	if ( await page.locator( '.st-table' ).waitFor( { timeout: 15000 } ).then( () => true ).catch( () => false ) ) {
+		await page.locator( '.st-check-all' ).check();
+		await page.selectOption( '.st-bulk-action', 'ai' );
+		await page.locator( '.st-apply' ).click();
+		await page.waitForURL( /[?&]ai=/, { timeout: 120000 } );
+		await page.setViewportSize( { width: 1280, height: 900 } );
+		await shot( page, 'string-translations', page.locator( '.st-tablecard' ) );
+	}
+
 	// WPML's language setup (only on a site with the real WPML).
 	await page.goto( 'wp-admin/admin.php?page=sitepress-multilingual-cms/menu/languages.php' );
 	const editor = page.locator( '.wpml-language-editor' ).first();

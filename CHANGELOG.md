@@ -4,6 +4,8 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
+- **Supertext → String translations**: translate form fields (WPForms, Gravity Forms, Contact Form 7 with their WPML add-ons) and other WPML string packages with Supertext AI or order a professional translation, or edit them in a grid, as in the Polylang plugin. Needs WPML String Translation.
+- Demo: WPML 5.4.0 with WPML String Translation, WPForms Lite and WPForms Multilingual (variables `WPML_ST_ZIP_URL` and `WPML_WPFORMS_ZIP_URL`), and a newsletter form on the new page *Subscribe*.
 - Demo: two more ACF blocks, *Bild* (an image field) and *Bildergalerie* (a gallery and a radio field), next to *Text*; the two spacing switches are now one shared field group for all three, the way ACF sites usually build them. Nothing changes in the plugin.
 - Demo: the media library is on a volume (`wordpress-wpml-uploads`, mounted at `wp-content/uploads`). Uploaded images used to disappear with the next deploy while their attachments stayed in the database, so pages showing them broke in every language.
 

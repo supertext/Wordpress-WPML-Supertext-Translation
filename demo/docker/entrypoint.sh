@@ -90,6 +90,10 @@ HT
 #   ACF_ZIP_URL    "Advanced Custom Fields PRO" (advanced-custom-fields-pro), optional:
 #                  the demo's ACF block page.
 #   ACFML_ZIP_URL  "Advanced Custom Fields Multilingual" (acfml), optional.
+#   WPML_ST_ZIP_URL       "WPML String Translation" (wpml-string-translation), optional:
+#                         Supertext → String translations.
+#   WPML_WPFORMS_ZIP_URL  "WPForms Multilingual" (wpml-wpforms), optional: with it, WPForms
+#                         Lite (wordpress.org) and the demo's newsletter form.
 install_zip() { # variable-name plugin-folder label
     url=$(printenv "$1" || true)
     if [ -z "$url" ] || [ -d "wp-content/plugins/$2" ]; then
@@ -110,7 +114,12 @@ install_zip() { # variable-name plugin-folder label
 install_zip WPML_ZIP_URL sitepress-multilingual-cms WPML
 install_zip ACF_ZIP_URL advanced-custom-fields-pro "ACF PRO"
 install_zip ACFML_ZIP_URL acfml "ACF Multilingual"
-for plugin in sitepress-multilingual-cms advanced-custom-fields-pro acfml; do
+install_zip WPML_ST_ZIP_URL wpml-string-translation "WPML String Translation"
+install_zip WPML_WPFORMS_ZIP_URL wpml-wpforms "WPForms Multilingual"
+if [ -d wp-content/plugins/wpml-wpforms ] && [ ! -d wp-content/plugins/wpforms-lite ]; then
+    $WP plugin install wpforms-lite --quiet || echo "Could not install WPForms Lite, running without it" >&2
+fi
+for plugin in sitepress-multilingual-cms wpml-string-translation advanced-custom-fields-pro acfml wpforms-lite wpml-wpforms; do
     if [ -d "wp-content/plugins/$plugin" ]; then
         $WP plugin activate "$plugin" --quiet
     fi

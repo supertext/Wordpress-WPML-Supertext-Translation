@@ -111,6 +111,9 @@ jobs:
             grep -q "WordPress demo ready" <<< "$logs" || { echo "$logs" | tail -50; exit 1; }
             # What the demo installed and seeded (no secrets: the demo logs variable names only).
             grep -E "^Installing |^Could not |\[demo\]" <<< "$logs" || true
+            # WPForms Multilingual starts only after these actions; and the active plugins.
+            docker exec -u www-data demo wp --path=/var/www/html eval 'foreach ( array( "wpforms_loaded", "wpml_loaded", "wpml_after_tm_loaded", "wpml_st_loaded" ) as $a ) { echo $a, "=", did_action( $a ), " "; } echo "\n";' || true
+            docker exec -u www-data demo wp --path=/var/www/html plugin list --status=active --fields=name,version || true
             # The WPML string packages (Supertext → String translations lists them).
             docker exec -u www-data demo wp --path=/var/www/html eval 'echo "WPML_ST: " . ( defined( "WPML_ST_VERSION" ) ? WPML_ST_VERSION : "no" ) . "\n"; foreach ( (array) apply_filters( "wpml_pt_all_packages", array() ) as $p ) { echo "package ", $p->ID, " kind=", $p->kind, " name=", $p->name, " title=", $p->title, " post_id=", var_export( $p->post_id ?? null, true ), " strings=", count( (array) $p->get_package_strings() ), "\n"; }' || true
             grep -q "Installing WPML" <<< "$logs" || { echo "WPML wasn't installed: check WPML_ZIP_TOKEN"; exit 1; }

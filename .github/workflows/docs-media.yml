@@ -109,6 +109,8 @@ jobs:
             docker exec -u www-data demo wp --path=/var/www/html eval '$s = (array) get_option( "supertext_wpml_settings", array() ); $s["screenshots_enabled"] = false; update_option( "supertext_wpml_settings", $s );' || true
             logs=$(docker logs demo 2>&1)
             grep -q "WordPress demo ready" <<< "$logs" || { echo "$logs" | tail -50; exit 1; }
+            # What the demo installed and seeded (no secrets: the demo logs variable names only).
+            grep -E "^Installing |^Could not |\[demo\]" <<< "$logs" || true
             grep -q "Installing WPML" <<< "$logs" || { echo "WPML wasn't installed: check WPML_ZIP_TOKEN"; exit 1; }
           }
           declare -f start_demo > /tmp/start_demo.sh

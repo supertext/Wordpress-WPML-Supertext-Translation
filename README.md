@@ -4,11 +4,13 @@ WordPress plugin that connects **[WPML](https://wpml.org)** with **[Supertext](h
 
 - **AI translation** of posts, pages and other post types WPML translates — from the *Supertext* box in the editor or the *Supertext AI Translation* bulk action. Translations are created as drafts and linked to their original in WPML, with WPML's custom field settings, taxonomies and YOOtheme Pro layouts respected.
 - **Professional (human) translation orders** with a live price quote (*Supertext Human Translation* bulk action), written back into WPML when Supertext delivers.
+- **Form fields and other strings** (*Supertext → String translations*): the texts of forms (WPForms, Gravity Forms, Contact Form 7 with their WPML add-ons) and other WPML string packages, translated with AI, ordered from professional translators or edited in a grid. Needs WPML String Translation.
+- **ACF blocks**: texts in ACF blocks are translated with the post, with or without ACF Multilingual.
 - **Translation files**: export a post as XLIFF 1.2 or HTML for any translation tool and import the translated file.
 
 It is the WPML counterpart of [Supertext for Polylang](https://github.com/Supertext/Wordpress-Polylang-Supertext-Translation): same features and settings, but an independent plugin. WPML has no API for third-party machine-translation services, so Supertext brings its own screens instead of appearing inside WPML's translation editor.
 
-> **Status: 1.0.0, released.** Tested with WPML 5.3.0. Download the installable zip from the [latest release](https://github.com/supertext/Wordpress-WPML-Supertext-Translation/releases/latest). Demo: <https://wordpress-wpml-production.up.railway.app>.
+> **Status: released.** Tested with WPML 5.3.0 and 5.4.0. Download the installable zip from the [latest release](https://github.com/supertext/Wordpress-WPML-Supertext-Translation/releases/latest). Demo: <https://wordpress-wpml-production.up.railway.app>.
 
 No Supertext account yet? [Create one at supertext.com](https://www.supertext.com/person/en/account/signin). Generate your API key at [supertext.com → Integrations → API](https://www.supertext.com/en/integrations/api) (requires the **Admin** role).
 
@@ -17,7 +19,7 @@ No Supertext account yet? [Create one at supertext.com](https://www.supertext.co
 | Guide | For |
 | --- | --- |
 | [Installation guide](docs/INSTALLATION.md) | Administrators: requirements, installation, API key, languages, all settings, troubleshooting |
-| [User guide](docs/USER_GUIDE.md) | Editors: translating with AI, ordering professional translations, translation files |
+| [User guide](docs/USER_GUIDE.md) | Editors: translating with AI, ordering professional translations, string translations, translation files |
 | [Developer guide](docs/DEVELOPER.md) | Developers: architecture, Supertext API, WPML hooks, tests, CI, demo, releasing |
 
 Changes: [CHANGELOG.md](CHANGELOG.md).

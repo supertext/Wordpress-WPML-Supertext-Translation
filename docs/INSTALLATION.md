@@ -2,7 +2,7 @@
 
 For administrators: how to install and set up **Supertext for WPML**. Editors: see the [user guide](USER_GUIDE.md).
 
-> The screenshots come from a test site with WPML 5.3.0 and the demo's sample content. Translations come from a stand-in for the Supertext API (`tests/e2e/stand-in/`), so no API key was needed.
+> The screenshots come from a test site with WPML 5.4.0 and the demo's sample content. Translations come from a stand-in for the Supertext API (`tests/e2e/stand-in/`), so no API key was needed.
 
 ## Requirements
 

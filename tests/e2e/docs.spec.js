@@ -48,6 +48,8 @@ test( 'capture docs screenshots', async ( { page } ) => {
 		await page.locator( '.st-apply' ).click();
 		await page.waitForURL( /[?&]ai=/, { timeout: 120000 } );
 		await shot( page, 'string-translations', page.locator( '.st-tablecard' ) );
+	} else {
+		console.log( 'No string-translations screenshot: ' + ( await page.locator( '.wrap' ).first().innerText().catch( () => '(no page)' ) ).slice( 0, 300 ) );
 	}
 	await page.setViewportSize( { width: 1280, height: 900 } );
 

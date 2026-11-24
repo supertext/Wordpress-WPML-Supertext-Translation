@@ -22,6 +22,8 @@ delete_transient( 'wpforms_activation_redirect' );
 delete_transient( 'wpforms_setup_wizard_first_run' );
 update_option( 'wpforms_activation_redirect', true );
 update_option( 'wpforms_setup_wizard_disabled', true );
+// Nor WPForms Multilingual's welcome box ("Your website's forms were automatically detected …").
+update_option( 'wpml-forms-welcome-notice-dismiss', true );
 
 $supertext_demo_admins = get_users(
 	array(

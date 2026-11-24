@@ -27,6 +27,13 @@ const zip = need('PLUGIN_ZIP')
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined })
 const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1, locale: 'en-US' })
+// WPML's licence and site-key notices and WPForms Multilingual's welcome box aren't part of the
+// movie (same as the screenshots, tests/e2e/docs.spec.js).
+await page.addInitScript(() => {
+  const css = '.components-notice-list,.otgs-installer-notice,.otgs-notice,.wpml-notice,.wpml-forms-welcome-notice{display:none!important}'
+  const add = () => { const s = document.createElement('style'); s.textContent = css; document.head.appendChild(s) }
+  if (document.head) add(); else document.addEventListener('DOMContentLoaded', add)
+})
 
 // Sign in as the demo administrator (not recorded): installing plugins is an administrator's task.
 await page.goto(`${B}/wp-login.php`)

@@ -9,8 +9,8 @@ const path = require( 'path' );
 
 const OUT = path.join( __dirname, '..', '..', 'docs', 'images' );
 const PAGE = 'Welcome to the Supertext demo';
-// WPML's licence and site-key notices aren't part of what the guides show.
-const CALM = '*,*::before,*::after{animation:none!important;transition:none!important}.spinner{display:none!important}.components-notice-list,.otgs-installer-notice,.otgs-notice,.wpml-notice{display:none!important}#wpadminbar{position:absolute!important}';
+// WPML's licence and site-key notices and WPForms Multilingual's welcome box aren't part of what the guides show.
+const CALM = '*,*::before,*::after{animation:none!important;transition:none!important}.spinner{display:none!important}.components-notice-list,.otgs-installer-notice,.otgs-notice,.wpml-notice,.wpml-forms-welcome-notice{display:none!important}#wpadminbar{position:absolute!important}';
 
 /**
  * @param {import('@playwright/test').Page} page
@@ -49,7 +49,7 @@ test( 'capture docs screenshots', async ( { page } ) => {
 		await page.waitForURL( /[?&]ai=/, { timeout: 120000 } );
 		await shot( page, 'string-translations', page.locator( '.st-tablecard' ) );
 	} else {
-		console.log( 'No string-translations screenshot: ' + ( await page.locator( '.wrap' ).first().innerText().catch( () => '(no page)' ) ).slice( 0, 300 ) );
+		console.log( 'No string-translations screenshot: ' + ( await page.locator( '#wpbody-content' ).innerText().catch( () => '(no page)' ) ).replace( /\s+/g, ' ' ).slice( 0, 600 ) );
 	}
 	await page.setViewportSize( { width: 1280, height: 900 } );
 

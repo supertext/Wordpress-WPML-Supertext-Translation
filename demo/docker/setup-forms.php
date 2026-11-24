@@ -7,6 +7,8 @@
  * already set up: on a new site, setup.php sets WPML up, so in that same request WPForms
  * Multilingual can't register the form's strings. Here (a new request) it can; with WPML String
  * Translation the form's texts are a string package, listed under Supertext → String translations.
+ * The entrypoint runs it as a cron request: WPML registers string packages only in admin, REST
+ * and cron requests.
  *
  * @package Supertext\Wpml
  */

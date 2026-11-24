@@ -174,6 +174,7 @@ final class String_Translations_Page {
 					'st_empty'  => $empty ? '1' : '',
 				),
 				'rows'           => $rows,
+				'show_group'     => '' === $group, // One group filtered: its name is in the filter.
 				'languages'      => $languages,
 				'translations'   => $translations,
 				'human'          => Settings::is_configured(),

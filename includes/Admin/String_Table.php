@@ -71,7 +71,7 @@ final class String_Table {
 	 *
 	 * @param array<string, mixed> $args rows, languages (code => name), translations
 	 *                                   (id => [ code => text ]), action, hidden,
-	 *                                   human, human_services, filter_html, intro.
+	 *                                   show_group, human, human_services, filter_html, intro.
 	 * @return void
 	 */
 	public static function render( array $args ): void {
@@ -79,6 +79,7 @@ final class String_Table {
 		$languages    = (array) ( $args['languages'] ?? array() );
 		$translations = (array) ( $args['translations'] ?? array() );
 		$human        = ! empty( $args['human'] );
+		$show_group   = ! empty( $args['show_group'] );
 		$filter       = (string) ( $args['filter_html'] ?? '' );
 		$intro        = (string) ( $args['intro'] ?? '' );
 		$fid          = self::FORM_ID;
@@ -155,7 +156,9 @@ final class String_Table {
 								<tr>
 									<th class="st-col-check"><input type="checkbox" class="st-check-all" title="<?php esc_attr_e( 'Select all', 'supertext-wpml' ); ?>" /></th>
 									<th class="st-col-field"><?php esc_html_e( 'Field', 'supertext-wpml' ); ?></th>
-									<th class="st-col-group"><?php esc_html_e( 'Group', 'supertext-wpml' ); ?></th>
+									<?php if ( $show_group ) : ?>
+										<th class="st-col-group"><?php esc_html_e( 'Group', 'supertext-wpml' ); ?></th>
+									<?php endif; ?>
 									<th class="st-col-source"><?php esc_html_e( 'Source', 'supertext-wpml' ); ?></th>
 									<?php foreach ( $languages as $name ) : ?>
 										<th><?php echo esc_html( (string) $name ); ?></th>
@@ -168,7 +171,9 @@ final class String_Table {
 									<tr>
 										<td class="st-col-check"><input type="checkbox" class="st-row-check" name="sel[]" value="<?php echo (int) $id; ?>" /></td>
 										<td class="st-col-field"><?php echo esc_html( (string) $row['name'] ); ?></td>
-										<td class="st-col-group"><span class="st-chip"><?php echo esc_html( (string) $row['group'] ); ?></span></td>
+										<?php if ( $show_group ) : ?>
+											<td class="st-col-group"><span class="st-chip"><?php echo esc_html( (string) $row['group'] ); ?></span></td>
+										<?php endif; ?>
 										<td class="st-col-source">
 											<?php echo esc_html( wp_strip_all_tags( (string) $row['source'] ) ); ?>
 											<input type="hidden" name="src[<?php echo (int) $id; ?>]" value="<?php echo (int) $id; ?>" />

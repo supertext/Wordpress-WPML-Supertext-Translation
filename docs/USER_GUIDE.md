@@ -26,6 +26,18 @@ Open the original post or page in the editor. The **Supertext** box (in the side
 
 An existing translation keeps its status (a published translation stays published).
 
+### Your own images are kept
+
+Translating again keeps the images a translation has of its own: if you replaced an image in the German version (say, a screenshot with German labels), it stays, with the newly translated alternative text and caption, as long as the original's image in that place hasn't changed. If the original's image was replaced, the translation gets the new one and the image is marked **To check**; the box then says *Images to check: 1 (Supertext → Images)*.
+
+**Supertext → Images** lists every image of the translations Supertext wrote, the original's beside the translation's, with its status: *Same as the original*, *Own image* or *To check* (with the reason). Replace the image in the translation if it needs a localized version, then click **Mark as checked**: the image it has then counts as its own.
+
+Images are lined up by their place: the first image block of the original with the first of the translation, and so on. If you add or remove images in a translation only, translating again gives it the original's images, and those that change are marked *To check*. Images in other blocks (cover, media & text) always follow the original.
+
+### Links point to the translated pages
+
+Links to your own posts and pages point to their translation in the same language: a link to *About us* in the English text becomes a link to *Über uns* in the German translation, with its anchor (`#team`) and query kept. A link to a page that has no translation into that language yet stays on the original; translate the page with the link again once the linked page is translated. A translation that is still a draft is linked by its ID (`?page_id=12`), which WordPress forwards to its address once it is published. Links to other websites stay as they are. An administrator can turn this off (*Point links to the translated pages*).
+
 In a translation, the box doesn't translate: it links to the original (*This is a translation. Translate from the original …*), so the original can't be overwritten by mistake.
 
 ## Translate many posts: bulk actions
@@ -66,7 +78,7 @@ These are WPML's own string translations, the same as in WPML → String Transla
 
 | Translated | Not translated |
 | --- | --- |
-| Title, content (each block on its own, formatting and links kept), excerpt | Block settings (colours, sizes, IDs), HTML comments, images and other files; shortcodes such as `[wpforms id="12"]` stay exactly as they are, so forms and galleries keep working in the translation |
+| Title, content (each block on its own, formatting and links kept; links to your own pages point to their translation), excerpt | Block settings (colours, sizes, IDs), HTML comments, images and other files (a translation's own images are kept when it is translated again); shortcodes such as `[wpforms id="12"]` stay exactly as they are, so forms and galleries keep working in the translation |
 | Custom fields set to *Translate* in WPML, with a single text value | Fields with several values or structured values (e.g. repeaters) |
 | ACF blocks: their text fields, repeaters and groups included (with ACF Multilingual, the fields set to *Translate*) | Their switches, numbers, links, images and the field settings; with ACF Multilingual, fields set to *Copy*, *Copy once* or *Don't translate* |
 | Categories, tags and other WPML-translated taxonomies **without** a translation yet (name and description) | Terms that already have a translation: that one is used, unchanged |
@@ -85,6 +97,7 @@ Fields WPML *copies* (e.g. the featured image) are copied into the translation; 
 | *WPML does not translate this post type.* | An administrator can make it translatable in WPML → Settings → Post Types Translation. |
 | *… no translatable content found.* | The post has no text to translate. |
 | *An order already exists for …* | There is an open order for this post and language: see Supertext → Orders. |
+| *Images to check: N (Supertext → Images)* | The original's image in a place was replaced while the translation had its own, or images no longer line up. Open Supertext → Images. |
 | *Your Supertext translation limit is exceeded.* | The Supertext subscription has reached its limit. |
 | *This page needs WPML String Translation* | Supertext → String translations works only with WPML String Translation installed and active. |
 | *No strings selected to translate into this language.* | The ticked strings are already in the chosen language. |

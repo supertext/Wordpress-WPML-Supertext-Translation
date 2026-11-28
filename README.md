@@ -6,6 +6,7 @@ WordPress plugin that connects **[WPML](https://wpml.org)** with **[Supertext](h
 - **Professional (human) translation orders** with a live price quote (*Supertext Human Translation* bulk action), written back into WPML when Supertext delivers.
 - **Form fields and other strings** (*Supertext → String translations*): the texts of forms (WPForms, Gravity Forms, Contact Form 7 with their WPML add-ons) and other WPML string packages, translated with AI, ordered from professional translators or edited in a grid. Needs WPML String Translation.
 - **ACF blocks**: texts in ACF blocks are translated with the post, with or without ACF Multilingual.
+- **Links and images**: links to your own pages point to their translation; a translation's own images (such as localized screenshots) are kept when it is translated again, listed under *Supertext → Images*.
 - **Translation files**: export a post as XLIFF 1.2 or HTML for any translation tool and import the translated file.
 
 It is the WPML counterpart of [Supertext for Polylang](https://github.com/Supertext/Wordpress-Polylang-Supertext-Translation): same features and settings, but an independent plugin. WPML has no API for third-party machine-translation services, so Supertext brings its own screens instead of appearing inside WPML's translation editor.

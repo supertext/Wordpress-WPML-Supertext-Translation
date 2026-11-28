@@ -17,6 +17,9 @@ includes/
   Content/Collector.php            what of a post is translated (one list for AI, orders and files)
   Content/Content_Splitter.php     post content → parts to translate / to keep (no WordPress dependency)
   Content/Writer.php               writes translations into the WPML translation (create + link, or update)
+  Content/Links.php                links in translated HTML → the target language (no WordPress dependency)
+  Content/Images.php               a translation's own images kept on the next translation (no WordPress dependency)
+  Content/Post_Links.php           the WordPress side of both: URL → post → translation, image record in post meta
   Machine_Translation/
     Ai_Settings.php                option supertext_wpml_ai, language mapping, its form
     Client.php                     AI translation through the SDK (review routing, error messages)
@@ -29,6 +32,7 @@ includes/
     Bulk_Actions.php               AI / human bulk actions, quote (AJAX)
     Settings.php                   option supertext_wpml_settings (orders, write-back, features, reports)
     Orders_Page.php, Files_Page.php
+    Images_Page.php                Supertext → Images: image records, Mark as checked (admin-post)
   Human_Translation/               order API client, translation types, orders registry, REST callback, write-back, source lock
   Files/                           translation files glue (no WordPress dependency) + Wpml_File_Store
   Reporting/                       Commando Center / Plugin Health glue
@@ -75,6 +79,11 @@ Each text has a context that is stable for the same source, used as `data-st-id`
 ### Writing (`Content\Writer`)
 
 Creates the translation with `wp_insert_post()` (draft, or published for human orders set to *Published*), links it with `wpml_set_element_language_details` to the source's `trid`, or updates the existing one with `wp_update_post()` (status unchanged unless *Published*). Content is rebuilt from the **source** with the translated parts; title, excerpt and fields fall back to the existing translation's (or, for a new one, the source's) values. *Copy* fields are copied, *copy once* fields and `_thumbnail_id`, `_wp_page_template` only into a new translation. Terms: existing term translation, else a new term from the translated name (slug with `-<code>` if taken) linked with `tax_<taxonomy>`; terms without either are left out; terms of untranslated taxonomies are copied. Parent: the parent's translation. Action after saving: `supertext_wpml_translation_saved( $id, $source, $target, $map )`.
+
+Before saving, `Content\Post_Links::apply()` treats the rebuilt content (all three paths: AI, orders, files):
+
+- **Links** (setting `translate_links`, on by default): `Links::localize()` hands every `href` (without query and anchor) to `Post_Links::resolver()`: own-site addresses (absolute, root-relative, `www.` or not) go through `url_to_postid()` in the source language; a post in the source language with a translation into the target language (`Wpml::post_translation()`) gets that translation's `get_permalink()` in the target language (a draft: `?page_id=`), the home page the target language's `home_url()`. Everything else stays. No new WPML hooks.
+- **Images**: `Images::merge()` lines up the image slots (the n-th `core/image` block, or the n-th `<img>` of classic content) of the new content with the translation's current content and the record of the last translation (post meta `_supertext_images`: `slot`, `originalSrc`, `src`, `status` `same`/`own`/`check`, `reason` `originalChanged`/`noRecord`/`layoutChanged`). Same source image as last time and the translation has another → the translation's whole block is kept with the new `alt` and `figcaption` (`own`); source image replaced → the new one, `check` if the translation had its own; no record (translated before 1.5) → its own kept, `check`; a different number of images → the source's, changes `check`. Images are compared by file (`identity()`: no size suffix, `-scaled`, query or scheme), so media translations of the same file are the same image. A new translation gets a record with every image `same`. *Mark as checked* (`Images_Page::handle_checked()`) sets a slot to the translation's image now (`own`, or `same` if it's the original's).
 
 `Machine_Translation\Translator` refuses to translate a translation into its original's language (`supertext_would_overwrite_original`) and, without `$overwrite`, a language that already has a translation (`supertext_already_translated`; the bulk action never overwrites, the editor box asks first).
 
@@ -139,7 +148,7 @@ composer test               # unit tests
 composer phpstan            # PHPStan level 5
 ```
 
-Unit tests cover the content splitter and writer (blocks, YOOtheme), the AI client (mapping, review routing, errors, sanitizing the settings), language codes, translation files, order client, callback, write-back parsing, services, settings, preview links, VibeBoost, the Commando/Plugin Health glue (incl. the WPML language mapping) and the interface translations.
+Unit tests cover the content splitter and writer (blocks, YOOtheme), the AI client (mapping, review routing, errors, sanitizing the settings), language codes, translation files, order client, callback, write-back parsing, services, settings, preview links, VibeBoost, the Commando/Plugin Health glue (incl. the WPML language mapping), links to own pages and kept images (`ImagesLinksTest`: slots, records, own images with the new alt and caption, replaced originals, no record, changed layout) and the interface translations.
 
 End-to-end tests (`tests/e2e/`, Playwright) run against a WordPress site with WPML and the plugin: see [tests/README.md](../tests/README.md). For a site without a WPML licence, `tests/e2e/stand-in/wpml-stand-in.php` emulates exactly the WPML hooks above (mu-plugin, never on a real site), and `supertext-stand-in.php` answers the Supertext API with real translations of the demo's sample page (and swallows Plugin Health reports), so no API key is needed. The screenshots in `docs/images/` are taken by `npm run docs:screenshots` (`tests/e2e/docs.spec.js`) on a site with WPML (5.4.0), WPML String Translation and WPForms Multilingual, the demo's sample content (the *String translations* screenshot needs the demo's WPForms form) and the Supertext stand-in. Regenerate them whenever the UI they show changes.
 
@@ -208,6 +217,7 @@ Values live only in the hosting platform's variables, never in the repository; t
 
 ## Known limitations and roadmap
 
+- Links to pages without a translation yet stay on the original; they aren't updated when that page is translated later (translate the page with the link again). Links in block attributes (navigation links) and custom fields aren't changed.
 - AI translation blocks the request while polling; very long content can reach PHP's time limit (a background queue would remove that).
 - Custom fields with several values or structured (serialized) values aren't translated; ACF repeaters and flexible content **stored as custom fields** (not in ACF blocks) need a dedicated integration (as `pll_after_post_export` integrations did for Polylang).
 - Block attributes (e.g. texts some blocks keep in their JSON) and shortcode attributes aren't translated.

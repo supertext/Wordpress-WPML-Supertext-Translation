@@ -16,6 +16,7 @@ class SettingsTest extends TestCase {
 
 		$this->assertTrue( $defaults['preview_links_enabled'] );
 		$this->assertTrue( $defaults['screenshots_enabled'] );
+		$this->assertTrue( $defaults['translate_links'], 'links point to the translated pages by default' );
 	}
 
 	public function test_sanitize_reads_toggle_checkboxes_on(): void {
@@ -26,9 +27,11 @@ class SettingsTest extends TestCase {
 			array(
 				'preview_links_enabled' => '1',
 				'screenshots_enabled'   => '1',
+				'translate_links'       => '1',
 			)
 		);
 
+		$this->assertTrue( $out['translate_links'] );
 		$this->assertTrue( $out['preview_links_enabled'] );
 		$this->assertTrue( $out['screenshots_enabled'] );
 	}
@@ -42,6 +45,7 @@ class SettingsTest extends TestCase {
 
 		$this->assertFalse( $out['preview_links_enabled'] );
 		$this->assertFalse( $out['screenshots_enabled'] );
+		$this->assertFalse( $out['translate_links'] );
 	}
 
 	public function test_screenshots_enabled_true_when_option_absent(): void {

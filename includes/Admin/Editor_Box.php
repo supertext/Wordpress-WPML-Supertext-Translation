@@ -7,6 +7,7 @@ namespace Supertext\Wpml\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
+use Supertext\Wpml\Content\Post_Links;
 use Supertext\Wpml\Machine_Translation\Ai_Settings;
 use Supertext\Wpml\Machine_Translation\Translator;
 use Supertext\Wpml\Wpml\Wpml;
@@ -223,6 +224,14 @@ class Editor_Box {
 					$name
 				),
 			);
+			$check = Post_Links::images_to_check( $result );
+			if ( $check > 0 ) {
+				$message['text'] .= ' ' . sprintf(
+					/* translators: %d: number of images. */
+					__( 'Images to check: %d (Supertext → Images).', 'supertext-wpml' ),
+					$check
+				);
+			}
 		}
 		set_transient( self::RESULT . get_current_user_id() . '_' . $post_id, $message, 300 );
 

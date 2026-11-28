@@ -30,6 +30,8 @@ use WP_Term;
  *   term from the translated name (linked in WPML); a term without either is left out.
  *   Terms of other taxonomies are copied.
  * - Parent page: the parent's translation, when there is one.
+ * - Links and images (Post_Links): links to the site's own pages point to their translation
+ *   (setting *Point links to the translated pages*); the translation's own images stay.
  *
  * @since 0.1.0
  */
@@ -63,7 +65,7 @@ class Writer {
 
 		return Wpml::in_language(
 			$target->code,
-			static function () use ( $source, $target, $map, $status, $source_terms, $result ) {
+			static function () use ( $source, $target, $map, $status, $source_terms, $result, $source_code ) {
 				$existing = Wpml::post_translation( $source->ID, $target->code );
 				$current  = $existing > 0 ? get_post( $existing ) : null;
 				$current  = $current instanceof WP_Post ? $current : null;
@@ -80,6 +82,9 @@ class Writer {
 				$title   = $pick( 'title', null !== $current ? $current->post_title : $source->post_title );
 				$excerpt = $pick( 'excerpt', null !== $current ? $current->post_excerpt : $source->post_excerpt );
 				$content = self::content( (string) $source->post_content, $map, $filled, $target->code );
+				// Links to own pages → their translation; the translation's own images stay.
+				$localized = Post_Links::apply( $content, $current, $source_code, $target->code );
+				$content   = $localized['content'];
 
 				// Not filtered by kses beyond what WordPress does for the current user.
 				$data = array(
@@ -118,6 +123,7 @@ class Writer {
 				if ( null === $current ) {
 					Wpml::link_post( $id, $source->ID, $target->code );
 				}
+				Post_Links::save_records( $id, $localized['records'] );
 
 				$filled += self::fields( $source, $id, null === $current, $map );
 				$filled += self::terms( $source, $id, $target, $source_terms, $map );

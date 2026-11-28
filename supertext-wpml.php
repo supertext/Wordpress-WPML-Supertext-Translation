@@ -104,6 +104,9 @@ add_filter(
 // The "Translation files" submenu and the "Export for translation" row action (XLIFF / HTML export and import).
 \Supertext\Wpml\Admin\Files_Page::init();
 
+// Supertext → Images (localized images kept when translations are written again, "Mark as checked").
+\Supertext\Wpml\Admin\Images_Page::init();
+
 // Supertext → String translations (WPML String Translation's packages: forms, …).
 \Supertext\Wpml\Admin\String_Translations_Page::init();
 

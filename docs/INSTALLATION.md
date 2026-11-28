@@ -57,7 +57,7 @@ Click **Save AI settings**.
 
 ## Professional (human) translation settings
 
-![Professional translation settings: environment, account email, Order API Key, ServiceId, write-back, translation status, preview links, page screenshots, version information](images/settings-human.png)
+![Professional translation settings: environment, account email, Order API Key, ServiceId, write-back, translation status, links, preview links, page screenshots, version information](images/settings-human.png)
 
 | Setting | What it does |
 | --- | --- |
@@ -66,16 +66,21 @@ Click **Save AI settings**.
 | **ServiceId** | The group of translation types offered when ordering (default 46: Basic, Premium, Creative). Cached for 12 hours. |
 | **Write-back** | *Allow multiple write-backs*: apply a delivery again if Supertext sends it again. Off: the first delivery wins, so later edits are kept. |
 | **Translation status** | *Draft* (default): new translations are drafts; existing ones keep their status. *Published*: delivered translations are published. |
+| **Links** | *Point links to the translated pages* (on by default): links to the site's own posts and pages point to their translation in the same language, with query and anchor kept; links to pages without a translation yet stay on the original. Applies to AI translations, orders and imported files. Translations' own images need no setting: see *Supertext → Images* below. |
 | **Secret preview links** | A private, expiring link to unpublished drafts (box in the editor), also used for page screenshots. |
 | **Page screenshots** | Attaches a screenshot of the page to each order as a reference for the translator (needs a VibeBoost API key from your [VibeBoost account](https://vibeboost.me/account); while the field is empty, `VIBEBOOST_API_KEY` on the server is used). The key is checked like the Supertext keys and shown in the status (*API key check: Page screenshots*); without a valid key, orders are placed without screenshots. |
 | **Version information** | Sends the site URL, the versions of this plugin, WordPress and PHP, and whether each key works (AI, orders, VibeBoost) to Supertext after saving and after updates, so support can see what you run. No content, no API key, no personal data. `SUPERTEXT_VERSION_REPORTS=off` on the server turns it off whatever the setting says. |
 
 Click **Save settings**.
 
+## Images
+
+**Supertext → Images** lists the images of the translations Supertext wrote, the original's beside the translation's: translating again keeps a translation's own image (such as a localized screenshot) as long as the original's image in that place doesn't change, and marks it *To check* when it does. Editors open it to check those images and click *Mark as checked*. Details in the [user guide](USER_GUIDE.md#your-own-images-are-kept).
+
 ## Who can do what
 
 - Settings, status, debug: `manage_options` (administrators).
-- Translating, ordering, translation files: anyone who can edit the post (and its translation, or create posts of its type) — editors included.
+- Translating, ordering, translation files, *Supertext → Images*: anyone who can edit the post (and its translation, or create posts of its type) — editors included.
 
 ## Troubleshooting
 

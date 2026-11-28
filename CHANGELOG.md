@@ -4,6 +4,8 @@ All notable changes to Supertext for WPML. A release is published when a new `##
 
 ## Unreleased
 
+## 1.5.0 — 2026-11-28
+
 - Added: **links point to the translated pages.** Links to the site's own posts and pages point to their translation in the same language, with anchors and queries kept, in AI translations, orders and imported files. Setting *Point links to the translated pages* (on by default) under Supertext → Settings.
 - Added: **localized images are kept.** Translating again keeps a translation's own images (such as localized screenshots) as long as the original's image in that place doesn't change, with the new alternative text and caption. If the original's image is replaced, the translation gets the new one, marked *To check*. The new **Supertext → Images** lists every translated image, original and translation side by side, with *Mark as checked*; the editor box says how many images there are to check.
 
